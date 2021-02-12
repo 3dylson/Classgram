@@ -16,9 +16,9 @@ abstract class AppDatabase : RoomDatabase() {
     companion object{
         // Singleton prevents multiple instances of database opening at the
         // same time.
-        const val DB_NAME = "classgram_database"
+        private const val DB_NAME = "classgram_database"
         @Volatile
-        private val INSTANCE: AppDatabase? = null
+        private var INSTANCE: AppDatabase? = null
 
         fun getDatabase(context: Context): AppDatabase {
             // if the INSTANCE is not null, then return it,
@@ -26,7 +26,7 @@ abstract class AppDatabase : RoomDatabase() {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    KennelDatabase::class.java,
+                    AppDatabase::class.java,
                     DB_NAME
                 ).build()
 

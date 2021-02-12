@@ -1,6 +1,7 @@
 package cv.edylsonf.classgram.database.repositories
 
 import cv.edylsonf.classgram.database.AppDatabase
+import cv.edylsonf.classgram.database.dao.UserDao
 import cv.edylsonf.classgram.database.models.User
 
 
@@ -15,7 +16,7 @@ class UserRepository(private val userDao: UserDao) {
             }
     }
 
-    fun getUsers(onLoaded: (Unit) -> Unit) {
+    fun getUsers(onLoaded: (List<User>) -> Unit) {
         AppDatabase
             .databaseWriteExecutor
             .execute {
