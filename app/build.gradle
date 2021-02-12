@@ -72,6 +72,13 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
 
+    //Coroutine
+    def crt_version = "1.4.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$crt_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$crt_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$crt_version"
+
+
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
@@ -88,19 +95,19 @@ dependencies {
     implementation "androidx.camera:camera-view:1.0.0-alpha21"
 
     //Compose
-    implementation 'androidx.compose.ui:ui:1.0.0-alpha10'
+    implementation 'androidx.compose.ui:ui:1.0.0-alpha12'
     // Tooling support (Previews, etc.)
-    implementation 'androidx.compose.ui:ui-tooling:1.0.0-alpha10'
+    implementation 'androidx.compose.ui:ui-tooling:1.0.0-alpha12'
     // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
-    implementation 'androidx.compose.foundation:foundation:1.0.0-alpha10'
+    implementation 'androidx.compose.foundation:foundation:1.0.0-alpha12'
     // Material Design
-    implementation 'androidx.compose.material:material:1.0.0-alpha10'
+    implementation 'androidx.compose.material:material:1.0.0-alpha12'
     // Material design icons
-    implementation 'androidx.compose.material:material-icons-core:1.0.0-alpha10'
-    implementation 'androidx.compose.material:material-icons-extended:1.0.0-alpha10'
+    implementation 'androidx.compose.material:material-icons-core:1.0.0-alpha12'
+    implementation 'androidx.compose.material:material-icons-extended:1.0.0-alpha12'
     // Integration with observables
-    implementation 'androidx.compose.runtime:runtime-livedata:1.0.0-alpha10'
-    implementation 'androidx.compose.runtime:runtime-rxjava2:1.0.0-alpha10'
+    implementation 'androidx.compose.runtime:runtime-livedata:1.0.0-alpha12'
+    implementation 'androidx.compose.runtime:runtime-rxjava2:1.0.0-alpha12'
 
     //Firebase
     implementation platform('com.google.firebase:firebase-bom:26.4.0')
@@ -115,6 +122,6 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.0.0-alpha10'
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.0.0-alpha12'
 }
 }

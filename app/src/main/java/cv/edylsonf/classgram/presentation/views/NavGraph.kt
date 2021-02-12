@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import cv.edylsonf.classgram.presentation.utils.Navigator
 
+
 /**
  * Models the screens in the app and any arguments they require.
  */
