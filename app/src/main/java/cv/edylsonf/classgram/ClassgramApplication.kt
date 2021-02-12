@@ -11,3 +11,4 @@ class ClassgramApplication : Application(){
     val repositoryUser by lazy {UserRepository(database.userDao())}
     val repositoryTweet by lazy {TweetRepository(database.tweetDao())}
 }
+
