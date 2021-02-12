@@ -18,8 +18,8 @@ interface TweetDao {
     @Delete
     fun deleteTweet(tweet: Tweet)
 
-    @Query("SELECT * FROM Tweet WHERE text LIKE :text")
-    fun findByText(data: String, text: String): Tweet
+    /*@Query("SELECT * FROM Tweet WHERE text LIKE :text")
+    fun findByText(text: String, text: String): Tweet*/
 
 
 

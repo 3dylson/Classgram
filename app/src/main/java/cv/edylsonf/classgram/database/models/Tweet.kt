@@ -9,5 +9,5 @@ data class Tweet(
     @PrimaryKey(autoGenerate = false) @ColumnInfo(name="id")
     val id: String,
     @ColumnInfo(name="text")
-    val text: String?,
+    val text: String? = null,
 )
