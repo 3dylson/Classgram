@@ -2,6 +2,7 @@ package cv.edylsonf.classgram.database.repositories
 
 import cv.edylsonf.classgram.database.models.Tweet
 
+
 // Call Back
 interface DataRetrieved {
 

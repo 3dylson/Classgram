@@ -14,6 +14,8 @@ class Values {
     companion object {
         @JvmStatic
         fun users() {}
+        @JvmStatic
+        fun tweets() {}
     }
 
 }

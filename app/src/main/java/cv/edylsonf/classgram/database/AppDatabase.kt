@@ -4,14 +4,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import cv.edylsonf.classgram.database.dao.TweetDao
+import cv.edylsonf.classgram.database.dao.UserDao
+import cv.edylsonf.classgram.database.models.Tweet
 import cv.edylsonf.classgram.database.models.User
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-@Database(entities = [User::class],version = 1, exportSchema = false)
+@Database(entities = [User::class, Tweet::class],version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
+    abstract fun tweetDao(): TweetDao
 
     companion object{
         // Singleton prevents multiple instances of database opening at the
