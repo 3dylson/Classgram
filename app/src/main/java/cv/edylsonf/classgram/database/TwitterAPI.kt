@@ -15,6 +15,6 @@ interface TwitterAPI {
 
     @Headers("Authorization: Bearer $BEARER_TOKEN")
     @GET(SEARCH)
-    fun getTweetText(@Query(TEXTS_INCLUDE_TWEET) id: String,
+    fun getTweetsText(@Query(TEXTS_INCLUDE_TWEET) id: String,
                      @Query(TEXTS_TWEET_ID) tweetId: String): Call<List<Search>>
 }
