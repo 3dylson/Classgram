@@ -38,7 +38,7 @@ android {
         }
     }
     composeOptions {
-        kotlinCompilerExtensionVersion "1.0.0-alpha08"
+        kotlinCompilerExtensionVersion '1.0.0-alpha10'
         kotlinCompilerVersion "$kotlin_version"
 
     compileOptions {
@@ -88,10 +88,19 @@ dependencies {
     implementation "androidx.camera:camera-view:1.0.0-alpha21"
 
     //Compose
-    implementation "androidx.compose.ui:ui:1.0.0-alpha12"
-    implementation "androidx.compose.foundation:foundation:1.0.0-alpha12"
-    implementation "androidx.ui:ui-tooling:1.0.0-alpha07"
-    implementation "androidx.compose.material:material:1.0.0-alpha12"
+    implementation 'androidx.compose.ui:ui:1.0.0-alpha10'
+    // Tooling support (Previews, etc.)
+    implementation 'androidx.compose.ui:ui-tooling:1.0.0-alpha10'
+    // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
+    implementation 'androidx.compose.foundation:foundation:1.0.0-alpha10'
+    // Material Design
+    implementation 'androidx.compose.material:material:1.0.0-alpha10'
+    // Material design icons
+    implementation 'androidx.compose.material:material-icons-core:1.0.0-alpha10'
+    implementation 'androidx.compose.material:material-icons-extended:1.0.0-alpha10'
+    // Integration with observables
+    implementation 'androidx.compose.runtime:runtime-livedata:1.0.0-alpha10'
+    implementation 'androidx.compose.runtime:runtime-rxjava2:1.0.0-alpha10'
 
     //Firebase
     implementation platform('com.google.firebase:firebase-bom:26.4.0')
@@ -106,5 +115,6 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.0.0-alpha10'
 }
 }

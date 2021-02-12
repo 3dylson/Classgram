@@ -1,11 +1,20 @@
 package cv.edylsonf.classgram.database.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
+import androidx.room.*
 
 
-@Entity(tableName = "User")
+@Entity(tableName = "User", indices = [Index("username", unique = true),
+                                       Index("user_tweet")],
+        foreignKeys = [ForeignKey(entity = Tweet::class,parentColumns = ["tweet"],childColumns = ["user_tweet"])])
 data class User(
-    @ColumnInfo(name="data")
-    val `data`: List<UserData>
+    @PrimaryKey(autoGenerate = false) @ColumnInfo(name="id")
+    val id: String,
+    @ColumnInfo(name="name")
+    val name: String,
+    @ColumnInfo(name="username")
+    val username: String,
+    @ColumnInfo(name="user_tweet")
+    val tweet: List<Tweet>?,
+
+
 )

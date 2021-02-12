@@ -16,10 +16,10 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(user:User)
 
-    @Query("SELECT * FROM User WHERE data=:id ")
+    @Query("SELECT * FROM User WHERE id=:id ")
     fun findUserById(id: String): LiveData<User>
 
-    @Query("DELETE FROM User WHERE data = :id")
+    @Query("DELETE FROM User WHERE id = :id")
     fun deleteById(id: String)
 
     @Query("DELETE FROM User")
