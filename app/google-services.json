@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "469754167859",
+    "project_id": "classgram-app",
+    "storage_bucket": "classgram-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:469754167859:android:06bb9f0fec371779781946",
+        "android_client_info": {
+          "package_name": "cv.edylsonf.classgram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "469754167859-eqoib29bvht30l98ie0ldu83ti7249do.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cv.edylsonf.classgram",
+            "certificate_hash": "f56fea569cc357a13897f54c9ee7678ed7ce7aa9"
+          }
+        },
+        {
+          "client_id": "469754167859-4ooj15tj7122g18j7m2sfhbhn627p2jn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRyRqb2rEa42EoLDZ5UCdW9Rl5zAl-XuE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "469754167859-4ooj15tj7122g18j7m2sfhbhn627p2jn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
