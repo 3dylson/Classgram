@@ -1,4 +1,4 @@
-package cv.edylsonf.classgram.database
+package cv.edylsonf.classgram.database.api
 
 import android.util.Log
 import cv.edylsonf.classgram.database.models.Search
@@ -60,7 +60,7 @@ object TwitterAPIClient {
 
 
 
-    private fun setup(): TwitterAPI{
+    private fun setup(): TwitterAPI {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
 

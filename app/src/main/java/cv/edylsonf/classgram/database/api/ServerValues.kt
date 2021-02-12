@@ -1,4 +1,4 @@
-package cv.edylsonf.classgram.database
+package cv.edylsonf.classgram.database.api
 
 internal const val BASE_URL = "https://api.twitter.com/"
 

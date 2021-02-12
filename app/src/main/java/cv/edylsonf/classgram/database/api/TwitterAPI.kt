@@ -1,4 +1,4 @@
-package cv.edylsonf.classgram.database
+package cv.edylsonf.classgram.database.api
 
 import cv.edylsonf.classgram.database.models.Search
 import cv.edylsonf.classgram.database.models.Tweet
@@ -16,5 +16,5 @@ interface TwitterAPI {
     @Headers("Authorization: Bearer $BEARER_TOKEN")
     @GET(SEARCH)
     fun getTweetsText(@Query(TEXTS_INCLUDE_TWEET) id: String,
-                     @Query(TEXTS_TWEET_ID) tweetId: String): Call<List<Search>>
+                      @Query(TEXTS_TWEET_ID) tweetId: String): Call<List<Search>>
 }
