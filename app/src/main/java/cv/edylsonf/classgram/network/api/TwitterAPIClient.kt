@@ -54,7 +54,7 @@ object TwitterAPIClient {
             }
 
             override fun onFailure(call: Call<List<Search>>, t: Throwable) {
-                Log.e(TAG, "Unable to get tweet text. Error: ${t.message}")
+                Log.e(TAG, "Unable to get tweet's text. Error: ${t.message}")
                 listener.onDataSearchedFailed()
             }
         })
