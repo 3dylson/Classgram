@@ -1,7 +1,7 @@
-package cv.edylsonf.classgram.database.api
+package cv.edylsonf.classgram.network.api
 
-import cv.edylsonf.classgram.database.models.Search
-import cv.edylsonf.classgram.database.models.Tweet
+import cv.edylsonf.classgram.network.models.Search
+import cv.edylsonf.classgram.network.models.Tweet
 import retrofit2.Call
 import retrofit2.http.*
 

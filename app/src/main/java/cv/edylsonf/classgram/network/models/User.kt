@@ -1,4 +1,4 @@
-package cv.edylsonf.classgram.database.models
+package cv.edylsonf.classgram.network.models
 
 import androidx.room.*
 

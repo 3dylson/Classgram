@@ -1,9 +1,9 @@
 package cv.edylsonf.classgram
 
 import android.app.Application
-import cv.edylsonf.classgram.database.AppDatabase
-import cv.edylsonf.classgram.database.repositories.TweetRepository
-import cv.edylsonf.classgram.database.repositories.UserRepository
+import cv.edylsonf.classgram.network.AppDatabase
+import cv.edylsonf.classgram.network.repositories.TweetRepository
+import cv.edylsonf.classgram.network.repositories.UserRepository
 
 class ClassgramApplication : Application(){
 

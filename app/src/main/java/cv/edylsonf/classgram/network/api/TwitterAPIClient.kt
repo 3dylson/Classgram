@@ -1,11 +1,11 @@
-package cv.edylsonf.classgram.database.api
+package cv.edylsonf.classgram.network.api
 
 import android.util.Log
-import cv.edylsonf.classgram.database.models.Search
+import cv.edylsonf.classgram.network.models.Search
 
-import cv.edylsonf.classgram.database.models.Tweet
-import cv.edylsonf.classgram.database.repositories.DataRetrieved
-import cv.edylsonf.classgram.database.repositories.DataSearched
+import cv.edylsonf.classgram.network.models.Tweet
+import cv.edylsonf.classgram.network.repositories.DataRetrieved
+import cv.edylsonf.classgram.network.repositories.DataSearched
 import retrofit2.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -59,6 +59,8 @@ object TwitterAPIClient {
     }
 
 
+/** Retrofit to make REST requests to the web service and MOSHI to handle the deserialization of the
+    returned JSON to Kotlin data objects */
 
     private fun setup(): TwitterAPI {
         val interceptor = HttpLoggingInterceptor()

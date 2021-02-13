@@ -1,8 +1,8 @@
-package cv.edylsonf.classgram.database.repositories
+package cv.edylsonf.classgram.network.repositories
 
-import cv.edylsonf.classgram.database.AppDatabase
-import cv.edylsonf.classgram.database.dao.TweetDao
-import cv.edylsonf.classgram.database.models.Tweet
+import cv.edylsonf.classgram.network.AppDatabase
+import cv.edylsonf.classgram.network.dao.TweetDao
+import cv.edylsonf.classgram.network.models.Tweet
 
 class TweetRepository (private val tweetDao: TweetDao){
 

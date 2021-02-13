@@ -1,8 +1,8 @@
-package cv.edylsonf.classgram.database.repositories
+package cv.edylsonf.classgram.network.repositories
 
-import cv.edylsonf.classgram.database.AppDatabase
-import cv.edylsonf.classgram.database.dao.UserDao
-import cv.edylsonf.classgram.database.models.User
+import cv.edylsonf.classgram.network.AppDatabase
+import cv.edylsonf.classgram.network.dao.UserDao
+import cv.edylsonf.classgram.network.models.User
 
 
 class UserRepository(private val userDao: UserDao) {

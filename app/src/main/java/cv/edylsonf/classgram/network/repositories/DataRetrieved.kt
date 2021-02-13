@@ -1,6 +1,6 @@
-package cv.edylsonf.classgram.database.repositories
+package cv.edylsonf.classgram.network.repositories
 
-import cv.edylsonf.classgram.database.models.Tweet
+import cv.edylsonf.classgram.network.models.Tweet
 
 
 // Call Back

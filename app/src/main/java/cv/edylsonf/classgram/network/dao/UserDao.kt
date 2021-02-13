@@ -1,11 +1,11 @@
-package cv.edylsonf.classgram.database.dao
+package cv.edylsonf.classgram.network.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import cv.edylsonf.classgram.database.models.User
+import cv.edylsonf.classgram.network.models.User
 
 @Dao
 interface UserDao {

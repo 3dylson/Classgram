@@ -1,15 +1,17 @@
-package cv.edylsonf.classgram.database
+package cv.edylsonf.classgram.network
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import cv.edylsonf.classgram.database.dao.TweetDao
-import cv.edylsonf.classgram.database.dao.UserDao
-import cv.edylsonf.classgram.database.models.Tweet
-import cv.edylsonf.classgram.database.models.User
+import cv.edylsonf.classgram.network.dao.TweetDao
+import cv.edylsonf.classgram.network.dao.UserDao
+import cv.edylsonf.classgram.network.models.Tweet
+import cv.edylsonf.classgram.network.models.User
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+
+/** Using ROOM */
 
 @Database(entities = [User::class, Tweet::class],version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
