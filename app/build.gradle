@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'com.google.gms.google-services'
+    id 'kotlin-parcelize'
+    id "androidx.navigation.safeargs.kotlin"
 }
 
 android {
@@ -30,6 +32,7 @@ android {
     buildFeatures {
         viewBinding true
         compose true
+        dataBinding true
     }
     buildTypes {
         release {
@@ -69,7 +72,7 @@ dependencies {
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
 
     //Coroutine
@@ -116,6 +119,14 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:6.4.0'
 
     //ML Kit
+
+    //Navigation
+    def nav_version = "2.3.3"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    //RecyclerView
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
 
 
     //Used for testing
