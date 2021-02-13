@@ -5,6 +5,7 @@ import cv.edylsonf.classgram.network.models.Tweet
 import retrofit2.Call
 import retrofit2.http.*
 
+
 interface TwitterAPI {
 
     @Headers("Authorization: Bearer $BEARER_TOKEN")

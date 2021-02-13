@@ -1,6 +1,8 @@
 package cv.edylsonf.classgram.network.api
 
 import android.util.Log
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import cv.edylsonf.classgram.network.models.Search
 
 import cv.edylsonf.classgram.network.models.Tweet
@@ -58,6 +60,14 @@ object TwitterAPIClient {
         })
     }
 
+    /**
+     * Build the Moshi object that Retrofit will be using, making sure to add the Kotlin adapter for
+     * full Kotlin compatibility.
+     */
+    private val moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
+
 
 /** Retrofit to make REST requests to the web service and MOSHI to handle the deserialization of the
     returned JSON to Kotlin data objects */
@@ -71,7 +81,7 @@ object TwitterAPIClient {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
 
         return retrofit.create()
