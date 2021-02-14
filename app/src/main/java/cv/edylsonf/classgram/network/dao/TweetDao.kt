@@ -3,6 +3,7 @@ package cv.edylsonf.classgram.network.dao
 import androidx.room.*
 import cv.edylsonf.classgram.network.models.Tweet
 
+
 @Dao
 interface TweetDao {
 

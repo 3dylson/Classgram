@@ -1,8 +1,8 @@
 package cv.edylsonf.classgram.network.models
 
-data class User(
+data class Data(
+    val author_id: String,
     val created_at: String,
     val id: String,
-    val name: String,
-    val username: String
+    val text: String
 )
