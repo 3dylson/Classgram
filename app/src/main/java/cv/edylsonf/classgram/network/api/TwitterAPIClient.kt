@@ -6,8 +6,10 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import cv.edylsonf.classgram.network.models.Search
 
 import cv.edylsonf.classgram.network.models.Tweet
-import cv.edylsonf.classgram.network.repositories.DataRetrieved
-import cv.edylsonf.classgram.network.repositories.DataSearched
+import cv.edylsonf.classgram.network.models.User
+import cv.edylsonf.classgram.network.repositories.cb.DataRetrieved
+import cv.edylsonf.classgram.network.repositories.cb.DataSearched
+import cv.edylsonf.classgram.network.repositories.cb.UserDataRetrieved
 import retrofit2.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -19,6 +21,23 @@ object TwitterAPIClient {
 
     private val apiTwitter by lazy{
         setup()
+    }
+
+    fun getListOfUsers(listener: UserDataRetrieved? = null){
+        apiTwitter.getUsersList().enqueue(object : Callback<List<User>>{
+
+            override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
+                if (!response.isSuccessful) {
+                    Log.e(TAG, "code: " + response.code())
+                    return
+                }
+                listener?.onUserDataFetchedSuccess(response.body()!!)
+            }
+
+            override fun onFailure(call: Call<List<User>>, t: Throwable) {
+                Log.e(TAG, "Unable to get users. Error: ${t.message}")
+            }
+        } )
     }
 
     fun getListOfTweets(listener: DataRetrieved? = null) {

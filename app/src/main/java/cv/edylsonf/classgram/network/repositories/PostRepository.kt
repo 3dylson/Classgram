@@ -1,33 +1,34 @@
 package cv.edylsonf.classgram.network.repositories
 
+import cv.edylsonf.classgram.domain.models.Post
 import cv.edylsonf.classgram.network.AppDatabase
-import cv.edylsonf.classgram.network.dao.TweetDao
-import cv.edylsonf.classgram.network.models.Tweet
+import cv.edylsonf.classgram.network.dao.PostDao
 
-class TweetRepository (private val tweetDao: TweetDao){
 
-    fun deleteTweet(tweet: Tweet, onLoaded: (Unit) -> Unit){
+class PostRepository (private val postDao: PostDao){
+
+    fun deleteTweet(post: Post, onLoaded: (Unit) -> Unit){
         AppDatabase
             .databaseWriteExecutor
             .execute {
-                tweetDao.deleteTweet(tweet)
+                postDao.deleteTweet(post)
                 onLoaded(Unit)
             }
     }
 
-    fun getAllTweets(onLoaded: (List<Tweet>) -> Unit){
+    fun getAllTweets(onLoaded: (List<Post>) -> Unit){
         AppDatabase
             .databaseWriteExecutor
             .execute {
-                onLoaded(tweetDao.getAllTweets())
+                onLoaded(postDao.getAllTweets())
             }
     }
 
-    fun insert(tweet: Tweet){
+    fun insert(post: Post){
         AppDatabase
             .databaseWriteExecutor
             .execute {
-                tweetDao.insert(tweet)
+                postDao.insert(post)
             }
     }
 

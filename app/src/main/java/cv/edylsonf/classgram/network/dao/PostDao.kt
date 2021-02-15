@@ -1,23 +1,24 @@
 package cv.edylsonf.classgram.network.dao
 
 import androidx.room.*
-import cv.edylsonf.classgram.network.models.Tweet
+import cv.edylsonf.classgram.domain.models.Post
+
 
 
 @Dao
-interface TweetDao {
+interface PostDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(tweet: Tweet)
+    fun insert(post: Post)
 
     @Update
-    fun refresh(tweet: Tweet)
+    fun refresh(post: Post)
 
-    @Query("SELECT * FROM Tweet")
-    fun getAllTweets(): List<Tweet>
+    @Query("SELECT * FROM Post")
+    fun getAllTweets(): List<Post>
 
     @Delete
-    fun deleteTweet(tweet: Tweet)
+    fun deleteTweet(post: Post)
 
     /*@Query("SELECT * FROM Tweet WHERE text LIKE :text")
     fun findByText(text: String, text: String): Tweet*/

@@ -2,6 +2,7 @@ package cv.edylsonf.classgram.network.api
 
 import cv.edylsonf.classgram.network.models.Search
 import cv.edylsonf.classgram.network.models.Tweet
+import cv.edylsonf.classgram.network.models.User
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -11,6 +12,10 @@ interface TwitterAPI {
     @Headers("Authorization: Bearer $BEARER_TOKEN")
     @GET(TWEETS)
     fun getTweetsList(): Call<List<Tweet>>
+
+    @Headers("Authorization: Bearer $BEARER_TOKEN")
+    @GET(USERS)
+    fun getUsersList(): Call<List<User>>
 
     @Headers("Authorization: Bearer $BEARER_TOKEN")
     @GET(SEARCH)
