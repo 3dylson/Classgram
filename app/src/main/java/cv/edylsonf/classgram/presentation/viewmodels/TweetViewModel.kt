@@ -23,7 +23,13 @@ class TweetViewModel( private val repository: PostRepository) : ViewModel(), Dat
     private var postLoaded = emptyList<Tweet>()
 
     fun loadPost(){
+        _status.value = TwitterAPIStatus.LOADING
+        try{
         TwitterAPIClient.getListOfTweets(this)
+            _status.value = TwitterAPIStatus.DONE
+        }catch (e: Exception) {
+            _status.value = TwitterAPIStatus.ERROR
+        }
     }
 
     private val _status = MutableLiveData<TwitterAPIStatus>()

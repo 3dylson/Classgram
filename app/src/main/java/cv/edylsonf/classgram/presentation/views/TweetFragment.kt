@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cv.edylsonf.classgram.ClassgramApplication
 import cv.edylsonf.classgram.R
+import cv.edylsonf.classgram.Values.Companion.posts
+import cv.edylsonf.classgram.domain.models.Post
+import cv.edylsonf.classgram.network.models.Tweet
 import cv.edylsonf.classgram.presentation.adapters.FeedAdapter
 import cv.edylsonf.classgram.presentation.viewmodels.TweetViewModel
 import cv.edylsonf.classgram.presentation.viewmodels.TweetViewModelFactory
@@ -27,6 +30,7 @@ class TweetFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         return inflater.inflate(R.layout.fragment_tweet, container, false)
     }
 
@@ -41,7 +45,7 @@ class TweetFragment : Fragment(){
         requireView().findViewById<RecyclerView>(R.id.rv_tweets).apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = FeedAdapter()
+            //adapter = FeedAdapter()
         }
 
         viewModel.postLiveData.observe(viewLifecycleOwner) {

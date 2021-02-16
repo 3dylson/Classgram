@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity(){
         /*bottomNavigationView.background = null*/
         /*bottomNavigationView.menu.getItem(2).isEnabled = false*/
 
-        //loadFragment(TweetFragment)
+        loadFragment(TweetFragment())
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.setOnNavigationItemReselectedListener { item ->
