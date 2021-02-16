@@ -13,9 +13,9 @@ fun deviceName() = "$MODEL-$MANUFACTURER"
 class Values {
     companion object {
         @JvmStatic
-        fun users() {}
+        fun students() {}
         @JvmStatic
-        fun tweets() {}
+        fun posts() {}
     }
 
 }

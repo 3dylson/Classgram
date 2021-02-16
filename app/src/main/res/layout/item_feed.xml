@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!--<data>
+        <import type="android.view.View"/>
+        <variable
+            name="data"
+            type="cv.edylsonf.classgram.network.models.Data"/>
+    </data>-->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_tweet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"/>
+            <!--android:text="@{data.text}"-->
+
+    </LinearLayout>
+
+</LinearLayout>
