@@ -24,7 +24,7 @@ class FeedAdapter ( val clickAction: (Tweet) -> Unit)
 
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        val tweet = get val Item(position)
+        val tweet = getItem(position)
         holder.tweet.text = tweet.data.toString()
         holder.tweet.setOnClickListener {
             clickAction(tweet)
