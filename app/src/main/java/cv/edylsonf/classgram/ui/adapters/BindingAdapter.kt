@@ -1,14 +1,7 @@
-package cv.edylsonf.classgram.presentation.adapters
-
-import android.view.View
-import android.widget.ImageView
-import androidx.databinding.BindingAdapter
-
-import cv.edylsonf.classgram.R
-import cv.edylsonf.classgram.presentation.viewmodels.TwitterAPIStatus
+package cv.edylsonf.classgram.ui.adapters
 
 
-@BindingAdapter("twitterAPIStatus")
+/*@BindingAdapter("twitterAPIStatus")
 fun bindStatus(statusImageView: ImageView, status: TwitterAPIStatus?){
     when (status) {
         TwitterAPIStatus.LOADING -> {
@@ -23,4 +16,4 @@ fun bindStatus(statusImageView: ImageView, status: TwitterAPIStatus?){
             statusImageView.visibility = View.GONE
         }
     }
-}
+}*/

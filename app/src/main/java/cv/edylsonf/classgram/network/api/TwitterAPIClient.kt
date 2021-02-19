@@ -1,29 +1,22 @@
 package cv.edylsonf.classgram.network.api
 
-import android.util.Log
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import cv.edylsonf.classgram.network.models.Search
-
-import cv.edylsonf.classgram.network.models.Tweet
-import cv.edylsonf.classgram.network.models.User
-import cv.edylsonf.classgram.network.repositories.cb.DataRetrieved
-import cv.edylsonf.classgram.network.repositories.cb.DataSearched
-import cv.edylsonf.classgram.network.repositories.cb.UserDataRetrieved
-import retrofit2.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.create
 
 private const val TAG = "TwitterApi"
 
 object TwitterAPIClient {
 
-    private val apiTwitter by lazy{
-        setup()
-    }
+//    private val apiTwitter by lazy{
+//        setup()
+//    }
 
-    fun getListOfUsers(listener: UserDataRetrieved? = null){
+    /*fun getListOfUsers(listener: UserDataRetrieved? = null){
         apiTwitter.getUsersList().enqueue(object : Callback<List<User>>{
 
             override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
@@ -77,34 +70,34 @@ object TwitterAPIClient {
                 listener.onDataSearchedFailed()
             }
         })
-    }
+    }*/
 
     /**
      * Build the Moshi object that Retrofit will be using, making sure to add the Kotlin adapter for
      * full Kotlin compatibility.
      */
-    private val moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
-        .build()
+//    private val moshi = Moshi.Builder()
+//        .add(KotlinJsonAdapterFactory())
+//        .build()
 
 
 /** Retrofit to make REST requests to the web service and MOSHI to handle the deserialization of the
     returned JSON to Kotlin data objects */
 
-    private fun setup(): TwitterAPI {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-
-        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(client)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .build()
-
-        return retrofit.create()
-    }
+//    private fun setup(): TwitterAPI {
+//        val interceptor = HttpLoggingInterceptor()
+//        interceptor.level = HttpLoggingInterceptor.Level.BODY
+//
+//        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
+//
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl(BASE_URL)
+//            .client(client)
+//            .addConverterFactory(MoshiConverterFactory.create(moshi))
+//            .build()
+//
+//        return retrofit.create()
+//    }
 
 
 

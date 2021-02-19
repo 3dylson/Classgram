@@ -3,11 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.240625" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/drawable/ic_broken_image.xml" value="0.24739583333333334" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/drawable/ic_connection_error.xml" value="0.24739583333333334" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/drawable/loading_animation.xml" value="0.1685185185185185" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/drawable/loading_img.xml" value="0.24739583333333334" />
-        <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/activity_main.xml" value="0.371875" />
+        <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/activity_login.xml" value="0.371875" />
+        <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/activity_login2.xml" value="0.371875" />
+        <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/activity_main.xml" value="0.35185185185185186" />
+        <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/activity_schedule.xml" value="0.371875" />
+        <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/activity_test.xml" value="0.371875" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/fragment_tweet.xml" value="0.371875" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/item_feed.xml" value="0.33" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/item_tweet.xml" value="0.371875" />

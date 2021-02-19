@@ -1,17 +1,6 @@
-package cv.edylsonf.classgram.presentation.adapters
+package cv.edylsonf.classgram.ui.adapters
 
-import android.service.autofill.OnClickAction
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-
-import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import cv.edylsonf.classgram.R
-import cv.edylsonf.classgram.network.models.Tweet
-
+/*
 class FeedAdapter ( val clickAction: (Tweet) -> Unit)
     : ListAdapter<Tweet, FeedAdapter.MainViewHolder?>(DiffCallback)
 {
@@ -30,14 +19,16 @@ class FeedAdapter ( val clickAction: (Tweet) -> Unit)
             clickAction(tweet)
         }
 
-        /*if (tweet.fav)
+        */
+/*if (tweet.fav)
             holder.fav.setImageResource(R.drawable.ic_favorite)
         else
             holder.fav.setImageResource(R.drawable.ic_favorite_empty)
 
         holder.fav.setOnClickListener {
             favAction(tweet)
-        }*/
+        }*//*
+
     }
 
 
@@ -55,4 +46,4 @@ class FeedAdapter ( val clickAction: (Tweet) -> Unit)
     inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val tweet: TextView = itemView.findViewById(R.id.tv_tweet)
     }
-}
+}*/

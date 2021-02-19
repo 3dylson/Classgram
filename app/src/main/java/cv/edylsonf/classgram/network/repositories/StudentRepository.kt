@@ -1,11 +1,7 @@
 package cv.edylsonf.classgram.network.repositories
 
-import cv.edylsonf.classgram.domain.models.Student
-import cv.edylsonf.classgram.network.AppDatabase
-import cv.edylsonf.classgram.network.dao.StudentDao
-import cv.edylsonf.classgram.network.models.User
 
-
+/*
 class StudentRepository(private val studentDao: StudentDao) {
 
     fun deleteById(id: String, onLoaded: (Unit) -> Unit){
@@ -34,4 +30,4 @@ class StudentRepository(private val studentDao: StudentDao) {
     }
 
 
-}
+}*/
