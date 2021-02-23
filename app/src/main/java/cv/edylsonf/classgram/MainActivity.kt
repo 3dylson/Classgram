@@ -20,6 +20,9 @@ class MainActivity : AppCompatActivity(){
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 
+
+
+
 //        loadFragment(TweetFragment())
 
         /*val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
