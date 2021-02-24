@@ -4,7 +4,7 @@ import android.os.Build.MANUFACTURER
 import android.os.Build.MODEL
 
 const val ACTIVITY_REQUEST = "activity.request"
-const val EXTRA_USERNAME = "extra.username"
+const val EXTRA_EMAIL = "extra.email"
 
 const val INVALID_ID = -1
 

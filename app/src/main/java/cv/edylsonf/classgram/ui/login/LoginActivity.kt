@@ -1,6 +1,8 @@
 package cv.edylsonf.classgram.ui.login
 
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -8,16 +10,28 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.viewpager.widget.ViewPager
+import com.firebase.ui.auth.AuthUI
+import com.google.android.gms.common.SignInButton
+import com.google.android.material.tabs.TabLayout
+import com.google.firebase.auth.FirebaseAuth
+import cv.edylsonf.classgram.ACTIVITY_REQUEST
+import cv.edylsonf.classgram.EXTRA_EMAIL
+import cv.edylsonf.classgram.MainActivity
 
 import cv.edylsonf.classgram.R
 
+private const val TAG = "LoginActivity"
+private const val REQUEST_SIGN_IN = 12345
+
 class LoginActivity : AppCompatActivity() {
+
+
 
     private lateinit var loginViewModel: LoginViewModel
 
@@ -26,10 +40,29 @@ class LoginActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_login)
 
-        val username = findViewById<EditText>(R.id.username)
+        setup()
+        googleSignUp()
+
+
+    }
+
+    private fun configureTabLayout(){
+        val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
+        val viewPager = findViewById<ViewPager>(R.id.view_pager)
+
+        tabLayout.addTab(tabLayout.newTab().setText("Login"))
+        tabLayout.addTab(tabLayout.newTab().setText("SignUp"))
+
+    }
+
+    private fun setup(){
+
+        val email = findViewById<EditText>(R.id.email)
         val password = findViewById<EditText>(R.id.password)
         val login = findViewById<Button>(R.id.login)
         val loading = findViewById<ProgressBar>(R.id.loading)
+
+
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
                 .get(LoginViewModel::class.java)
@@ -40,8 +73,8 @@ class LoginActivity : AppCompatActivity() {
             // disable login button unless both username / password is valid
             login.isEnabled = loginState.isDataValid
 
-            if (loginState.usernameError != null) {
-                username.error = getString(loginState.usernameError)
+            if (loginState.emailError != null) {
+                email.error = getString(loginState.emailError)
             }
             if (loginState.passwordError != null) {
                 password.error = getString(loginState.passwordError)
@@ -64,9 +97,9 @@ class LoginActivity : AppCompatActivity() {
             finish()
         })
 
-        username.afterTextChanged {
+        email.afterTextChanged {
             loginViewModel.loginDataChanged(
-                    username.text.toString(),
+                    email.text.toString(),
                     password.text.toString()
             )
         }
@@ -74,7 +107,7 @@ class LoginActivity : AppCompatActivity() {
         password.apply {
             afterTextChanged {
                 loginViewModel.loginDataChanged(
-                        username.text.toString(),
+                        email.text.toString(),
                         password.text.toString()
                 )
             }
@@ -83,7 +116,7 @@ class LoginActivity : AppCompatActivity() {
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
                         loginViewModel.login(
-                                username.text.toString(),
+                                email.text.toString(),
                                 password.text.toString()
                         )
                 }
@@ -92,10 +125,59 @@ class LoginActivity : AppCompatActivity() {
 
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
+                loginViewModel.login(email.text.toString(), password.text.toString())
             }
         }
+
     }
+
+
+    //Start Google Sign in Region
+    private fun googleSignUp(){
+        findViewById<SignInButton>(R.id.google_signin).setOnClickListener {
+            openPostActivityCustom.launch(REQUEST_SIGN_IN)
+        }
+
+        FirebaseAuth.getInstance().addAuthStateListener {
+            Log.d(TAG, "AuthStateListener triggered. User: ${it.currentUser}")
+            if (it.currentUser != null) {
+                val email = it.currentUser?.email
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra(EXTRA_EMAIL, email)
+                startActivity(intent)
+                finish()
+            }
+        }
+
+    }
+
+    private val openPostActivityCustom =
+            registerForActivityResult(ActivityContract()) { result ->
+                if (result != null) {
+                    Log.d(TAG, "User signed in")
+                }
+            }
+
+    class ActivityContract : ActivityResultContract<Int, Boolean?>() {
+
+        override fun createIntent(context: Context, input: Int): Intent {
+            val providers = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
+            return AuthUI.getInstance()
+                    .createSignInIntentBuilder()
+                    .setAvailableProviders(providers)
+                    .build().apply {
+                        putExtra(ACTIVITY_REQUEST, REQUEST_SIGN_IN)
+                    }
+        }
+
+        override fun parseResult(resultCode: Int, intent: Intent?): Boolean {
+            val data = intent?.getStringExtra(ACTIVITY_REQUEST)
+            return resultCode == Activity.RESULT_OK && data != null
+        }
+    }
+    //End Google Sign in Region
+
+
 
     private fun updateUiWithUser(model: LoggedInUserView) {
         val welcome = getString(R.string.welcome)
@@ -112,6 +194,7 @@ class LoginActivity : AppCompatActivity() {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
 }
+
 
 /**
  * Extension function to simplify setting an afterTextChanged action to EditText components.
