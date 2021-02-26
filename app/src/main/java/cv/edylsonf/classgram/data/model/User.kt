@@ -8,7 +8,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties
 @Entity
 data class User(
     @PrimaryKey
-    var userId: String? = null,
+    var userId: String = "",
     var name: String? = null,
     var email: String? = null
 )
