@@ -46,12 +46,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sign_in_email_sent_text" />
 
-    <EditText
+    <!--<DatePicker
         android:id="@+id/date_picker_reg"
         android:background="@drawable/edit_text_bg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:datePickerMode="spinner"
+        android:calendarViewShown="false"
         android:selectAllOnFocus="true"
         android:hint="@string/date_of_birth"
         android:inputType="date"
@@ -65,13 +66,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_reg"
         app:layout_constraintVertical_bias="0"
-        app:layout_constraintWidth_percent=".8" />
+        app:layout_constraintWidth_percent=".8" />-->
 
     <EditText
         android:id="@+id/confirm_password"
-        android:background="@drawable/edit_text_bg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_bg"
         android:hint="@string/confirm_password"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
@@ -84,7 +85,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias=".5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date_picker_reg"
+        app:layout_constraintTop_toBottomOf="@+id/password_reg"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintWidth_percent=".8" />
 
@@ -105,12 +106,14 @@
         app:layout_constraintWidth_percent=".8" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_circular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/signin_bttn"
         app:layout_constraintEnd_toEndOf="@+id/confirm_password"
-        app:layout_constraintStart_toStartOf="@+id/confirm_password" />
+        app:layout_constraintStart_toStartOf="@+id/confirm_password"
+        app:layout_constraintTop_toBottomOf="@+id/confirm_password" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

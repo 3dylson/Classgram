@@ -16,6 +16,8 @@ import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.common.SignInButton
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.ACTIVITY_REQUEST
 import cv.edylsonf.classgram.EXTRA_EMAIL
 import cv.edylsonf.classgram.MainActivity
@@ -27,18 +29,22 @@ private const val REQUEST_SIGN_IN = 12345
 
 class LoginActivity : AppCompatActivity() {
 
-
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_login)
 
+        auth = Firebase.auth
+
         configureTabLayout()
         googleSignUp()
 
 
     }
+
+
 
     private fun configureTabLayout() {
         val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
@@ -53,6 +59,16 @@ class LoginActivity : AppCompatActivity() {
         viewPager.adapter = adapter
 
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                viewPager.currentItem = tab.position
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+            }
+            override fun onTabReselected(tab: TabLayout.Tab) {
+            }
+        })
 
         TRANSLATION_Y.set(google, 300F)
         TRANSLATION_Y.set(tabLayout, 300F)
