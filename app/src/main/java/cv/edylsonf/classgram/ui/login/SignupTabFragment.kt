@@ -1,6 +1,5 @@
 package cv.edylsonf.classgram.ui.login
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -8,17 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import cv.edylsonf.classgram.EXTRA_EMAIL
-import cv.edylsonf.classgram.MainActivity
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.data.model.User
 import cv.edylsonf.classgram.databinding.SignupTabFragmentBinding
@@ -96,7 +90,7 @@ class SignupTabFragment : BaseFragment() {
         writeNewUser(user.uid, username, user.email)
 
         // Go to MainFragment
-        findNavController().navigate(R.id.action_signupTabFragment_to_mainActivity)
+        //findNavController().navigate(R.id.action_signupTabFragment_to_mainActivity)
 
     }
 
