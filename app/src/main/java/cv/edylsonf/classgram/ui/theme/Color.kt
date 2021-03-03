@@ -19,26 +19,4 @@ val darkThemeError = Color(0xCF6679)
 
 
 
-/*
-val classgramColorTheme= Colors(
-    primary = primaryColor200,
-    primaryVariant =  primaryDarkColor,
 
-    secondary = secondaryColor,
-    secondaryVariant = secondaryColor,
-
-    background = darkThemeBlack,
-    surface = darkThemeBlack,
-
-    error = darkThemeError,
-
-    onPrimary = primaryTextColor,
-    onSecondary = secondaryTextColor,
-
-    onBackground = white,
-    onSurface = white,
-    onError = black,
-
-    isLight = false
-
-)*/

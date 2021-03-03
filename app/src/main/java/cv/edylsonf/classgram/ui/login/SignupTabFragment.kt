@@ -29,7 +29,8 @@ class SignupTabFragment : BaseFragment() {
     private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?):
+            View? {
         //TODO Animate text fields
         _binding = SignupTabFragmentBinding.inflate(inflater, container, false)
         return binding.root
