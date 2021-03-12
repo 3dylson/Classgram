@@ -5,13 +5,13 @@ plugins {
     id 'com.google.gms.google-services'
     id 'kotlin-parcelize'
     id 'com.google.firebase.crashlytics'
-    id "androidx.navigation.safeargs.kotlin"
+
 }
 
 android {
     signingConfigs {
         release {
-            storeFile file('C:\\Users\\Edyls\\AndroidStudioProjects\\Classgram\\credentials\\release.keystore') //store it in root for any access
+            storeFile file('../credentials/release.keystore')
             storePassword 'android'
             keyAlias 'android'
             keyPassword 'android'
@@ -48,7 +48,7 @@ android {
     }
     packagingOptions {
         // Multiple dependency bring these files in. Exclude them to enable
-        // our test APK to build (has no effect on our AARs)
+        // APK to build (has no effect on AARs)
         excludes += "/META-INF/AL2.0"
         excludes += "/META-INF/LGPL2.1"
     }
@@ -76,9 +76,9 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0"
-    implementation "androidx.activity:activity-ktx:1.2.0"
-    implementation "androidx.fragment:fragment-ktx:1.3.0"
-    implementation "androidx.paging:paging-runtime-ktx:3.0.0-beta01"
+    implementation "androidx.activity:activity-ktx:1.2.1"
+    implementation "androidx.fragment:fragment-ktx:1.3.1"
+    implementation "androidx.paging:paging-runtime-ktx:3.0.0-beta02"
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
@@ -110,7 +110,7 @@ dependencies {
     implementation "androidx.camera:camera-view:1.0.0-alpha22"
 
     //Compose
-    implementation "androidx.activity:activity-compose:1.3.0-alpha03"
+    implementation "androidx.activity:activity-compose:1.3.0-alpha04"
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
@@ -136,7 +136,7 @@ dependencies {
     //ML Kit
 
     //Navigation
-    def nav_version = "2.3.3"
+    def nav_version = "2.3.4"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 

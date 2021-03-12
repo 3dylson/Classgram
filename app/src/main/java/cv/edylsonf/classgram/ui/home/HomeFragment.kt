@@ -1,6 +1,7 @@
 package cv.edylsonf.classgram.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,18 +11,14 @@ import cv.edylsonf.classgram.R
 
 private const val TAG = "HomeFragment"
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(R.layout.home_fragment) {
 
-    companion object {
-        fun newInstance() = HomeFragment()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.i(TAG, "onCreate HomeFragment")
     }
 
-    private val viewModel by viewModels<HomeViewModel>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.home_fragment, container, false)
-    }
 
 
 }

@@ -3,13 +3,12 @@ package cv.edylsonf.classgram
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.ui.home.HomeFragment
 import cv.edylsonf.classgram.ui.profile.ProfileFragment
+
+private const val TAG = "MainActivity"
 
 private lateinit var firebaseAnalytics: FirebaseAnalytics
 
@@ -22,17 +21,9 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_Classgram)
         setContentView(R.layout.activity_main)
-        //TODO Call signout in profile view
 
         // Obtain the FirebaseAnalytics instance.
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
-        /*val user = Firebase.auth.currentUser
-        if (user!= null) {
-            loadFragment(homeFragment)
-        } else {
-            findNavController(R.id.mainActivity).navigate(R.id.loginActivity2)
-        }*/
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         loadFragment(homeFragment)
 
@@ -57,7 +48,13 @@ class MainActivity : AppCompatActivity(){
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.navigationContainer, fragment)
+            .addToBackStack(null)
             .commit()
     }
 
+    /*override fun onBackPressed() {
+
+        if()
+        super.onBackPressed()
+    }*/
 }

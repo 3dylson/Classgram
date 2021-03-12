@@ -203,13 +203,6 @@
             app:layout_constraintStart_toStartOf="@+id/followingCountTv"
             app:layout_constraintTop_toBottomOf="@+id/followingCountTv" />
 
-
-
-
-
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>
