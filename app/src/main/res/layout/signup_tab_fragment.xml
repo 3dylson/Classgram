@@ -105,8 +105,10 @@
         app:layout_constraintVertical_bias=".7"
         app:layout_constraintWidth_percent=".8" />
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
+    <ProgressBar
         android:id="@+id/progress_circular"
+        style="?android:attr/progressBarStyle"
+        android:indeterminate="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

@@ -123,8 +123,11 @@ class SignupTabFragment : BaseFragment() {
     }
 
     private fun writeNewUser(userId: String, name: String, email: String?) {
-        val user = User(name, email)
-        database.collection("users").add(user)
+        val user = hashMapOf(
+            "name" to name,
+            "email" to email
+        )
+        database.collection("users").document(userId).set(user)
 
     }
 

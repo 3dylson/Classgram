@@ -6,25 +6,64 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.R
+import cv.edylsonf.classgram.databinding.ProfileFragmentBinding
+
+private const val TAG = "ProfileFragment"
 
 class ProfileFragment : Fragment() {
+
+    private var _binding: ProfileFragmentBinding? = null
+    private val binding get() = _binding!!
 
     companion object {
         fun newInstance() = ProfileFragment()
     }
 
     private lateinit var viewModel: ProfileViewModel
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.profile_fragment, container, false)
+        _binding = ProfileFragmentBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        auth = Firebase.auth
         viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         // TODO: Use the ViewModel
+
+
+        //Click listeners
+        with(binding){
+            imageButton.setOnClickListener{ signOut() }
+        }
+
     }
+
+    private fun signOut() {
+        // [START auth_sign_out]
+        Firebase.auth.signOut()
+        // [END auth_sign_out]
+    }
+
+    /*private fun signOutUI() {
+        // [START auth_fui_signout]
+        AuthUI.getInstance()
+            .signOut(this)
+            .addOnCompleteListener {
+
+            }
+        // [END auth_fui_signout]
+    }*/
+
+
 
 }

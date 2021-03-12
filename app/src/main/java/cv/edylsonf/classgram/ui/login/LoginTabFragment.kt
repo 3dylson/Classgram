@@ -127,10 +127,22 @@ class LoginTabFragment : BaseFragment() {
             "name" to name,
             "email" to email
         )
-        val id: String = database.collection("collection_name").document().id
-        database.collection("users").document(userId)
-        database.collection("users").add(user)
+        database.collection("users").document(userId).set(user)
 
+    }
+
+    //TODO Create new activity for pass reset
+    private fun sendPasswordReset() {
+        // [START send_password_reset]
+        val emailAddress = "user@example.com"
+
+        Firebase.auth.sendPasswordResetEmail(emailAddress)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(TAG, "Email sent.")
+                }
+            }
+        // [END send_password_reset]
     }
 
     override fun onDestroy() {

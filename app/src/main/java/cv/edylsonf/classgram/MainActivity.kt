@@ -3,8 +3,11 @@ package cv.edylsonf.classgram
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.ui.home.HomeFragment
 import cv.edylsonf.classgram.ui.profile.ProfileFragment
 
@@ -24,11 +27,13 @@ class MainActivity : AppCompatActivity(){
         // Obtain the FirebaseAnalytics instance.
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
+        val user = Firebase.auth.currentUser
+        if (user!= null) {
+            loadFragment(homeFragment)
+        } else {
+            findNavController(R.id.mainActivity).navigate(R.id.loginActivity2)
+        }
 
-
-
-
-        loadFragment(homeFragment)
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.setOnNavigationItemReselectedListener { item ->
