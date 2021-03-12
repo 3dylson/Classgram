@@ -2,11 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/home_button"
-        android:title="Home"
+        android:enabled="true"
+        android:title="@string/home"
         android:icon="@drawable/ic_home" />
 
     <item android:id="@+id/search_button"
-        android:title="Discover"
+        android:enabled="true"
+        android:title="@string/discover"
         android:icon="@drawable/ic_search" />
 
     <item android:id="@+id/placeholder"
@@ -14,11 +16,13 @@
         android:title="" />
 
     <item android:id="@+id/schedule_button"
-        android:title="Schedule"
+        android:enabled="true"
+        android:title="@string/schedule"
         android:icon="@drawable/ic_date" />
 
     <item android:id="@+id/profile_button"
-        android:title="Me"
+        android:enabled="true"
+        android:title="@string/me"
         android:icon="@drawable/ic_account" />
 
 </menu>

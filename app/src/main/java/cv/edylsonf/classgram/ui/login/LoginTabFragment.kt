@@ -89,7 +89,7 @@ class LoginTabFragment : BaseFragment() {
         val username = usernameFromEmail(user.email!!)
 
         // Write new user
-        writeNewUser(user.uid, username, user.email)
+//        writeNewUser(user.uid, username, user.email)
 
         //TODO Go to MainFragment
        // findNavController().navigate(R.id.action_SignInFragment_to_MainFragment)

@@ -27,22 +27,23 @@ class MainActivity : AppCompatActivity(){
         // Obtain the FirebaseAnalytics instance.
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        val user = Firebase.auth.currentUser
+        /*val user = Firebase.auth.currentUser
         if (user!= null) {
             loadFragment(homeFragment)
         } else {
             findNavController(R.id.mainActivity).navigate(R.id.loginActivity2)
-        }
+        }*/
 
+        loadFragment(homeFragment)
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNavigationView.setOnNavigationItemReselectedListener { item ->
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
+
                 R.id.home_button -> {
                     loadFragment(homeFragment)
                     true
                 }
-
                 R.id.profile_button -> {
                     loadFragment(profileFragment)
                     true
@@ -50,7 +51,6 @@ class MainActivity : AppCompatActivity(){
                 else -> false
             }
         }
-
     }
 
     private fun loadFragment(fragment: Fragment){
