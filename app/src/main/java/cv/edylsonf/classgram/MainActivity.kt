@@ -3,6 +3,8 @@ package cv.edylsonf.classgram
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.analytics.FirebaseAnalytics
 import cv.edylsonf.classgram.ui.home.HomeFragment
@@ -28,7 +30,9 @@ class MainActivity : AppCompatActivity(){
         loadFragment(homeFragment)
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+        val navController = findNavController(R.id.fragmentContainerView)
+        bottomNavigationView.setupWithNavController(navController)
+       /* bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
 
                 R.id.home_button -> {
@@ -41,13 +45,13 @@ class MainActivity : AppCompatActivity(){
                 }
                 else -> false
             }
-        }
+        }*/
     }
 
     private fun loadFragment(fragment: Fragment){
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.navigationContainer, fragment)
+            .replace(R.id.fragmentContainerView, fragment)
             .addToBackStack(null)
             .commit()
     }

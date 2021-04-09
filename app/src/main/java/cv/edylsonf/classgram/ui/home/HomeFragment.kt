@@ -18,7 +18,4 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         Log.i(TAG, "onCreate HomeFragment")
     }
 
-
-
-
 }

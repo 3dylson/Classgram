@@ -13,35 +13,23 @@
     <fragment
         android:id="@+id/loginTabFragment"
         android:name="cv.edylsonf.classgram.ui.login.LoginTabFragment"
-        android:label="LoginTabFragment" >
-        <action
-            android:id="@+id/action_loginTabFragment_to_mainActivity"
-            app:destination="@id/mainActivity" />
-    </fragment>
+        android:label="LoginTabFragment" />
     <fragment
         android:id="@+id/signupTabFragment"
         android:name="cv.edylsonf.classgram.ui.login.SignupTabFragment"
-        android:label="SignupTabFragment" >
-        <action
-            android:id="@+id/action_signupTabFragment_to_mainActivity"
-            app:destination="@id/mainActivity" />
-    </fragment>
+        android:label="SignupTabFragment" />
     <activity
-        android:id="@+id/loginActivity2"
+        android:id="@+id/loginActivity"
         android:name="cv.edylsonf.classgram.ui.login.LoginActivity"
         android:label="activity_login"
         tools:layout="@layout/activity_login" />
     <fragment
-        android:id="@+id/profileFragment"
+        android:id="@+id/profile_button"
         android:name="cv.edylsonf.classgram.ui.profile.ProfileFragment"
         android:label="profile_fragment"
         tools:layout="@layout/profile_fragment" />
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/home_button"
         android:name="cv.edylsonf.classgram.ui.home.HomeFragment"
-        android:label="HomeFragment" >
-        <action
-            android:id="@+id/action_homeFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
-    </fragment>
+        android:label="HomeFragment" />
 </navigation>
