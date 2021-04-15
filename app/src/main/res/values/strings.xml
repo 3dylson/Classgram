@@ -49,6 +49,7 @@
     <string name="facebook_login_protocol_scheme" translatable="false">fbclassgram-app</string>
     <string name="dont_have_an_account">Dont\' have an account?</string>
     <string name="sign_up2">SIGN UP!</string>
+    <string name="backround">Backround</string>
 
 
 </resources>

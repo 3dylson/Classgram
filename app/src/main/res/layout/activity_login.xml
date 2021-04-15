@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.login.LoginActivity"
-    tools:visibility="visible">
+    tools:context=".ui.login.LoginActivity">
 
 
     <ImageView
@@ -19,7 +18,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.502"
-        app:srcCompat="@drawable/ipb" />
+        app:srcCompat="@drawable/ipb"
+        android:contentDescription="@string/backround" />
 
     <ImageView
         android:id="@+id/logo"
@@ -30,7 +30,8 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/classgram_logo" />
+        app:srcCompat="@drawable/classgram_logo"
+        android:contentDescription="@string/app_name" />
 
     <TextView
         android:id="@+id/classgramText"
@@ -41,6 +42,7 @@
         android:text="@string/app_name"
         android:textColor="#000000"
         android:textSize="34sp"
+        android:fontFamily="sans-serif"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,6 +56,7 @@
         android:autofillHints="emailAddress"
         android:background="@drawable/edit_text_bg"
         android:backgroundTint="#DDDCD9D9"
+        android:imeOptions="actionDone"
         android:ems="10"
         android:hint="@string/hint_email"
         android:inputType="textEmailAddress"
@@ -77,6 +80,8 @@
         android:autofillHints="password"
         android:background="@drawable/edit_text_bg"
         android:backgroundTint="#DDDCD9D9"
+        android:imeOptions="actionDone"
+        app:endIconMode="password_toggle"
         android:ems="10"
         android:hint="@string/prompt_password"
         android:hintTextColor="#757575"

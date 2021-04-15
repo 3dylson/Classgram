@@ -16,7 +16,6 @@ import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.common.SignInButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.UserInfo
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -141,6 +140,7 @@ class LoginActivity : BaseActivity() {
 
                 if (task.isSuccessful) {
                     onAuthSuccess(task.result?.user!!)
+                    //TODO check if is necessary to get a nav here if is duplicating user
                 } else {
                     Toast.makeText(this, "Sign In Failed",
                         Toast.LENGTH_SHORT).show()

@@ -14,14 +14,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.R
-import cv.edylsonf.classgram.databinding.SignupTabFragmentBinding
+import cv.edylsonf.classgram.databinding.FragmentSignupBinding
 import cv.edylsonf.classgram.ui.utils.BaseFragment
 
-private const val TAG = "SignupTabFragment"
+private const val TAG = "SignupFragment"
 
 class SignupTabFragment : BaseFragment() {
 
-    private var _binding: SignupTabFragmentBinding? = null
+    private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var database: FirebaseFirestore
@@ -29,9 +29,8 @@ class SignupTabFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?):
-            View? {
-        //TODO Animate text fields
-        _binding = SignupTabFragmentBinding.inflate(inflater, container, false)
+            View {
+        _binding = FragmentSignupBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -56,7 +55,14 @@ class SignupTabFragment : BaseFragment() {
         // Check auth on Fragment start
         auth.currentUser?.let {
             onAuthSuccess(it)
+
         }
+    }
+
+    private fun animations(){
+
+        //TODO Animate text fields
+
     }
 
     private fun signUp() {

@@ -27,7 +27,7 @@
         android:id="@+id/profile_button"
         android:name="cv.edylsonf.classgram.ui.profile.ProfileFragment"
         android:label="profile_fragment"
-        tools:layout="@layout/profile_fragment" />
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/home_button"
         android:name="cv.edylsonf.classgram.ui.home.HomeFragment"
