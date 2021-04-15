@@ -5,79 +5,76 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View.TRANSLATION_Y
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
-import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
 import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.common.SignInButton
-import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserInfo
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.ACTIVITY_REQUEST
 import cv.edylsonf.classgram.EXTRA_EMAIL
 import cv.edylsonf.classgram.MainActivity
 import cv.edylsonf.classgram.R
-import cv.edylsonf.classgram.ui.adapters.LoginAdapter
+import cv.edylsonf.classgram.databinding.ActivityLoginBinding
+import cv.edylsonf.classgram.ui.utils.BaseActivity
 
 private const val TAG = "LoginActivity"
 private const val REQUEST_SIGN_IN = 12345
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var database: FirebaseFirestore
+    private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setProgressBar(binding.progressBar)
 
-        setContentView(R.layout.activity_login)
-
+        // Initialize Firebase Auth
         auth = Firebase.auth
 
-        configureTabLayout()
+        animations()
         googleSignUp()
 
+        // Click listeners
+        with(binding) {
+            login.setOnClickListener { signIn() }
+        }
+    }
 
+    override fun onStart() {
+        super.onStart()
+
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+        if(currentUser != null){
+            // nav to home
+        }
     }
 
 
+    private fun animations() {
 
-    private fun configureTabLayout() {
-        val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
-        val viewPager = findViewById<ViewPager>(R.id.view_pager)
         val google = findViewById<SignInButton>(R.id.google_signin)
 
-        tabLayout.addTab(tabLayout.newTab().setText("Login"))
-        tabLayout.addTab(tabLayout.newTab().setText("SignUp"))
-        tabLayout.tabGravity = TabLayout.GRAVITY_FILL
-
-        val adapter = LoginAdapter(supportFragmentManager, tabLayout.tabCount)
-        viewPager.adapter = adapter
-
-        viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
-
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                viewPager.currentItem = tab.position
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-            }
-            override fun onTabReselected(tab: TabLayout.Tab) {
-            }
-        })
-
         TRANSLATION_Y.set(google, 300F)
-        TRANSLATION_Y.set(tabLayout, 300F)
 
         google.alpha = 0F
-        tabLayout.alpha = 0F
 
         google.animate().translationY(0F).alpha(1F).setDuration(1000).setStartDelay(400).start()
-        tabLayout.animate().translationY(0F).alpha(1F).setDuration(1000).setStartDelay(100).start()
+
 
     }
 
@@ -126,6 +123,95 @@ class LoginActivity : AppCompatActivity() {
         }
     }
     //End Google Sign in Region
+
+    private fun signIn() {
+        Log.d(TAG, "signIn")
+        if (!validateForm()) {
+            return
+        }
+
+        showProgressBar()
+        val email = binding.email.text.toString()
+        val password = binding.password.text.toString()
+
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                Log.d(TAG, "signIn:onComplete:" + task.isSuccessful)
+                hideProgressBar()
+
+                if (task.isSuccessful) {
+                    onAuthSuccess(task.result?.user!!)
+                } else {
+                    Toast.makeText(this, "Sign In Failed",
+                        Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+    private fun onAuthSuccess(user: FirebaseUser) {
+
+        val username = usernameFromEmail(user.email!!)
+
+        // Write new user
+        writeNewUser(user.uid, user.displayName, username, user.email)
+
+        //TODO Go to MainFragment
+        // findNavController().navigate(R.id.action_SignInFragment_to_MainFragment)
+    }
+
+    private fun usernameFromEmail(email: String): String {
+        return if (email.contains("@")) {
+            email.split("@".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+        } else {
+            email
+        }
+    }
+
+    private fun validateForm(): Boolean {
+        var result = true
+        if (TextUtils.isEmpty(binding.email.text.toString())) {
+            binding.email.error = "Required"
+            result = false
+        } else {
+            binding.email.error = null
+        }
+
+        if (TextUtils.isEmpty(binding.password.text.toString())) {
+            binding.password.error = "Required"
+            result = false
+        } else {
+            binding.password.error = null
+        }
+
+        return result
+    }
+
+    private fun writeNewUser(userId: String, name: String?, username: String, email: String?) {
+        val user = hashMapOf(
+            "name" to name,
+            "username" to username,
+            "email" to email
+        )
+        database.collection("users").document(userId).set(user)
+
+    }
+
+    //TODO Create new activity for pass reset
+    private fun sendPasswordReset() {
+        // [START send_password_reset]
+        val emailAddress = "user@example.com"
+
+        Firebase.auth.sendPasswordResetEmail(emailAddress)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(TAG, "Email sent.")
+                }
+            }
+        // [END send_password_reset]
+    }
+
+
+
 
 }
 

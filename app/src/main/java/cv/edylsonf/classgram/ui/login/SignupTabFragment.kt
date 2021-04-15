@@ -14,7 +14,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.R
-import cv.edylsonf.classgram.data.model.User
 import cv.edylsonf.classgram.databinding.SignupTabFragmentBinding
 import cv.edylsonf.classgram.ui.utils.BaseFragment
 

@@ -2,6 +2,8 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:drawable="@color/primaryColor"/>
-    <item android:drawable="@drawable/ic_classgram_logo"
-          android:gravity="center"/>
+    <item android:drawable="@drawable/classgram_logo"
+          android:gravity="center"
+        android:width="200dp"
+        android:height="200dp"/>
 </layer-list>
