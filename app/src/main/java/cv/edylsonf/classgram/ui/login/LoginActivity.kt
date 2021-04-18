@@ -38,8 +38,12 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
         setProgressBar(binding.progressBar)
+        //setSupportActionBar(toolbar)
+        /*supportActionBar?.setDisplayHomeAsUpEnabled(true)
+         supportActionBar?.setDisplayShowHomeEnabled(true)*/
 
         // Initialize Firebase Auth
         auth = Firebase.auth
@@ -59,7 +63,7 @@ class LoginActivity : BaseActivity() {
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if(currentUser != null){
-            // nav to home
+           //TODO nav to home
         }
     }
 
@@ -153,7 +157,7 @@ class LoginActivity : BaseActivity() {
         val username = usernameFromEmail(user.email!!)
 
         // Write new user
-        writeNewUser(user.uid, user.displayName, username, user.email)
+        writeNewUser(user.uid, username, user.email)
 
         //TODO Go to MainFragment
         // findNavController().navigate(R.id.action_SignInFragment_to_MainFragment)
@@ -186,9 +190,8 @@ class LoginActivity : BaseActivity() {
         return result
     }
 
-    private fun writeNewUser(userId: String, name: String?, username: String, email: String?) {
+    private fun writeNewUser(userId: String, username: String, email: String?) {
         val user = hashMapOf(
-            "name" to name,
             "username" to username,
             "email" to email
         )

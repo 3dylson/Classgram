@@ -1,10 +1,9 @@
 package cv.edylsonf.classgram.ui.adapters
 
-import androidx.fragment.app.Fragment
+/*import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import cv.edylsonf.classgram.ui.login.LoginTabFragment
-import cv.edylsonf.classgram.ui.login.SignupTabFragment
+
 
 
 class LoginAdapter(fragmentManager: FragmentManager, private var tabCount: Int) :
@@ -27,9 +26,6 @@ class LoginAdapter(fragmentManager: FragmentManager, private var tabCount: Int) 
     }
 
 
-
-
-}
-
+}*/
 
 

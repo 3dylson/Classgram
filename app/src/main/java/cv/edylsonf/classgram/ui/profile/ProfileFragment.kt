@@ -1,23 +1,22 @@
 package cv.edylsonf.classgram.ui.profile
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.firebase.ui.auth.AuthUI
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import cv.edylsonf.classgram.R
-import cv.edylsonf.classgram.databinding.ProfileFragmentBinding
+import cv.edylsonf.classgram.databinding.FragmentProfileBinding
+
 
 private const val TAG = "ProfileFragment"
 
 class ProfileFragment : Fragment() {
 
-    private var _binding: ProfileFragmentBinding? = null
+    private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
     companion object {
@@ -29,7 +28,7 @@ class ProfileFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        _binding = ProfileFragmentBinding.inflate(inflater,container,false)
+        _binding = FragmentProfileBinding.inflate(inflater,container,false)
         return binding.root
     }
 
@@ -42,9 +41,9 @@ class ProfileFragment : Fragment() {
 
 
         //Click listeners
-        with(binding){
+        /*with(binding){
             imageButton.setOnClickListener{ signOut() }
-        }
+        }*/
 
     }
 

@@ -40,7 +40,7 @@ class SignupTabFragment : BaseFragment() {
         database = Firebase.firestore
         auth = Firebase.auth
 
-        setProgressBar(R.id.progress_circular)
+        setProgressBar(R.id.progressBar2)
 
         //Click listeners
         with(binding){
@@ -127,9 +127,9 @@ class SignupTabFragment : BaseFragment() {
         return result
     }
 
-    private fun writeNewUser(userId: String, name: String, email: String?) {
+    private fun writeNewUser(userId: String, username: String, email: String?) {
         val user = hashMapOf(
-            "name" to name,
+            "username" to username,
             "email" to email
         )
         database.collection("users").document(userId).set(user)

@@ -37,7 +37,7 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="date_of_birth">Date of birth</string>
     <string name="confirm_password">Confirm password</string>
-    <string name="sign_up">Sign up!</string>
+    <string name="sign_up">Sign up</string>
     <string name="home">Home</string>
     <string name="discover">Discover</string>
     <string name="schedule">Schedule</string>
@@ -50,6 +50,8 @@
     <string name="dont_have_an_account">Dont\' have an account?</string>
     <string name="sign_up2">SIGN UP!</string>
     <string name="backround">Backround</string>
+    <string name="create_your_account">Create your account 📝</string>
+    <string name="by_continuing_you_agree_to_accept_our_privacy_policy_terms_of_service"><![CDATA[By continuing, you agree to accept our Privacy Policy & Terms of Service.]]></string>
 
 
 </resources>
