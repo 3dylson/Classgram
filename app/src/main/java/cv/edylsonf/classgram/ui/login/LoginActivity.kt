@@ -12,6 +12,7 @@ import android.view.View.TRANSLATION_Y
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.navigation.Navigator
 import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.common.SignInButton
 import com.google.firebase.auth.FirebaseAuth
@@ -54,8 +55,10 @@ class LoginActivity : BaseActivity() {
         // Click listeners
         with(binding) {
             login.setOnClickListener { signIn() }
+            signup.setOnClickListener{ goSignUp()}
         }
     }
+
 
     override fun onStart() {
         super.onStart()
@@ -79,6 +82,13 @@ class LoginActivity : BaseActivity() {
         google.animate().translationY(0F).alpha(1F).setDuration(1000).setStartDelay(400).start()
 
 
+    }
+
+    private fun goSignUp(){
+        showProgressBar()
+        val intent = Intent(this, LoginActivity::class.java)
+        hideProgressBar()
+        startActivity(intent)
     }
 
 

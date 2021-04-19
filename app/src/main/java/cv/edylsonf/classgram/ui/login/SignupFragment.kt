@@ -1,5 +1,7 @@
 package cv.edylsonf.classgram.ui.login
 
+
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -19,7 +21,7 @@ import cv.edylsonf.classgram.ui.utils.BaseFragment
 
 private const val TAG = "SignupFragment"
 
-class SignupTabFragment : BaseFragment() {
+class SignupFragment : BaseFragment() {
 
     private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
@@ -45,6 +47,7 @@ class SignupTabFragment : BaseFragment() {
         //Click listeners
         with(binding){
             signinBttn.setOnClickListener{ signUp() }
+            backbtn.setOnClickListener { goBack()}
         }
 
     }
@@ -63,6 +66,13 @@ class SignupTabFragment : BaseFragment() {
 
         //TODO Animate text fields
 
+    }
+
+    private fun goBack(){
+        showProgressBar()
+        val intent = Intent(activity, LoginActivity::class.java)
+        hideProgressBar()
+        startActivity(intent)
     }
 
     private fun signUp() {
