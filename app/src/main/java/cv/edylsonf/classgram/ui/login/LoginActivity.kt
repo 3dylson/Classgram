@@ -12,7 +12,6 @@ import android.view.View.TRANSLATION_Y
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
-import androidx.navigation.Navigator
 import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.common.SignInButton
 import com.google.firebase.auth.FirebaseAuth
@@ -43,9 +42,7 @@ class LoginActivity : BaseActivity() {
 
         setContentView(binding.root)
         setProgressBar(binding.progressBar)
-        //setSupportActionBar(toolbar)
-        /*supportActionBar?.setDisplayHomeAsUpEnabled(true)
-         supportActionBar?.setDisplayShowHomeEnabled(true)*/
+
 
         // Initialize Firebase Auth
         auth = Firebase.auth
@@ -89,14 +86,14 @@ class LoginActivity : BaseActivity() {
 
     private fun goSignUp(){
         showProgressBar()
-        val intent = Intent(this, SignupFragment::class.java)
+        val intent = Intent(this, SignupActivity::class.java)
         hideProgressBar()
         startActivity(intent)
     }
 
     private fun resetPass(){
         showProgressBar()
-        val intent = Intent(this, ForgotPassFragment::class.java)
+        val intent = Intent(this, ForgotPassActivity::class.java)
         hideProgressBar()
         startActivity(intent)
     }

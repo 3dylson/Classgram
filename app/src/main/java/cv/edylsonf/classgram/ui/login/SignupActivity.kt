@@ -5,9 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -15,34 +12,27 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import cv.edylsonf.classgram.R
-import cv.edylsonf.classgram.databinding.FragmentSignupBinding
-import cv.edylsonf.classgram.ui.utils.BaseFragment
+import cv.edylsonf.classgram.databinding.ActivitySignupBinding
+import cv.edylsonf.classgram.ui.utils.BaseActivity
 
-private const val TAG = "SignupFragment"
+private const val TAG = "SignupActivity"
 
-class SignupFragment : BaseFragment() {
+class SignupActivity : BaseActivity() {
 
-    private var _binding: FragmentSignupBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: ActivitySignupBinding
 
     private lateinit var database: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?):
-            View {
-        _binding = FragmentSignupBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivitySignupBinding.inflate(layoutInflater)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        setContentView(binding.root)
+        setProgressBar(binding.progressBar2)
 
         database = Firebase.firestore
         auth = Firebase.auth
-
-        setProgressBar(R.id.progressBar2)
 
         animations()
 
@@ -72,7 +62,7 @@ class SignupFragment : BaseFragment() {
 
     private fun goBack(){
         showProgressBar()
-        val intent = Intent(activity, LoginActivity::class.java)
+        val intent = Intent(this, LoginActivity::class.java)
         hideProgressBar()
         startActivity(intent)
     }
@@ -88,14 +78,14 @@ class SignupFragment : BaseFragment() {
         val password = binding.passwordReg.text.toString()
 
         auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(requireActivity()) { task ->
+            .addOnCompleteListener(this) { task ->
                 Log.d(TAG, "createUser:onComplete:" + task.isSuccessful)
                 hideProgressBar()
 
                 if (task.isSuccessful) {
                     onAuthSuccess(task.result?.user!!)
                 } else {
-                    Toast.makeText(context, "Sign Up Failed",
+                    Toast.makeText(this, "Sign Up Failed",
                         Toast.LENGTH_SHORT).show()
                 }
             }
@@ -147,12 +137,6 @@ class SignupFragment : BaseFragment() {
         database.collection("users").document(userId).set(user)
 
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
 
 
 }

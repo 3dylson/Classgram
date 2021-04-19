@@ -29,10 +29,11 @@ class MainActivity : AppCompatActivity(){
 
         loadFragment(homeFragment)
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val navController = findNavController(R.id.fragmentContainerView)
-        bottomNavigationView.setupWithNavController(navController)
-       /* bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+//        bottomNavigationView.setupWithNavController(navController)
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
 
                 R.id.home_button -> {
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity(){
                 }
                 else -> false
             }
-        }*/
+        }
     }
 
     private fun loadFragment(fragment: Fragment){
