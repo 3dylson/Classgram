@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.ACTIVITY_REQUEST
 import cv.edylsonf.classgram.EXTRA_EMAIL
@@ -48,6 +49,7 @@ class LoginActivity : BaseActivity() {
 
         // Initialize Firebase Auth
         auth = Firebase.auth
+        database = Firebase.firestore
 
         animations()
         googleSignUp()
@@ -56,6 +58,7 @@ class LoginActivity : BaseActivity() {
         with(binding) {
             login.setOnClickListener { signIn() }
             signup.setOnClickListener{ goSignUp()}
+            resetPass.setOnClickListener{ resetPass() }
         }
     }
 
@@ -86,7 +89,14 @@ class LoginActivity : BaseActivity() {
 
     private fun goSignUp(){
         showProgressBar()
-        val intent = Intent(this, LoginActivity::class.java)
+        val intent = Intent(this, SignupFragment::class.java)
+        hideProgressBar()
+        startActivity(intent)
+    }
+
+    private fun resetPass(){
+        showProgressBar()
+        val intent = Intent(this, ForgotPassFragment::class.java)
         hideProgressBar()
         startActivity(intent)
     }
@@ -208,23 +218,6 @@ class LoginActivity : BaseActivity() {
         database.collection("users").document(userId).set(user)
 
     }
-
-    //TODO Create new activity for pass reset
-    private fun sendPasswordReset() {
-        // [START send_password_reset]
-        val emailAddress = "user@example.com"
-
-        Firebase.auth.sendPasswordResetEmail(emailAddress)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "Email sent.")
-                }
-            }
-        // [END send_password_reset]
-    }
-
-
-
 
 }
 

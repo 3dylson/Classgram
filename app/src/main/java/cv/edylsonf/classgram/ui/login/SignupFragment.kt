@@ -44,6 +44,8 @@ class SignupFragment : BaseFragment() {
 
         setProgressBar(R.id.progressBar2)
 
+        animations()
+
         //Click listeners
         with(binding){
             signinBttn.setOnClickListener{ signUp() }
