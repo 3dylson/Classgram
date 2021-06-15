@@ -96,6 +96,8 @@ class MainActivity : AppCompatActivity(){
 
             return@setOnNavigationItemSelectedListener true
         }
+
+        binding.bottomNavigationView.selectedItemId = selectedTabId
     }
 
     private fun switchFragments(index: Int) {
