@@ -3,63 +3,49 @@ package cv.edylsonf.classgram
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.analytics.FirebaseAnalytics
-import cv.edylsonf.classgram.ui.home.HomeFragment
-import cv.edylsonf.classgram.ui.profile.ProfileFragment
+import cv.edylsonf.classgram.databinding.ActivityMainBinding
 
 private const val TAG = "MainActivity"
 
-private lateinit var firebaseAnalytics: FirebaseAnalytics
 
 class MainActivity : AppCompatActivity(){
 
-    private val homeFragment by lazy { HomeFragment() }
-    private val profileFragment by lazy { ProfileFragment() }
+    private var selectedTab = 0
+    private val fragments: ArrayList<Fragment> by lazy {
+        setup()
+    }
+
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_Classgram)
-        setContentView(R.layout.activity_main)
+        //setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Obtain the FirebaseAnalytics instance.
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
-        loadFragment(homeFragment)
+        val selectedTabId = savedInstanceState?.getInt(EXTRA_TAB_SELECTED) ?: R.id.home_button
 
-        val navController = findNavController(R.id.fragmentContainerView)
+        setupBottomBarActions(selectedTabId)
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-//        bottomNavigationView.setupWithNavController(navController)
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
 
-                R.id.home_button -> {
-                    loadFragment(homeFragment)
-                    true
-                }
-                R.id.profile_button -> {
-                    loadFragment(profileFragment)
-                    true
-                }
-                else -> false
-            }
-        }
     }
 
-    private fun loadFragment(fragment: Fragment){
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragmentContainerView, fragment)
-            .addToBackStack(null)
-            .commit()
+
+    private fun setup() {
+        TODO("Not yet implemented")
     }
 
-    /*override fun onBackPressed() {
+    private fun setupBottomBarActions(selectedTabId: Int) {
+        TODO("Not yet implemented")
+    }
 
-        if()
-        super.onBackPressed()
-    }*/
+
 }
