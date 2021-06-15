@@ -5,6 +5,8 @@ import android.os.Build.MODEL
 
 const val ACTIVITY_REQUEST = "activity.request"
 const val EXTRA_EMAIL = "extra.email"
+const val EXTRA_TAB_TITLE = "extra_tab_title"
+const val EXTRA_TAB_SELECTED = "extra_tab_selected"
 
 const val INVALID_ID = -1
 

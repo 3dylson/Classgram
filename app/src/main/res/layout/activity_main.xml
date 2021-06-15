@@ -9,6 +9,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
 
+    <FrameLayout
+        android:id="@+id/fragmentContainerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 
 
     <com.google.android.material.bottomappbar.BottomAppBar
@@ -40,7 +45,7 @@
         app:layout_anchor="@id/bottomAppBar"
         android:contentDescription="TODO" />
 
-    <androidx.fragment.app.FragmentContainerView
+   <!-- <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
@@ -49,7 +54,6 @@
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/nav_graph" />
+        app:layout_constraintTop_toTopOf="parent" />-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
