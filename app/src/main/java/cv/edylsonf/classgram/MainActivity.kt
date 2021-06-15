@@ -1,6 +1,7 @@
 package cv.edylsonf.classgram
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -35,11 +36,19 @@ class MainActivity : AppCompatActivity(){
 
         setupBottomBarActions(selectedTabId)
 
-
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(EXTRA_TAB_SELECTED, binding.bottomNavigationView.selectedItemId)
+        super.onSaveInstanceState(outState)
+    }
 
-    private fun setup() {
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    private fun setup(): ArrayList<Fragment> {
         TODO("Not yet implemented")
     }
 
