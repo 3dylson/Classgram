@@ -1,7 +1,6 @@
 package cv.edylsonf.classgram.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,14 +28,5 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    /*override fun onResume() {
-        super.onResume()
-
-        setup()
-    }
-
-    private fun setup() {
-
-    }*/
 
 }

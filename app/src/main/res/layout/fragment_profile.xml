@@ -33,94 +33,6 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:id="@+id/usernameTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="3dylson"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/avatarContainer"
-            app:layout_constraintTop_toTopOf="@+id/avatarContainer"
-            app:layout_constraintEnd_toStartOf="@+id/userTypeTV"/>
-
-        <TextView
-            android:id="@+id/userTypeTV"
-            android:layout_width="35dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_bg"
-            android:gravity="center"
-            android:text="pro"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/usernameTv"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/usernameTv"
-            app:layout_constraintTop_toTopOf="@+id/usernameTv" />
-
-        <TextView
-            android:id="@+id/userProTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="android developer"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@android:color/darker_gray"
-            app:layout_constraintStart_toStartOf="@+id/usernameTv"
-            app:layout_constraintTop_toBottomOf="@+id/usernameTv" />
-        
-        <Button
-            android:id="@+id/followBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/button_bg_darker"
-            android:text="follow"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/messageBtn"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
-            app:layout_constraintHorizontal_bias="0.3"
-            app:layout_constraintStart_toEndOf="@+id/avatarContainer"
-            app:layout_constraintTop_toBottomOf="@+id/userProTv"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <Button
-            android:id="@+id/messageBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:background="@drawable/button_bg_darker"
-            android:text="message"
-            android:textAllCaps="false"
-            android:textColor="@android:color/holo_purple"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton"
-            app:layout_constraintHorizontal_bias="0.3"
-            app:layout_constraintStart_toEndOf="@+id/followBtn"
-            app:layout_constraintTop_toTopOf="@+id/followBtn" />
-
-        <Button
-            android:id="@+id/imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:background="@drawable/button_bg_darker"
-            android:text="Logout"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.3"
-            app:layout_constraintStart_toEndOf="@+id/messageBtn"
-            app:layout_constraintTop_toTopOf="@+id/messageBtn"
-
-            tools:ignore="ContentDescription" />
-
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
             android:layout_width="wrap_content"
@@ -128,80 +40,15 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="120dp" />
 
-        <TextView
-            android:id="@+id/likeCountTv"
+        <Button
+            android:id="@+id/logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="249"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toStartOf="@+id/followersCountTv"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline" />
-
-        <TextView
-            android:id="@+id/likesTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="likes"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="@id/likeCountTv"
-            app:layout_constraintStart_toStartOf="@id/likeCountTv"
-            app:layout_constraintTop_toBottomOf="@+id/likeCountTv" />
-
-        <TextView
-            android:id="@+id/followersCountTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="127k"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toStartOf="@+id/followingCountTv"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/likeCountTv"
-            app:layout_constraintTop_toTopOf="@+id/guideline" />
-
-        <TextView
-            android:id="@+id/followersTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="likes"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="@id/followersCountTv"
-            app:layout_constraintStart_toStartOf="@id/followersCountTv"
-            app:layout_constraintTop_toBottomOf="@+id/followersCountTv" />
-
-        <TextView
-            android:id="@+id/followingCountTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="521"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="@color/black"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/sign_out"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/followersCountTv"
-            app:layout_constraintTop_toTopOf="@+id/guideline" />
-
-        <TextView
-            android:id="@+id/followingTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="following"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="@+id/followingCountTv"
-            app:layout_constraintStart_toStartOf="@+id/followingCountTv"
-            app:layout_constraintTop_toBottomOf="@+id/followingCountTv" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

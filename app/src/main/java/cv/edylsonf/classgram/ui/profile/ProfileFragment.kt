@@ -16,53 +16,39 @@ private const val TAG = "ProfileFragment"
 
 class ProfileFragment : Fragment() {
 
-    private var _binding: FragmentProfileBinding? = null
-    private val binding get() = _binding!!
-
-    companion object {
-        fun newInstance() = ProfileFragment()
-    }
-
-    private lateinit var viewModel: ProfileViewModel
+    private lateinit var binding: FragmentProfileBinding
     private lateinit var auth: FirebaseAuth
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        _binding = FragmentProfileBinding.inflate(inflater,container,false)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        auth = Firebase.auth
+
+        setup()
+
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentProfileBinding.inflate(layoutInflater)
+
+        with(binding){
+            logout.setOnClickListener { signOut() }
+        }
+
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        auth = Firebase.auth
-        viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
-        // TODO: Use the ViewModel
-
-
-        //Click listeners
-        /*with(binding){
-            imageButton.setOnClickListener{ signOut() }
-        }*/
-
+    private fun setup() {
+        // Something is going to be added here
     }
 
     private fun signOut() {
-        // [START auth_sign_out]
-        Firebase.auth.signOut()
-        // [END auth_sign_out]
+        auth.signOut()
     }
-
-    /*private fun signOutUI() {
-        // [START auth_fui_signout]
-        AuthUI.getInstance()
-            .signOut(this)
-            .addOnCompleteListener {
-
-            }
-        // [END auth_fui_signout]
-    }*/
-
 
 
 }
