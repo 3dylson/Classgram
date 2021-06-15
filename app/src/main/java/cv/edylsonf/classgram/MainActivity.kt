@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.analytics.FirebaseAnalytics
 import cv.edylsonf.classgram.databinding.ActivityMainBinding
+import cv.edylsonf.classgram.ui.home.HomeFragment
+import cv.edylsonf.classgram.ui.profile.ProfileFragment
 
 private const val TAG = "MainActivity"
 
@@ -49,11 +51,74 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun setup(): ArrayList<Fragment> {
-        TODO("Not yet implemented")
+
+        val argHome = Bundle()
+        argHome.putString(EXTRA_TAB_TITLE, getString(R.string.home))
+
+        val home = HomeFragment()
+        home.arguments = argHome
+
+
+        /*val argSearch = Bundle()
+        argSearch.putString(EXTRA_TAB_TITLE, getString(R.string.discover))
+
+        val search = SearchFragment()
+        search.arguments = argSearch*/
+
+
+        /*val argSchedule = Bundle()
+        argSchedule.putString(EXTRA_TAB_TITLE, getString(R.string.schedule))
+
+        val schedule = ScheduleFragment()
+        schedule.arguments = argSchedule*/
+
+
+        val argProfile = Bundle()
+        argProfile.putString(EXTRA_TAB_TITLE, getString(R.string.me))
+
+        val profile = ProfileFragment()
+        profile.arguments = argProfile
+
+
+        return arrayListOf(home,profile)
     }
 
     private fun setupBottomBarActions(selectedTabId: Int) {
-        TODO("Not yet implemented")
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            val index: Int = when (item.itemId) {
+                R.id.home_button    -> 0
+                R.id.profile_button -> 1
+                else                -> 0
+            }
+
+            switchFragments(index)
+            selectedTab = index
+
+            return@setOnNavigationItemSelectedListener true
+        }
+    }
+
+    private fun switchFragments(index: Int) {
+        val transaction = supportFragmentManager.beginTransaction()
+        val tag = "${fragments[index].arguments?.get(EXTRA_TAB_TITLE)}"
+
+        // if the fragment has not yet been added to the container, add it first
+        if(supportFragmentManager.findFragmentByTag(tag) == null) {
+            transaction.add(R.id.fragmentContainerView, fragments[index], tag)
+
+        } else {
+            if (fragments[index] === supportFragmentManager.findFragmentByTag(tag)) {
+                fragments[index].onResume()
+
+            } else {
+                transaction.replace(R.id.fragmentContainerView, fragments[index], tag)
+            }
+        }
+
+        transaction.hide(fragments[selectedTab])
+        transaction.show(fragments[index])
+        transaction.commit()
+
     }
 
 
