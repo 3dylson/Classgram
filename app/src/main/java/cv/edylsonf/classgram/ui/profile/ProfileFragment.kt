@@ -1,5 +1,6 @@
 package cv.edylsonf.classgram.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.databinding.FragmentProfileBinding
+import cv.edylsonf.classgram.ui.login.LoginActivity
 
 
 private const val TAG = "ProfileFragment"
@@ -23,6 +25,7 @@ class ProfileFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         auth = Firebase.auth
+
 
         setup()
 
@@ -47,7 +50,11 @@ class ProfileFragment : Fragment() {
     }
 
     private fun signOut() {
+        val logoutBtn = binding.logout
+        logoutBtn.text = "Logging Out..."
         auth.signOut()
+
+
     }
 
 

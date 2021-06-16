@@ -1,12 +1,17 @@
 package cv.edylsonf.classgram
 
+import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.databinding.ActivityMainBinding
 import cv.edylsonf.classgram.ui.home.HomeFragment
+import cv.edylsonf.classgram.ui.login.LoginActivity
 import cv.edylsonf.classgram.ui.profile.ProfileFragment
 
 private const val TAG = "MainActivity"
@@ -38,7 +43,29 @@ class MainActivity : AppCompatActivity(){
 
         setupBottomBarActions(selectedTabId)
 
+
     }
+
+    override fun onStart() {
+        super.onStart()
+
+        FirebaseAuth.getInstance().addAuthStateListener {
+            Log.d(TAG, "AuthStateListener triggered. User: ${it.currentUser}")
+            if (it.currentUser == null){
+                startLogin()
+
+            }
+        }
+
+    }
+
+
+    private fun startLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putInt(EXTRA_TAB_SELECTED, binding.bottomNavigationView.selectedItemId)

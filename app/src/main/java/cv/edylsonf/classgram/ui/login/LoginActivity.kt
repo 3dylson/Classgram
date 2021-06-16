@@ -60,16 +60,6 @@ class LoginActivity : BaseActivity() {
     }
 
 
-    override fun onStart() {
-        super.onStart()
-
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = auth.currentUser
-        if(currentUser != null){
-           //TODO nav to home
-        }
-    }
-
 
     private fun animations() {
 

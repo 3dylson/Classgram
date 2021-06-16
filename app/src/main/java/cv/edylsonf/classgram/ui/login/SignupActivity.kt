@@ -12,6 +12,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import cv.edylsonf.classgram.EXTRA_EMAIL
+import cv.edylsonf.classgram.MainActivity
 import cv.edylsonf.classgram.databinding.ActivitySignupBinding
 import cv.edylsonf.classgram.ui.utils.BaseActivity
 
@@ -95,10 +97,9 @@ class SignupActivity : BaseActivity() {
         val username = usernameFromEmail(user.email!!)
 
         // Write new user
-        writeNewUser(user.uid, username, user.email)
+        writeNewUser(username, user.email)
 
-        // Go to MainFragment
-        //findNavController().navigate(R.id.action_signupTabFragment_to_mainActivity)
+        finish()
 
     }
 
@@ -129,12 +130,13 @@ class SignupActivity : BaseActivity() {
         return result
     }
 
-    private fun writeNewUser(userId: String, username: String, email: String?) {
+    private fun writeNewUser(username: String, email: String?) {
         val user = hashMapOf(
+            "id" to username,
             "username" to username,
             "email" to email
         )
-        database.collection("users").document(userId).set(user)
+        database.collection("users").document(username).set(user)
 
     }
 
