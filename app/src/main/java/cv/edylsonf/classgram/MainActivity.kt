@@ -53,7 +53,6 @@ class MainActivity : AppCompatActivity(){
             Log.d(TAG, "AuthStateListener triggered. User: ${it.currentUser}")
             if (it.currentUser == null){
                 startLogin()
-
             }
         }
 
