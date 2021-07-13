@@ -32,7 +32,6 @@ android {
     }
     buildFeatures {
         viewBinding true
-        compose true
         dataBinding true
     }
     buildTypes {
@@ -40,11 +39,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion "$compose_version"
-        //kotlinCompilerExtensionVersion '1.0.0-alpha10'
-        //kotlinCompilerVersion "$kotlin_version"
     }
     packagingOptions {
         // Multiple dependency bring these files in. Exclude them to enable
@@ -109,20 +103,6 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:1.1.0-alpha06"
     implementation "androidx.camera:camera-view:1.0.0-alpha26"
 
-    //Compose
-    implementation "androidx.activity:activity-compose:1.3.0-rc01"
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.material:material-icons-extended:$compose_version"
-    implementation "androidx.compose.material:material-icons-core:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling:$compose_version"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation "androidx.compose.foundation:foundation:$compose_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
-    // Integration with observables
-    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
-
-
     //Firebase
     implementation platform('com.google.firebase:firebase-bom:26.4.0')
 
@@ -160,7 +140,6 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 
 }
 
