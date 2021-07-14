@@ -1,9 +1,12 @@
 package cv.edylsonf.classgram.ui.home
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.*
 import androidx.fragment.app.Fragment
 import cv.edylsonf.classgram.R
+import cv.edylsonf.classgram.REQUEST_IMAGE_CAPTURE
 import cv.edylsonf.classgram.databinding.FragmentHomeBinding
 
 private const val TAG = "HomeFragment"
@@ -37,10 +40,16 @@ class HomeFragment : Fragment() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.cam) {
-
+        when (item.itemId) {
+            R.id.cam -> openNativeCamera()
         }
-        return super.onOptionsItemSelected(item)
+        return true
+    }
+
+    private fun openNativeCamera() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
+
     }
 
 
