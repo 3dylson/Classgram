@@ -16,7 +16,7 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        binding.toolbar.title = getString(R.string.home_title)
+        //binding.toolbar.title = getString(R.string.home_title)
     }
 
     override fun onCreateView(
@@ -25,6 +25,9 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
+
+
+
         return binding.root
     }
 

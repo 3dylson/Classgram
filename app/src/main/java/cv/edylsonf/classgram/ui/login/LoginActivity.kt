@@ -153,7 +153,8 @@ class LoginActivity : BaseActivity() {
                     onAuthSuccess(task.result?.user!!)
                     //TODO check if is necessary to get a nav here if is duplicating user
                 } else {
-                    Toast.makeText(this, "Sign In Failed",
+                    Log.e(TAG,"signInWithEmail failed",task.exception)
+                    Toast.makeText(this, "Authentication Failed",
                         Toast.LENGTH_SHORT).show()
                 }
             }

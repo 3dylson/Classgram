@@ -6,12 +6,12 @@
     tools:context=".ui.home.HomeFragment"
     android:orientation="horizontal">
 
-    <androidx.appcompat.widget.Toolbar
+    <!--<androidx.appcompat.widget.Toolbar
         android:theme="@style/Theme.Classgram"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/colorPrimary"/>-->
 
     <TextView
         android:layout_width="match_parent"
