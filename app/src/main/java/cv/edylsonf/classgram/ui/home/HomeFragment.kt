@@ -1,9 +1,7 @@
 package cv.edylsonf.classgram.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.FragmentHomeBinding
@@ -19,6 +17,7 @@ class HomeFragment : Fragment() {
         //binding.toolbar.title = getString(R.string.home_title)
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,10 +25,24 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
-
+        setHasOptionsMenu(true)
 
         return binding.root
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.home_action_menu,menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.cam) {
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
 
 }

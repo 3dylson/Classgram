@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import cv.edylsonf.classgram.MainActivity
 import cv.edylsonf.classgram.databinding.FragmentProfileBinding
 import cv.edylsonf.classgram.ui.login.LoginActivity
 
@@ -53,8 +54,6 @@ class ProfileFragment : Fragment() {
         val logoutBtn = binding.logout
         logoutBtn.text = "Logging Out..."
         auth.signOut()
-
-
     }
 
 

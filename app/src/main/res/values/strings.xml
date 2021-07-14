@@ -60,6 +60,7 @@
     <string name="go_back_to_login">Go back to login</string>
     <string name="reset_your_password">Reset your password 🔧</string>
     <string name="get_reset_email">Get reset email</string>
+    <string name="camera">Camera</string>
 
 
 </resources>

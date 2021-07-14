@@ -139,6 +139,7 @@ class LoginActivity : BaseActivity() {
         Log.d(TAG, "signIn")
         binding.login.isEnabled = false
         if (!validateForm()) {
+            binding.login.isEnabled = true
             return
         }
 
@@ -150,6 +151,7 @@ class LoginActivity : BaseActivity() {
             .addOnCompleteListener(this) { task ->
                 Log.d(TAG, "signIn:onComplete:" + task.isSuccessful)
                 hideProgressBar()
+                binding.login.isEnabled = true
 
                 if (task.isSuccessful) {
                     onAuthSuccess(task.result?.user!!)
