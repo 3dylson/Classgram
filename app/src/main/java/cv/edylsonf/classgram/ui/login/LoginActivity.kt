@@ -44,6 +44,7 @@ class LoginActivity : BaseActivity() {
         setProgressBar(binding.progressBar)
 
 
+
         // Initialize Firebase Auth
         auth = Firebase.auth
         database = Firebase.firestore
@@ -136,6 +137,7 @@ class LoginActivity : BaseActivity() {
 
     private fun signIn() {
         Log.d(TAG, "signIn")
+        binding.login.isEnabled = false
         if (!validateForm()) {
             return
         }
@@ -162,22 +164,11 @@ class LoginActivity : BaseActivity() {
 
     private fun onAuthSuccess(user: FirebaseUser) {
 
-        val username = usernameFromEmail(user.email!!)
-
-        // Write new user
-        writeNewUser(user.uid, username, user.email)
-
-        //TODO Go to MainFragment
-        // findNavController().navigate(R.id.action_SignInFragment_to_MainFragment)
+        val intent = Intent(this,MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
-    private fun usernameFromEmail(email: String): String {
-        return if (email.contains("@")) {
-            email.split("@".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
-        } else {
-            email
-        }
-    }
 
     private fun validateForm(): Boolean {
         var result = true
@@ -198,14 +189,6 @@ class LoginActivity : BaseActivity() {
         return result
     }
 
-    private fun writeNewUser(userId: String, username: String, email: String?) {
-        val user = hashMapOf(
-            "username" to username,
-            "email" to email
-        )
-        database.collection("users").document(userId).set(user)
-
-    }
 
 }
 
