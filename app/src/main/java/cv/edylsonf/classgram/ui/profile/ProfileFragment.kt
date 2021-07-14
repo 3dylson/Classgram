@@ -2,6 +2,7 @@ package cv.edylsonf.classgram.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,10 +51,16 @@ class ProfileFragment : Fragment() {
         // Something is going to be added here
     }
 
+    //TODO make it a top menu action
     private fun signOut() {
+        Log.i(TAG,"User logging out")
         val logoutBtn = binding.logout
         logoutBtn.text = "Logging Out..."
         auth.signOut()
+
+        //Because Fragment is not of Context type, we need to call the parent Activity
+        /*val intent = Intent(activity,LoginActivity::class.java)
+        activity?.startActivity(intent)*/
     }
 
 
