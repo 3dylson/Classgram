@@ -9,6 +9,7 @@ const val EXTRA_TAB_TITLE = "extra_tab_title"
 const val EXTRA_TAB_SELECTED = "extra_tab_selected"
 const val REQUEST_IMAGE_CAPTURE = 100
 const val REQUEST_READ_STORAGE = 500
+const val REQUEST_CAMERA = 0
 
 const val INVALID_ID = -1
 

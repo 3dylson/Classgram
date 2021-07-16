@@ -130,6 +130,7 @@ class SignupActivity : BaseActivity() {
         return result
     }
 
+    //TODO check how the metadata will be..
     private fun writeNewUser(username: String, email: String?) {
         val user = hashMapOf(
             "id" to username,
