@@ -22,9 +22,9 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.ACTIVITY_REQUEST
 import cv.edylsonf.classgram.EXTRA_EMAIL
-import cv.edylsonf.classgram.MainActivity
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivityLoginBinding
+import cv.edylsonf.classgram.presentation.ui.MainActivity
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
 
 private const val TAG = "LoginActivity"
