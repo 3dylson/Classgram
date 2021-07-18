@@ -3,6 +3,7 @@ package cv.edylsonf.classgram.ui.home
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
@@ -39,9 +40,23 @@ class HomeFragment : Fragment() {
         auth = Firebase.auth
         database = Firebase.firestore
 
+        loadPosts()
 
 
         return binding.root
+    }
+
+    private fun loadPosts() {
+        val postsDoc = database.collection("posts")
+        postsDoc.addSnapshotListener { snapshot, exception ->
+            if (exception != null || snapshot == null) {
+                Log.w(TAG, "Unable to retrieve data. Error=$exception, snapshot=$snapshot")
+                return@addSnapshotListener
+            }
+            for (document in snapshot.documents) {
+                Log.d(TAG, "New data retrieved:${document.data}")
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -52,15 +67,14 @@ class HomeFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.cam -> openNativeCamera()
+            R.id.cam -> openCamera()
         }
         return true
     }
 
-    private fun openNativeCamera() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
-
+    //TODO send photo to ImageView
+    private fun openCamera() {
+        startActivityForResult(Intent(context, CameraActivity::class.java), REQUEST_IMAGE_CAPTURE)
     }
 
 

@@ -51,7 +51,7 @@ class ProfileFragment : Fragment() {
         // Something is going to be added here
     }
 
-    //TODO make it a top menu action
+    //TODO make it a top menu action and show app dialog to confirm logout
     private fun signOut() {
         Log.i(TAG,"User logging out")
         val logoutBtn = binding.logout

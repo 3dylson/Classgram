@@ -27,6 +27,7 @@
         <activity android:name=".ui.login.SignupActivity"/>
         <activity android:name=".ui.login.ForgotPassActivity"/>
         <activity android:name=".MainActivity"/>
+        <activity android:name=".ui.home.CameraActivity"/>
     </application>
 
 </manifest>
