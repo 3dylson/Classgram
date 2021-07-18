@@ -1,4 +1,4 @@
-package cv.edylsonf.classgram.ui.login
+package cv.edylsonf.classgram.presentation.ui.login
 
 import android.app.Activity
 import android.content.Context
@@ -25,7 +25,7 @@ import cv.edylsonf.classgram.EXTRA_EMAIL
 import cv.edylsonf.classgram.MainActivity
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivityLoginBinding
-import cv.edylsonf.classgram.ui.utils.BaseActivity
+import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
 
 private const val TAG = "LoginActivity"
 private const val REQUEST_SIGN_IN = 12345

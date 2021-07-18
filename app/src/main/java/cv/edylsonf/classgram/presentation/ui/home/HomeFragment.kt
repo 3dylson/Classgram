@@ -1,8 +1,7 @@
-package cv.edylsonf.classgram.ui.home
+package cv.edylsonf.classgram.presentation.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment

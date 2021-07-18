@@ -1,4 +1,4 @@
-package cv.edylsonf.classgram.ui.adapters
+package cv.edylsonf.classgram.presentation.ui.adapters
 
 /*
 class FeedAdapter ( val clickAction: (Tweet) -> Unit)

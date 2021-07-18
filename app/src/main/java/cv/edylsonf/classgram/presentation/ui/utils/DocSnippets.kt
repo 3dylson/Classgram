@@ -1,6 +1,6 @@
 @file:Suppress("UNUSED_VARIABLE", "UNUSED_ANONYMOUS_PARAMETER")
 
-package cv.edylsonf.classgram.network.firestore
+package cv.edylsonf.classgram.presentation.ui.utils
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore

@@ -1,4 +1,4 @@
-package cv.edylsonf.classgram.ui.utils
+package cv.edylsonf.classgram.presentation.ui.utils
 
 import android.content.Context
 import android.view.View

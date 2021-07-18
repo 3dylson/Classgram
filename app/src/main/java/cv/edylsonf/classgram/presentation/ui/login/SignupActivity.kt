@@ -1,4 +1,4 @@
-package cv.edylsonf.classgram.ui.login
+package cv.edylsonf.classgram.presentation.ui.login
 
 
 import android.content.Intent
@@ -12,10 +12,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import cv.edylsonf.classgram.EXTRA_EMAIL
-import cv.edylsonf.classgram.MainActivity
 import cv.edylsonf.classgram.databinding.ActivitySignupBinding
-import cv.edylsonf.classgram.ui.utils.BaseActivity
+import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
 
 private const val TAG = "SignupActivity"
 

@@ -1,4 +1,4 @@
-package cv.edylsonf.classgram
+package cv.edylsonf.classgram.presentation.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,12 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import cv.edylsonf.classgram.EXTRA_TAB_SELECTED
+import cv.edylsonf.classgram.EXTRA_TAB_TITLE
+import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivityMainBinding
-import cv.edylsonf.classgram.ui.home.HomeFragment
-import cv.edylsonf.classgram.ui.login.LoginActivity
-import cv.edylsonf.classgram.ui.profile.ProfileFragment
+import cv.edylsonf.classgram.presentation.ui.home.HomeFragment
+import cv.edylsonf.classgram.presentation.ui.login.LoginActivity
+import cv.edylsonf.classgram.presentation.ui.profile.ProfileFragment
 
 private const val TAG = "MainActivity"
 

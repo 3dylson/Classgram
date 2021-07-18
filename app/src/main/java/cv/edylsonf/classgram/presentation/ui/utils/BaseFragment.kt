@@ -1,4 +1,4 @@
-package cv.edylsonf.classgram.ui.utils
+package cv.edylsonf.classgram.presentation.ui.utils
 
 import android.view.View
 import android.widget.ProgressBar

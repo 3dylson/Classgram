@@ -1,19 +1,15 @@
-package cv.edylsonf.classgram.ui.profile
+package cv.edylsonf.classgram.presentation.ui.profile
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import cv.edylsonf.classgram.MainActivity
 import cv.edylsonf.classgram.databinding.FragmentProfileBinding
-import cv.edylsonf.classgram.ui.login.LoginActivity
 
 
 private const val TAG = "ProfileFragment"

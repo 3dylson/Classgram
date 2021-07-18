@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name=".ClassgramApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -17,17 +16,17 @@
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
         <activity
-            android:name=".ui.login.LoginActivity">
+            android:name="cv.edylsonf.classgram.presentation.ui.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.login.SignupActivity"/>
-        <activity android:name=".ui.login.ForgotPassActivity"/>
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".ui.home.CameraActivity"/>
+        <activity android:name="cv.edylsonf.classgram.presentation.ui.login.SignupActivity"/>
+        <activity android:name="cv.edylsonf.classgram.presentation.ui.login.ForgotPassActivity"/>
+        <activity android:name=".presentation.ui.MainActivity"/>
+        <activity android:name="cv.edylsonf.classgram.presentation.ui.home.CameraActivity"/>
     </application>
 
 </manifest>

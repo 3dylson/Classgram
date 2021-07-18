@@ -1,4 +1,4 @@
-package cv.edylsonf.classgram.ui.home
+package cv.edylsonf.classgram.presentation.ui.home
 
 import android.Manifest
 import android.app.Activity
