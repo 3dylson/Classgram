@@ -55,9 +55,8 @@ class ForgotPassActivity : BaseActivity() {
 
     private fun goBack(){
         showProgressBar()
-        val intent = Intent(this, LoginActivity::class.java)
+        onBackPressed()
         hideProgressBar()
-        startActivity(intent)
     }
 
 
