@@ -44,15 +44,6 @@ class SignupActivity : BaseActivity() {
 
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        // Check auth on Fragment start
-        auth.currentUser?.let {
-            onAuthSuccess(it)
-
-        }
-    }
 
     private fun animations(){
 
@@ -62,9 +53,8 @@ class SignupActivity : BaseActivity() {
 
     private fun goBack(){
         showProgressBar()
-        val intent = Intent(this, LoginActivity::class.java)
+        onBackPressed()
         hideProgressBar()
-        startActivity(intent)
     }
 
     private fun signUp() {
@@ -131,13 +121,18 @@ class SignupActivity : BaseActivity() {
     //TODO check how the metadata will be..
     private fun writeNewUser(username: String, email: String?) {
         val user = hashMapOf(
-            "id" to username,
             "username" to username,
             "email" to email
         )
-        database.collection("users").document(username).set(user)
-
-    }
+        database.collection("users")
+        .document(username)
+        .set(user)
+        .addOnSuccessListener { documentReference -> 
+            Log.d(TAG, "writeNewUser:onSuccess: " + documentReference.getId())
+        }
+        .addOnFailureListener { exception ->
+            Log.w(TAG, "writeNewUser:onFailure: " + exception)
+        }
 
 
 }
