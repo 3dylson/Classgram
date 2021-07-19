@@ -1,12 +1,13 @@
 package cv.edylsonf.classgram.presentation.ui.login
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
+import androidx.core.text.set
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -75,7 +76,8 @@ class SignupActivity : BaseActivity() {
                 if (task.isSuccessful) {
                     onAuthSuccess(task.result?.user!!)
                 } else {
-                    Toast.makeText(this, "Sign Up Failed",
+                    Log.e("Sign Up Failed: ", task.exception.toString())
+                    Toast.makeText(this, "Sign Up Failed " + task.exception?.message,
                         Toast.LENGTH_SHORT).show()
                 }
             }
@@ -83,9 +85,9 @@ class SignupActivity : BaseActivity() {
 
     private fun onAuthSuccess(user: FirebaseUser) {
         val username = usernameFromEmail(user.email!!)
-        val uid = user.uid
+
         // Write new user
-        writeNewUser(uid, username, user.email)
+        writeNewUser(user.uid, username, user.email)
 
         finish()
 
@@ -120,20 +122,25 @@ class SignupActivity : BaseActivity() {
 
     //TODO check how the metadata will be..
     private fun writeNewUser(uid: String, username: String, email: String?) {
+        val timestamp = null
         val user = hashMapOf(
             "uid" to uid,
             "username" to username,
-            "email" to email
+            "email" to email,
+            "dateCreated" to timestamp,
+            "emailVerified" to emailVerified
         )
         database.collection("users")
-        .document(uid)
-        .set(user)
-        .addOnSuccessListener { documentReference -> 
-            Log.d(TAG, "writeNewUser:onSuccess: " + documentReference.getId())
-        }
-        .addOnFailureListener { exception ->
-            Log.w(TAG, "writeNewUser:onFailure: " + exception)
-        }
+            .document(uid)
+            .set(user)
+            .addOnSuccessListener {
+                Log.d(TAG,"User added with ID: $uid")
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "writeNewUser:onFailure: $exception")
+            }
+
+    }
 
 
 }
