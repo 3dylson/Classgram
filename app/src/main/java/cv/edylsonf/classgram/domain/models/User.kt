@@ -4,5 +4,6 @@ data class User(
     var uid: String = "",
     var username: String = "",
     var email: String = "",
-    var dateCreated: Date = Date()
+    var dateCreated: Long = 0,
+    var isEmailVerified: Boolean = false
     )

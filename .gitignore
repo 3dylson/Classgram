@@ -14,3 +14,11 @@
 .cxx
 local.properties
 /credentials
+
+#VSCode
+/app/.classpath
+/app/.project
+/.project
+/.settings/org.eclipse.buildship.core.prefs
+/app/.settings/org.eclipse.buildship.core.prefs
+/.idea/runConfigurations.xml
