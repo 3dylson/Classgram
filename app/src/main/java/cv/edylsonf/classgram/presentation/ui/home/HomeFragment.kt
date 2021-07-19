@@ -38,6 +38,10 @@ class HomeFragment : Fragment() {
         setHasOptionsMenu(true)
         auth = Firebase.auth
         database = Firebase.firestore
+        val settings = firestoreSettings {
+            isPersistenceEnabled = true
+        }
+        database.firestoreSettings = settings
 
         loadPosts()
 
