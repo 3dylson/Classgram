@@ -154,8 +154,8 @@ class LoginActivity : BaseActivity() {
                 binding.login.isEnabled = true
 
                 if (task.isSuccessful) {
-                    onAuthSuccess(task.result?.user!!)
-                    //TODO check if is necessary to get a nav here if is duplicating user
+                    Toast.makeText(this, "Successfully logged in!",
+                        Toast.LENGTH_SHORT).show()
                 } else {
                     Log.e(TAG,"signInWithEmail failed",task.exception)
                     Toast.makeText(this, "Authentication Failed",
@@ -163,14 +163,6 @@ class LoginActivity : BaseActivity() {
                 }
             }
     }
-
-    private fun onAuthSuccess(user: FirebaseUser) {
-
-        val intent = Intent(this,MainActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
-
 
     private fun validateForm(): Boolean {
         var result = true
