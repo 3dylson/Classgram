@@ -23,7 +23,7 @@ class ProfileFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         auth = Firebase.auth
-
+        //TODO make db persistance
 
         setup()
 
@@ -51,7 +51,7 @@ class ProfileFragment : Fragment() {
     private fun signOut() {
         Log.i(TAG,"User logging out")
         val logoutBtn = binding.logout
-        logoutBtn.text = "Logging Out..."
+        logoutBtn.text = "👋🏾"
         auth.signOut()
 
         //Because Fragment is not of Context type, we need to call the parent Activity

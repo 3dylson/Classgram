@@ -83,9 +83,9 @@ class SignupActivity : BaseActivity() {
 
     private fun onAuthSuccess(user: FirebaseUser) {
         val username = usernameFromEmail(user.email!!)
-
+        val uid = user.uid
         // Write new user
-        writeNewUser(username, user.email)
+        writeNewUser(uid, username, user.email)
 
         finish()
 
@@ -119,13 +119,14 @@ class SignupActivity : BaseActivity() {
     }
 
     //TODO check how the metadata will be..
-    private fun writeNewUser(username: String, email: String?) {
+    private fun writeNewUser(uid: String, username: String, email: String?) {
         val user = hashMapOf(
+            "uid" to uid,
             "username" to username,
             "email" to email
         )
         database.collection("users")
-        .document(username)
+        .document(uid)
         .set(user)
         .addOnSuccessListener { documentReference -> 
             Log.d(TAG, "writeNewUser:onSuccess: " + documentReference.getId())
