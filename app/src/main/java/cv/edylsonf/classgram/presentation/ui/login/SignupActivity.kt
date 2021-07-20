@@ -13,6 +13,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivitySignupBinding
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
 
@@ -85,7 +86,22 @@ class SignupActivity : BaseActivity() {
 
     private fun onAuthSuccess(user: FirebaseUser) {
         user.sendEmailVerification()
-        //TODO show app dialog
+        user.email?.let { showDialog(it) }
+    }
+
+    private fun showDialog(email: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Email Confirmation")
+        builder.setMessage("In order to complete your account, we need to verify your email address. Link has been sent to the email provided:\n$email")
+        builder.apply {
+            setPositiveButton("Ok") { _,_ ->
+                navToLogin()
+            }
+        }
+        builder.create().show()
+    }
+
+    private fun navToLogin() {
         //Later can pass user metadata
         val intent = Intent(this,LoginActivity::class.java)
         startActivity(intent)

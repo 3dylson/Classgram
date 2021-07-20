@@ -196,9 +196,10 @@ class LoginActivity : BaseActivity() {
                         Toast.makeText(this, "Verify your email!",
                             Toast.LENGTH_SHORT).show()
                         auth.signOut()
+                    } else {
+                        Toast.makeText(this, "Successfully logged in!",
+                            Toast.LENGTH_SHORT).show()
                     }
-                    Toast.makeText(this, "Successfully logged in!",
-                        Toast.LENGTH_SHORT).show()
                 } else {
                     Log.e(TAG,"signInWithEmail failed",task.exception)
                     Toast.makeText(this, task.exception?.message,
