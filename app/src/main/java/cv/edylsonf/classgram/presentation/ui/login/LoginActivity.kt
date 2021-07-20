@@ -4,12 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View.TRANSLATION_Y
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
 import com.firebase.ui.auth.AuthUI
@@ -99,6 +96,7 @@ class LoginActivity : BaseActivity() {
         FirebaseAuth.getInstance().addAuthStateListener {
             Log.d(TAG, "AuthStateListener triggered. User: ${it.currentUser}")
             if (it.currentUser != null && it.currentUser!!.isEmailVerified) {
+                onEmailVerficationSuccess(it.currentUser)
                 val email = it.currentUser?.email
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra(EXTRA_EMAIL, email)
@@ -106,6 +104,45 @@ class LoginActivity : BaseActivity() {
                 finish()
             }
         }
+
+    }
+
+    private fun onEmailVerficationSuccess(user: FirebaseUser?) {
+        val username = user?.email?.let { usernameFromEmail(it) }
+
+        if (user != null) {
+            user.metadata?.let {
+                writeNewUser(user.uid, username, user.email, it.creationTimestamp)
+            }
+        }
+
+    }
+
+    private fun usernameFromEmail(email: String): String {
+        return if (email.contains("@")) {
+            email.split("@".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+        } else {
+            email
+        }
+    }
+
+    //TODO check how the metadata will be..
+    private fun writeNewUser(uid: String, username: String?, email: String?, creationTimestamp: Long) {
+        val user = hashMapOf(
+            "uid" to uid,
+            "username" to username,
+            "email" to email,
+            "dateCreated" to creationTimestamp
+        )
+        database.collection("users")
+            .document(uid)
+            .set(user)
+            .addOnSuccessListener {
+                Log.d(TAG,"User added with ID: $uid")
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "writeNewUser:onFailure: $exception")
+            }
 
     }
 

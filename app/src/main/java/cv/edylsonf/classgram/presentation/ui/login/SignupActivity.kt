@@ -1,6 +1,7 @@
 package cv.edylsonf.classgram.presentation.ui.login
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -84,23 +85,12 @@ class SignupActivity : BaseActivity() {
 
     private fun onAuthSuccess(user: FirebaseUser) {
         user.sendEmailVerification()
-        val username = usernameFromEmail(user.email!!)
-
-        // Write new user
-        user.metadata?.let { writeNewUser(user.uid, username, user.email, it.creationTimestamp) }
-
-
+        //Later can pass user metadata
+        val intent = Intent(this,LoginActivity::class.java)
+        startActivity(intent)
         finish()
-
     }
 
-    private fun usernameFromEmail(email: String): String {
-        return if (email.contains("@")) {
-            email.split("@".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
-        } else {
-            email
-        }
-    }
 
     private fun validateForm(): Boolean {
         var result = true
@@ -120,26 +110,5 @@ class SignupActivity : BaseActivity() {
 
         return result
     }
-
-    //TODO check how the metadata will be..
-    private fun writeNewUser(uid: String, username: String, email: String?, creationTimestamp: Long) {
-        val user = hashMapOf(
-            "uid" to uid,
-            "username" to username,
-            "email" to email,
-            "dateCreated" to creationTimestamp
-        )
-        database.collection("users")
-            .document(uid)
-            .set(user)
-            .addOnSuccessListener {
-                Log.d(TAG,"User added with ID: $uid")
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "writeNewUser:onFailure: $exception")
-            }
-
-    }
-
 
 }
