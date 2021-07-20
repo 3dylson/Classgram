@@ -108,42 +108,16 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun onEmailVerficationSuccess(user: FirebaseUser?) {
-        val username = user?.email?.let { usernameFromEmail(it) }
-
-        if (user != null) {
-            user.metadata?.let {
-                writeNewUser(user.uid, username, user.email, it.creationTimestamp)
-            }
-        }
-
-    }
-
-    private fun usernameFromEmail(email: String): String {
-        return if (email.contains("@")) {
-            email.split("@".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
-        } else {
-            email
-        }
+        updateUser(user!!.uid, user.isEmailVerified)
     }
 
     //TODO check how the metadata will be..
-    private fun writeNewUser(uid: String, username: String?, email: String?, creationTimestamp: Long) {
-        val user = hashMapOf(
-            "uid" to uid,
-            "username" to username,
-            "email" to email,
-            "dateCreated" to creationTimestamp
-        )
-        database.collection("users")
-            .document(uid)
-            .set(user)
-            .addOnSuccessListener {
-                Log.d(TAG,"User added with ID: $uid")
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "writeNewUser:onFailure: $exception")
-            }
-
+    private fun updateUser(uid: String, emailVerified: Boolean, ) {
+        val userRef = database.collection("users").document(uid)
+        userRef
+            .update("emailVerified", emailVerified)
+            .addOnSuccessListener { Log.d(TAG, "User successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error updating user", e) }
     }
 
     private val openPostActivityCustom =
@@ -184,12 +158,6 @@ class LoginActivity : BaseActivity() {
         val email = binding.email.text.toString()
         val password = binding.password.text.toString()
 
-        if (auth.currentUser != null && auth.currentUser!!.email == email && !auth.currentUser!!.isEmailVerified) {
-            hideProgressBar()
-            Toast.makeText(this, "Verify your email!",
-                Toast.LENGTH_SHORT).show()
-            return
-        }
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->

@@ -1,10 +1,12 @@
 package cv.edylsonf.classgram.domain.models
 
 data class User(
-    var uid: String = "",
-    var username: String = "",
-    var email: String = "",
-    var dateCreated: Long = 0,
+    var uid: String? = null,
+    var username: String? = null,
+    var email: String? = null,
+    @field:JvmField // use this annotation if your Boolean field is prefixed with 'is'
+    var isEmailVerified: Boolean? = null,
+    var dateCreated: Long? = null,
     var addresses: List<Address>? = null,
     var followers: List<Follower>? = null
     )

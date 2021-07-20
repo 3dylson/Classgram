@@ -76,6 +76,8 @@ class SignupActivity : BaseActivity() {
 
                 if (task.isSuccessful) {
                     onAuthSuccess(task.result?.user!!)
+                    auth.signOut()
+
                 } else {
                     Log.e("Sign Up Failed: ", task.exception.toString())
                     Toast.makeText(this, task.exception?.message,
@@ -85,8 +87,48 @@ class SignupActivity : BaseActivity() {
     }
 
     private fun onAuthSuccess(user: FirebaseUser) {
+        val username = user.email?.let { usernameFromEmail(it) }
         user.sendEmailVerification()
+        user.metadata?.let { writeNewUser(user.uid,username,user.email, it.creationTimestamp) }
         user.email?.let { showDialog(it) }
+    }
+
+    //TODO check how the metadata will be..
+    private fun writeNewUser(uid: String, username: String?, email: String?, creationTimestamp: Long) {
+        val user = hashMapOf(
+            "uid" to uid,
+            "username" to username,
+            "email" to email,
+            "emailVerified" to false,
+            "dateCreated" to creationTimestamp,
+        )
+        val address = hashMapOf(
+            "city" to null,
+            "country" to null
+        )
+        val addressRef = database
+            .collection("users").document(uid)
+            .collection("addresses").document("college")
+
+        database.collection("users")
+            .document(uid)
+            .set(user)
+            .addOnSuccessListener {
+                Log.d(TAG,"User added with ID: $uid")
+                addressRef.set(address)
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "writeNewUser:onFailure: $exception")
+            }
+
+    }
+
+    private fun usernameFromEmail(email: String): String {
+        return if (email.contains("@")) {
+            email.split("@".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+        } else {
+            email
+        }
     }
 
     private fun showDialog(email: String) {
