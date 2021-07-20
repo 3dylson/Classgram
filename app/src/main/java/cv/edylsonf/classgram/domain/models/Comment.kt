@@ -1,5 +1,8 @@
 package cv.edylsonf.classgram.domain.models
 
 data class Comment(
-    val id: String = ""
+    var id: String? = null,
+    var parent: Comment? = null,
+    var text: String? = null,
+    var user: User? = null
 )
