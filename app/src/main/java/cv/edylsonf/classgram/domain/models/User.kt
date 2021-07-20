@@ -5,5 +5,8 @@ data class User(
     var username: String = "",
     var email: String = "",
     var dateCreated: Long = 0,
-    var isEmailVerified: Boolean = false
+    var addresses: List<Address>? = null,
+    var followers: List<Follower>? = null
     )
+
+
