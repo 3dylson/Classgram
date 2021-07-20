@@ -112,7 +112,7 @@ class LoginActivity : BaseActivity() {
     }
 
     //TODO check how the metadata will be..
-    private fun updateUser(uid: String, emailVerified: Boolean, ) {
+    private fun updateUser(uid: String, emailVerified: Boolean ) {
         val userRef = database.collection("users").document(uid)
         userRef
             .update("emailVerified", emailVerified)
@@ -157,7 +157,6 @@ class LoginActivity : BaseActivity() {
         showProgressBar()
         val email = binding.email.text.toString()
         val password = binding.password.text.toString()
-
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
