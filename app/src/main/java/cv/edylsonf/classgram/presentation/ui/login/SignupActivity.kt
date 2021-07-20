@@ -85,6 +85,7 @@ class SignupActivity : BaseActivity() {
 
     private fun onAuthSuccess(user: FirebaseUser) {
         user.sendEmailVerification()
+        //TODO show app dialog
         //Later can pass user metadata
         val intent = Intent(this,LoginActivity::class.java)
         startActivity(intent)

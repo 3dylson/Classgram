@@ -191,6 +191,12 @@ class LoginActivity : BaseActivity() {
                 binding.login.isEnabled = true
 
                 if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    if (!user!!.isEmailVerified) {
+                        Toast.makeText(this, "Verify your email!",
+                            Toast.LENGTH_SHORT).show()
+                        auth.signOut()
+                    }
                     Toast.makeText(this, "Successfully logged in!",
                         Toast.LENGTH_SHORT).show()
                 } else {
