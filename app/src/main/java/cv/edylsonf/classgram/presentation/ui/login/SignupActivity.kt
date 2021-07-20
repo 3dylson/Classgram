@@ -92,7 +92,7 @@ class SignupActivity : BaseActivity() {
     private fun showDialog(email: String) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Email Confirmation")
-        builder.setMessage("In order to complete your account, we need to verify your email address. Link has been sent to the email provided:\n$email")
+        builder.setMessage("We need to verify your email address. Link sent to the email provided:\n$email")
         builder.apply {
             setPositiveButton("Ok") { _,_ ->
                 navToLogin()
