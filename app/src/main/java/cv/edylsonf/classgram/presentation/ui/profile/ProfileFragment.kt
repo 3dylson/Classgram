@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -47,12 +48,20 @@ class ProfileFragment : Fragment() {
         // Something is going to be added here
     }
 
-    //TODO make it a top menu action and show app dialog to confirm logout
+    //TODO make it a top menu action?
     private fun signOut() {
-        Log.i(TAG,"User logging out")
-        val logoutBtn = binding.logout
-        logoutBtn.text = "👋🏾"
-        auth.signOut()
+        Log.i(TAG,"User logging out pressed")
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Hope to see you soon...")
+        builder.apply {
+            setPositiveButton("Bye 👋") { _, _ ->
+                auth.signOut()
+            }
+            setNegativeButton("Cancel") { _, _ ->
+                Log.d(TAG, "Dialog cancelled")
+            }
+        }
+        builder.create().show()
 
         //Because Fragment is not of Context type, we need to call the parent Activity
         /*val intent = Intent(activity,LoginActivity::class.java)

@@ -88,6 +88,7 @@ class SignupActivity : BaseActivity() {
 
     private fun onAuthSuccess(user: FirebaseUser) {
         val username = user.email?.let { usernameFromEmail(it) }
+        //TODO enable resend email
         user.sendEmailVerification()
         user.metadata?.let { writeNewUser(user.uid,username,user.email, it.creationTimestamp) }
         user.email?.let { showDialog(it) }
