@@ -180,15 +180,16 @@ class LoginActivity : BaseActivity() {
             return
         }
 
-        if (auth.currentUser != null && !auth.currentUser!!.isEmailVerified) {
+        showProgressBar()
+        val email = binding.email.text.toString()
+        val password = binding.password.text.toString()
+
+        if (auth.currentUser != null && auth.currentUser!!.email == email && !auth.currentUser!!.isEmailVerified) {
+            hideProgressBar()
             Toast.makeText(this, "Verify your email!",
                 Toast.LENGTH_SHORT).show()
             return
         }
-
-        showProgressBar()
-        val email = binding.email.text.toString()
-        val password = binding.password.text.toString()
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
