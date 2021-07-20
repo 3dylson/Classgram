@@ -98,7 +98,7 @@ class LoginActivity : BaseActivity() {
 
         FirebaseAuth.getInstance().addAuthStateListener {
             Log.d(TAG, "AuthStateListener triggered. User: ${it.currentUser}")
-            if (it.currentUser != null) {
+            if (it.currentUser != null && it.currentUser!!.isEmailVerified) {
                 val email = it.currentUser?.email
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra(EXTRA_EMAIL, email)
@@ -158,7 +158,7 @@ class LoginActivity : BaseActivity() {
                         Toast.LENGTH_SHORT).show()
                 } else {
                     Log.e(TAG,"signInWithEmail failed",task.exception)
-                    Toast.makeText(this, "Authentication Failed",
+                    Toast.makeText(this, task.exception?.message,
                         Toast.LENGTH_SHORT).show()
                 }
             }

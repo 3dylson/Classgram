@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -75,17 +76,19 @@ class SignupActivity : BaseActivity() {
                     onAuthSuccess(task.result?.user!!)
                 } else {
                     Log.e("Sign Up Failed: ", task.exception.toString())
-                    Toast.makeText(this, "Sign Up Failed " + task.exception?.message,
+                    Toast.makeText(this, task.exception?.message,
                         Toast.LENGTH_SHORT).show()
                 }
             }
     }
 
     private fun onAuthSuccess(user: FirebaseUser) {
+        user.sendEmailVerification()
         val username = usernameFromEmail(user.email!!)
 
         // Write new user
         user.metadata?.let { writeNewUser(user.uid, username, user.email, it.creationTimestamp) }
+
 
         finish()
 
@@ -120,13 +123,11 @@ class SignupActivity : BaseActivity() {
 
     //TODO check how the metadata will be..
     private fun writeNewUser(uid: String, username: String, email: String?, creationTimestamp: Long) {
-        val emailVerified = false
         val user = hashMapOf(
             "uid" to uid,
             "username" to username,
             "email" to email,
-            "dateCreated" to creationTimestamp,
-            "isEmailVerified" to emailVerified
+            "dateCreated" to creationTimestamp
         )
         database.collection("users")
             .document(uid)
