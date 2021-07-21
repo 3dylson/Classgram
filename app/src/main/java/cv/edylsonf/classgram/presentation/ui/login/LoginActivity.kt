@@ -96,7 +96,14 @@ class LoginActivity : BaseActivity() {
         FirebaseAuth.getInstance().addAuthStateListener {
             Log.d(TAG, "AuthStateListener triggered. User: ${it.currentUser}")
             if (it.currentUser != null && it.currentUser!!.isEmailVerified) {
-                onEmailVerficationSuccess(it.currentUser)
+                database.collection("users")
+                    .document(it.currentUser!!.uid)
+                    .get().addOnSuccessListener { userDoc ->
+                        if (!(userDoc.get("emailVerified") as Boolean)) {
+                            onEmailVerficationSuccess(it.currentUser)
+                        }
+                    }
+                //onEmailVerficationSuccess(it.currentUser)
                 val email = it.currentUser?.email
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra(EXTRA_EMAIL, email)

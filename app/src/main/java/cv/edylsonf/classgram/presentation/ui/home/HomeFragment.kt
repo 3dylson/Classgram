@@ -8,12 +8,14 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.REQUEST_IMAGE_CAPTURE
 import cv.edylsonf.classgram.databinding.FragmentHomeBinding
+import cv.edylsonf.classgram.domain.models.Post
 
 private const val TAG = "HomeFragment"
 
@@ -52,13 +54,16 @@ class HomeFragment : Fragment() {
 
     private fun loadPosts() {
         val postsDoc = database.collection("posts")
+            .limit(20)
+            .orderBy("creationTime", Query.Direction.DESCENDING)
         postsDoc.addSnapshotListener { snapshot, exception ->
             if (exception != null || snapshot == null) {
                 Log.w(TAG, "Unable to retrieve data. Error=$exception, snapshot=$snapshot")
                 return@addSnapshotListener
             }
-            for (document in snapshot.documents) {
-                Log.d(TAG, "New data retrieved:${document.data}")
+            val postList = snapshot.toObjects(Post::class.java)
+            for (post in postList) {
+                Log.d(TAG, "Post retrieved:${post}")
             }
         }
     }
