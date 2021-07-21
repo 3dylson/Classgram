@@ -100,7 +100,11 @@ class LoginActivity : BaseActivity() {
                     .document(it.currentUser!!.uid)
                     .get().addOnSuccessListener { userDoc ->
                         if (!(userDoc.get("emailVerified") as Boolean)) {
+                            Log.d(TAG,"db User emailVerified returned false")
                             onEmailVerficationSuccess(it.currentUser)
+                        }
+                        else {
+                            Log.d(TAG,"db User emailVerified returned true")
                         }
                     }
                 //onEmailVerficationSuccess(it.currentUser)
