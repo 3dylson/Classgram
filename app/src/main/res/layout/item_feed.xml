@@ -1,38 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <!--<data>
-        <import type="android.view.View"/>
-        <variable
-            name="data"
-            type="cv.edylsonf.classgram.network.models.Data"/>
-    </data>-->
+    android:orientation="horizontal">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/miniAvatar"
+        android:layout_width="116dp"
+        android:layout_height="88dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:text="Edylson Frederico"
+        android:textColor="@color/primaryTextColor"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_tweet"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif"/>
-            <!--android:text="@{data.text}"-->
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Computer Engineer"
+        android:textSize="10sp" />
 
 </LinearLayout>
