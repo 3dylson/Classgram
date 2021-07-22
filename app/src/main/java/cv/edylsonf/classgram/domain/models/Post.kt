@@ -4,7 +4,6 @@ import com.google.firebase.firestore.ServerTimestamp
 import java.util.Date
 
 data class Post(
-    var id: String? = null,
     var text: String? = null,
     var imageUrl: String? = null,
     @ServerTimestamp var creationTime: Date? = null,

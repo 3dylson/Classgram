@@ -61,10 +61,15 @@ class HomeFragment : Fragment() {
                 Log.w(TAG, "Unable to retrieve data. Error=$exception, snapshot=$snapshot")
                 return@addSnapshotListener
             }
-            val postList = snapshot.toObjects(Post::class.java)
-            for (post in postList) {
-                Log.d(TAG, "Post retrieved:${post}")
+
+            Log.d(TAG, "Posts retrieved:${snapshot.documents.size}")
+
+            val posts = snapshot.toObjects(Post::class.java)
+
+            for (post in posts) {
+
             }
+
         }
     }
 
