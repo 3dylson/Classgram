@@ -117,6 +117,9 @@ dependencies {
     //Layout
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
 
+    //CardView
+    implementation("androidx.cardview:cardview:1.0.0")
+
     //Accompanist
     //implementation "dev.chrisbanes.accompanist:accompanist-coil:0.6.0"
 
