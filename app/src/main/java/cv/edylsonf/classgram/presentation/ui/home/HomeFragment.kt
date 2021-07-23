@@ -25,6 +25,8 @@ class HomeFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseFirestore
 
+    private lateinit var posts: MutableList<Post>
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,7 +42,8 @@ class HomeFragment : Fragment() {
         }
         database.firestoreSettings = settings
 
-        loadPosts()
+        posts = mutableListOf()
+        //loadPosts()
 
 
         return binding.root
