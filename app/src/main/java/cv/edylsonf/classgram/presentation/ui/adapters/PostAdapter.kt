@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ItemFeedBinding
 import cv.edylsonf.classgram.domain.models.Post
@@ -36,8 +37,10 @@ class PostAdapter(val context: Context, val posts: List<Post>) :
             text.text = post.text*/
             Glide.with(context)
                 .load(post.user?.profilePic)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .circleCrop()
-                .into(bindingPost.avatar)
+                .into(itemView.findViewById(R.id.avatar))
+            bindingPost.tvName.text = post.user?.firstLastName
         }
     }
 }
