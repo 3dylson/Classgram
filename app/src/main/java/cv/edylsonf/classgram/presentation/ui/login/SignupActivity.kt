@@ -57,6 +57,7 @@ class SignupActivity : BaseActivity() {
         showProgressBar()
         onBackPressed()
         hideProgressBar()
+        finish()
     }
 
     private fun signUp() {
@@ -65,9 +66,16 @@ class SignupActivity : BaseActivity() {
             return
         }
 
+        val password = binding.passwordReg.text.toString()
+        val confirmPassword = binding.confirmPassword.text.toString()
+
+        if (confirmPassword != password) {
+            binding.confirmPassword.error = "Pass don't match!"
+            return
+        }
+
         showProgressBar()
         val email = binding.signInEmailSentText.text.toString()
-        val password = binding.passwordReg.text.toString()
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
@@ -88,22 +96,20 @@ class SignupActivity : BaseActivity() {
 
     private fun onAuthSuccess(user: FirebaseUser) {
         val username = user.email?.let { usernameFromEmail(it) }
-        //TODO bind remaining fields
-        /*val profilePic = binding
-        val phoneNUm = binding*/
+        val name = binding.editTextTextPersonName.text.toString()
         //TODO enable resend email
         user.sendEmailVerification()
-        user.metadata?.let { writeNewUser(user.uid,username,user.email, it.creationTimestamp) }
+        user.metadata?.let { writeNewUser(user.uid,username, name, user.email, it.creationTimestamp) }
         user.email?.let { showDialog(it) }
     }
 
     //TODO check how the metadata will be..
-    private fun writeNewUser(uid: String, username: String?, email: String?, creationTimestamp: Long) {
+    private fun writeNewUser(uid: String, username: String?, name:String, email: String?, creationTimestamp: Long) {
         val user = hashMapOf(
             "uid" to uid,
             "username" to username,
             "headLine" to null,
-            "firstLastName" to null,
+            "firstLastName" to name,
             "email" to email,
             "phone" to null,
             "profilePic" to email,
@@ -118,9 +124,6 @@ class SignupActivity : BaseActivity() {
         val addressRef = database
             .collection("users").document(uid)
             .collection("addresses").document("college")
-        val followerRef = database
-            .collection("users").document(uid)
-            .collection("followers")
 
         database.collection("users")
             .document(uid)
@@ -178,6 +181,20 @@ class SignupActivity : BaseActivity() {
             result = false
         } else {
             binding.passwordReg.error = null
+        }
+
+        if (TextUtils.isEmpty(binding.editTextTextPersonName.text.toString())) {
+            binding.editTextTextPersonName.error = "Required"
+            result = false
+        } else {
+            binding.editTextTextPersonName.error = null
+        }
+
+        if (TextUtils.isEmpty(binding.confirmPassword.text.toString())) {
+            binding.confirmPassword.error = "Required"
+            result = false
+        } else {
+            binding.confirmPassword.error = null
         }
 
         return result

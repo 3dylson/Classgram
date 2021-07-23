@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".presentation.ui.login.SignupActivity">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -73,7 +72,6 @@
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:autofillHints="password"
             android:background="@drawable/edit_text_bg"
             android:backgroundTint="#DDDCD9D9"
             android:ems="10"
@@ -93,7 +91,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.491"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signInEmailSentText" />
+            app:layout_constraintTop_toBottomOf="@+id/signInEmailSentText"
+            android:autofillHints="password" />
 
         <Button
             android:id="@+id/signinBttn"
@@ -169,7 +168,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.491"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/CreateaccText" />
+            app:layout_constraintTop_toBottomOf="@+id/CreateaccText"
+            android:autofillHints="name" />
 
         <EditText
             android:id="@+id/confirmPassword"
@@ -193,8 +193,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.491"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwordReg" />
-
+            app:layout_constraintTop_toBottomOf="@+id/passwordReg"
+            android:autofillHints="password" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

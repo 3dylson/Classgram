@@ -23,14 +23,14 @@
 
     <TextView
         android:id="@+id/resetPassText"
-        android:layout_width="wrap_content"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="144dp"
         android:fontFamily="sans-serif"
         android:shadowColor="@color/black"
         android:text="@string/reset_your_password"
         android:textColor="#000000"
-        android:textSize="34sp"
+        android:textSize="29sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
@@ -91,18 +91,15 @@
         android:id="@+id/backbtn2"
         android:layout_width="56dp"
         android:layout_height="51dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
         android:background="@color/fui_transparent"
         android:clickable="true"
+        android:contentDescription="@string/go_back_to_login"
+        android:focusable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/abc_vector_test"
-        android:focusable="true"
-        android:contentDescription="@string/go_back_to_login" />
-
-
-
+        app:srcCompat="@drawable/ic_baseline_arrow_back" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
