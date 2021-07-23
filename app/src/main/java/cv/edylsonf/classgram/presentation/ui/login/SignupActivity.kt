@@ -98,7 +98,7 @@ class SignupActivity : BaseActivity() {
         val username = user.email?.let { usernameFromEmail(it) }
         val name = binding.editTextTextPersonName.text.toString()
 
-        val photo = user.photoUrl.toString()
+        val photo = user.photoUrl.toString() //TODO it return null
         //TODO enable resend email
         user.sendEmailVerification()
         user.metadata?.let { writeNewUser(user.uid,username, name, user.email, photo, it.creationTimestamp) }
