@@ -1,6 +1,7 @@
 package cv.edylsonf.classgram.presentation.ui.adapters
 
 import android.content.Context
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,14 +34,29 @@ class PostAdapter(val context: Context, val posts: List<Post>) :
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(post: Post) {
-            /*val text = itemView.findViewById<TextView>(R.id.tv_text)
-            text.text = post.text*/
+            var hasImagePost = false
+            if (post.imageUrl != null) {
+                hasImagePost = true
+            }
             Glide.with(context)
                 .load(post.user?.profilePic)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .circleCrop()
                 .into(itemView.findViewById(R.id.avatar))
             bindingPost.tvName.text = post.user?.firstLastName
+            bindingPost.tvField.text = post.user?.headLine
+            bindingPost.tvTimeAgo.text = DateUtils.getRelativeTimeSpanString(post.creationTime!!)
+            bindingPost.tvText.text = post.text
+            bindingPost.starCount.text = post.starsCount.toString()
+            bindingPost.commNum.text = post.comments?.size.toString()
+            if (hasImagePost) {
+                Glide.with(context)
+                    .load(post.imageUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(itemView.findViewById(R.id.tv_postImage))
+            }
+
+
         }
     }
 }

@@ -88,6 +88,9 @@ class SignupActivity : BaseActivity() {
 
     private fun onAuthSuccess(user: FirebaseUser) {
         val username = user.email?.let { usernameFromEmail(it) }
+        //TODO bind remaining fields
+        /*val profilePic = binding
+        val phoneNUm = binding*/
         //TODO enable resend email
         user.sendEmailVerification()
         user.metadata?.let { writeNewUser(user.uid,username,user.email, it.creationTimestamp) }
@@ -99,7 +102,11 @@ class SignupActivity : BaseActivity() {
         val user = hashMapOf(
             "uid" to uid,
             "username" to username,
+            "headLine" to null,
+            "firstLastName" to null,
             "email" to email,
+            "phone" to null,
+            "profilePic" to email,
             "emailVerified" to false,
             "dateCreated" to creationTimestamp,
         )
@@ -107,9 +114,13 @@ class SignupActivity : BaseActivity() {
             "city" to null,
             "country" to null
         )
+        //val follower = hashMapOf()
         val addressRef = database
             .collection("users").document(uid)
             .collection("addresses").document("college")
+        val followerRef = database
+            .collection("users").document(uid)
+            .collection("followers")
 
         database.collection("users")
             .document(uid)
@@ -117,6 +128,7 @@ class SignupActivity : BaseActivity() {
             .addOnSuccessListener {
                 Log.d(TAG,"User added with ID: $uid")
                 addressRef.set(address)
+                //followerRef.add(follower)
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "writeNewUser:onFailure: $exception")
