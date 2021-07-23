@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity(){
         val logoutIntent = Intent(this, LoginActivity::class.java)
         logoutIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(logoutIntent)
+        finish()
     }
 
 

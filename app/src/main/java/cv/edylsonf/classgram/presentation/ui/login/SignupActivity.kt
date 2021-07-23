@@ -97,14 +97,16 @@ class SignupActivity : BaseActivity() {
     private fun onAuthSuccess(user: FirebaseUser) {
         val username = user.email?.let { usernameFromEmail(it) }
         val name = binding.editTextTextPersonName.text.toString()
+
+        val photo = user.photoUrl.toString()
         //TODO enable resend email
         user.sendEmailVerification()
-        user.metadata?.let { writeNewUser(user.uid,username, name, user.email, it.creationTimestamp) }
+        user.metadata?.let { writeNewUser(user.uid,username, name, user.email, photo, it.creationTimestamp) }
         user.email?.let { showDialog(it) }
     }
 
     //TODO check how the metadata will be..
-    private fun writeNewUser(uid: String, username: String?, name:String, email: String?, creationTimestamp: Long) {
+    private fun writeNewUser(uid: String, username: String?, name:String, email: String?, photo: String?, creationTimestamp: Long) {
         val user = hashMapOf(
             "uid" to uid,
             "username" to username,
@@ -112,7 +114,7 @@ class SignupActivity : BaseActivity() {
             "firstLastName" to name,
             "email" to email,
             "phone" to null,
-            "profilePic" to email,
+            "profilePic" to photo,
             "emailVerified" to false,
             "dateCreated" to creationTimestamp,
         )
