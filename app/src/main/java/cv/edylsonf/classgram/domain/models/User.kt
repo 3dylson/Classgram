@@ -4,6 +4,7 @@ data class User(
     var uid: String? = null,
     var username: String? = null,
     var email: String? = null,
+    var profilePic: String? = null,
     @field:JvmField // use this annotation if your Boolean field is prefixed with 'is'
     var isEmailVerified: Boolean? = null,
     var dateCreated: Long? = null,

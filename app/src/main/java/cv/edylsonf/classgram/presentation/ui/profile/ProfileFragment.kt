@@ -20,15 +20,6 @@ class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var auth: FirebaseAuth
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        auth = Firebase.auth
-        //TODO make db persistance
-
-        setup()
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +27,12 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentProfileBinding.inflate(layoutInflater)
+
+        auth = Firebase.auth
+        //TODO make db persistance
+
+        setup()
+
 
         with(binding){
             logout.setOnClickListener { signOut() }

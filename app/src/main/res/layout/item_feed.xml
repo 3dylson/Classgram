@@ -20,8 +20,8 @@
 
             <ImageView
                 android:id="@+id/avatar"
-                android:layout_width="49dp"
-                android:layout_height="48dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/avatars" />
