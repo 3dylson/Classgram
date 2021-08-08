@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,6 +17,7 @@ import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.REQUEST_IMAGE_CAPTURE
 import cv.edylsonf.classgram.databinding.FragmentHomeBinding
 import cv.edylsonf.classgram.domain.models.Post
+import cv.edylsonf.classgram.presentation.ui.adapters.PostAdapter
 
 private const val TAG = "HomeFragment"
 
@@ -26,6 +28,8 @@ class HomeFragment : Fragment() {
     private lateinit var database: FirebaseFirestore
 
     private lateinit var posts: MutableList<Post>
+    private lateinit var adapter: PostAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,8 +46,15 @@ class HomeFragment : Fragment() {
         }
         database.firestoreSettings = settings
 
+        //TODO set a function and organize it better
         posts = mutableListOf()
-        //loadPosts()
+        /*val context1 = container?.context
+        adapter = context1?.let { PostAdapter(it,posts) }!!*/
+        adapter = PostAdapter(requireContext(),posts)
+        binding.rvPosts.adapter = adapter
+        binding.rvPosts.layoutManager = LinearLayoutManager(requireContext())
+
+        loadPosts()
 
 
         return binding.root
@@ -61,9 +72,11 @@ class HomeFragment : Fragment() {
 
             Log.d(TAG, "Posts retrieved:${snapshot.documents.size}")
 
-            val posts = snapshot.toObjects(Post::class.java)
-
-            for (post in posts) {
+            val postList = snapshot.toObjects(Post::class.java)
+            posts.clear()
+            posts.addAll(postList)
+            adapter.notifyDataSetChanged()
+            for (post in postList) {
 
             }
 
