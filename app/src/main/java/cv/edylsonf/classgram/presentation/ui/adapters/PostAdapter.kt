@@ -5,7 +5,6 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -20,8 +19,9 @@ class PostAdapter(val context: Context, val posts: List<Post>) :
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_feed,parent,false)
-        return ViewHolder(view)
+        //val view = LayoutInflater.from(parent.context).inflate(R.layout.item_feed,parent,false)
+        bindingPost = ItemFeedBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        return ViewHolder(bindingPost.root)
     }
 
     override fun getItemCount() = posts.size
