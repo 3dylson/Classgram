@@ -2,17 +2,21 @@ package cv.edylsonf.classgram.presentation.ui.login
 
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import cv.edylsonf.classgram.DEFAULT_PROFILE_PIC
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivitySignupBinding
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
@@ -70,7 +74,7 @@ class SignupActivity : BaseActivity() {
         val confirmPassword = binding.confirmPassword.text.toString()
 
         if (confirmPassword != password) {
-            binding.confirmPassword.error = "Pass don't match!"
+            binding.confirmPassword.error = "Password don't match!"
             return
         }
 
@@ -98,7 +102,19 @@ class SignupActivity : BaseActivity() {
         val username = user.email?.let { usernameFromEmail(it) }
         val name = binding.editTextTextPersonName.text.toString()
 
-        val photo = user.photoUrl.toString() //TODO it return null
+        val profile_picture = UserProfileChangeRequest.Builder()
+            .setPhotoUri(Uri.parse(DEFAULT_PROFILE_PIC))
+            .build()
+
+        var photo : String? = null
+        user.updateProfile(profile_picture)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Log.d(TAG, "Update default profile pic" + task.isSuccessful)
+                    photo = user.photoUrl.toString()
+                }
+            }
+
         //TODO enable resend email
         user.sendEmailVerification()
         user.metadata?.let { writeNewUser(user.uid,username, name, user.email, photo, it.creationTimestamp) }
