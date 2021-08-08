@@ -4,9 +4,9 @@ data class Post(
     var text: String? = null,
     var imageUrl: String? = null,
     var creationTime: Long? = null,
-    var comments: List<Comment>? = null,
-    var mentions: List<User>? = null,
+    var comments: List<String>? = null,
+    var mentions: List<String>? = null,
     var starsCount: Int? = null,
-    var tags: List<Tag>? = null,
+    var tags: List<String>? = null,
     var user: User? = null
 )
