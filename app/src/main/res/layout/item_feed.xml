@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="Edylson Frederico"
+                android:text="@string/username"
                 android:textColor="@color/primaryTextColor"
                 android:textSize="12sp"
                 android:textStyle="bold"
@@ -42,8 +42,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="Computer Engineer"
-                android:textSize="10sp"
+                android:text="@string/headline"
+                android:textSize="11sp"
                 app:layout_constraintStart_toEndOf="@+id/avatar"
                 app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
@@ -52,8 +52,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="1d"
-                android:textSize="10sp"
+                android:text="@string/timeago"
+                android:textSize="11sp"
                 app:layout_constraintStart_toEndOf="@+id/avatar"
                 app:layout_constraintTop_toBottomOf="@+id/tv_field" />
 
@@ -61,8 +61,8 @@
                 android:id="@+id/tv_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="This is where the post's text content will go"
+                android:layout_marginTop="16dp"
+                android:text="@string/description"
                 android:textColor="@color/primaryTextColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -96,7 +96,8 @@
                 android:clickable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_outline_star" />
+                app:srcCompat="@drawable/ic_outline_star"
+                android:focusable="true" />
 
             <TextView
                 android:id="@+id/starCount"
@@ -104,7 +105,7 @@
                 android:layout_height="24dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
-                android:text="15"
+                android:text="@string/_0"
                 app:layout_constraintStart_toEndOf="@+id/star"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -117,7 +118,8 @@
                 android:clickable="true"
                 app:layout_constraintEnd_toStartOf="@+id/star"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_insert_comment" />
+                app:srcCompat="@drawable/ic_baseline_insert_comment"
+                android:focusable="true" />
 
             <TextView
                 android:id="@+id/commNum"
@@ -126,7 +128,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="131dp"
-                android:text="6"
+                android:text="@string/_0"
                 app:layout_constraintEnd_toStartOf="@+id/star"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/comments"

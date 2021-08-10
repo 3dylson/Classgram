@@ -62,6 +62,11 @@
     <string name="reset_your_password">Reset your password 🔧</string>
     <string name="get_reset_email">Get reset email</string>
     <string name="camera">Camera</string>
+    <string name="username">Username</string>
+    <string name="headline">Headline</string>
+    <string name="timeago">timeAgo</string>
+    <string name="description">Description</string>
+    <string name="_0">0</string>
 
 
 </resources>

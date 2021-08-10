@@ -55,6 +55,9 @@ class PostAdapter(val context: Context, val posts: List<Post>) :
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(itemView.findViewById(R.id.tv_postImage))
             }
+            else {
+                bindingPost.tvPostImage.visibility = View.GONE
+            }
 
 
         }
