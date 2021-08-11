@@ -30,8 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="@string/username"
-                android:textColor="@color/primaryTextColor"
+                tools:text="@string/username"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/avatar"
@@ -42,17 +41,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="@string/headline"
                 android:textSize="11sp"
                 app:layout_constraintStart_toEndOf="@+id/avatar"
-                app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_name"
+                tools:text="@string/headline" />
 
             <TextView
                 android:id="@+id/tv_timeAgo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="@string/timeago"
+                tools:text="@string/timeago"
                 android:textSize="11sp"
                 app:layout_constraintStart_toEndOf="@+id/avatar"
                 app:layout_constraintTop_toBottomOf="@+id/tv_field" />
@@ -61,13 +60,13 @@
                 android:id="@+id/tv_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/description"
-                android:textColor="@color/primaryTextColor"
+                android:layout_marginTop="24dp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/avatar" />
+                app:layout_constraintTop_toBottomOf="@+id/avatar"
+                tools:text="@string/description" />
 
             <ImageView
                 android:id="@+id/tv_postImage"
@@ -105,7 +104,7 @@
                 android:layout_height="24dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/_0"
+                tools:text="@string/_0"
                 app:layout_constraintStart_toEndOf="@+id/star"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -128,7 +127,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="131dp"
-                android:text="@string/_0"
+                tools:text="@string/_0"
                 app:layout_constraintEnd_toStartOf="@+id/star"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/comments"
