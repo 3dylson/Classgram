@@ -7,10 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import cv.edylsonf.classgram.EXTRA_TAB_SELECTED
 import cv.edylsonf.classgram.EXTRA_TAB_TITLE
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivityMainBinding
+import cv.edylsonf.classgram.domain.models.User
 import cv.edylsonf.classgram.presentation.ui.home.HomeFragment
 import cv.edylsonf.classgram.presentation.ui.login.LoginActivity
 import cv.edylsonf.classgram.presentation.ui.profile.ProfileFragment
@@ -20,6 +22,7 @@ private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity(){
 
+    private var signedInUser: User? = null
     private var selectedTab = 0
     private val fragments: ArrayList<Fragment> by lazy {
         setup()
@@ -27,12 +30,12 @@ class MainActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private lateinit var database: FirebaseFirestore
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_Classgram)
-        //setContentView(R.layout.activity_main)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -43,6 +46,12 @@ class MainActivity : AppCompatActivity(){
         val selectedTabId = savedInstanceState?.getInt(EXTRA_TAB_SELECTED) ?: R.id.home_button
 
         setupBottomBarActions(selectedTabId)
+
+        /*when (selectedTabId){
+            0 -> supportActionBar?.title = "Classgram"
+            1 -> supportActionBar?.title = "username"
+            else -> supportActionBar?.title = "Classgram"
+        }*/
 
 
     }
@@ -55,8 +64,19 @@ class MainActivity : AppCompatActivity(){
             if (it.currentUser == null){
                 startLogin()
             }
+            else {
+                database.collection("users")
+                    .document(it.currentUser?.uid as String)
+                    .get()
+                    .addOnSuccessListener { userSnapshot ->
+                        signedInUser = userSnapshot.toObject(User::class.java)
+                        Log.i(TAG, "signed in user: $signedInUser")
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.i(TAG, "Failure fetching signed in user", exception)
+                    }
+            }
         }
-
     }
 
 
@@ -117,6 +137,12 @@ class MainActivity : AppCompatActivity(){
                 R.id.home_button    -> 0
                 R.id.profile_button -> 1
                 else                -> 0
+            }
+            //Change Action bar title
+            when (index) {
+                0     -> supportActionBar?.title = "Classgram"
+                1     -> supportActionBar?.title = "username"
+                else  -> supportActionBar?.title = "Classgram"
             }
 
             switchFragments(index)
