@@ -46,18 +46,21 @@ class HomeFragment : Fragment() {
         }
         database.firestoreSettings = settings
 
-        //TODO set a function and organize it better
+        setup()
+        loadPosts()
+
+
+        return binding.root
+    }
+
+    private fun setup(){
+        //TODO organize it better
         posts = mutableListOf()
         /*val context1 = container?.context
         adapter = context1?.let { PostAdapter(it,posts) }!!*/
         adapter = PostAdapter(requireContext(),posts)
         binding.rvPosts.adapter = adapter
         binding.rvPosts.layoutManager = LinearLayoutManager(requireContext())
-
-        loadPosts()
-
-
-        return binding.root
     }
 
     private fun loadPosts() {
