@@ -65,16 +65,27 @@ class MainActivity : AppCompatActivity(){
                 startLogin()
             }
             else {
-                database.collection("users")
+                val usersDoc = database.collection("users")
                     .document(it.currentUser?.uid as String)
-                    .get()
-                    .addOnSuccessListener { userSnapshot ->
+                    //.get()
+                    usersDoc.addSnapshotListener { userSnapshot, exception ->
+                        if (exception != null || userSnapshot == null) {
+                            Log.w(TAG, "Unable to retrieve user. Error=$exception, snapshot=$userSnapshot")
+                            return@addSnapshotListener
+                        }
                         signedInUser = userSnapshot.toObject(User::class.java)
+                        Log.i(TAG, "signed in user: $signedInUser")
+
+
+                    }
+                /*.addOnSuccessListener { userSnapshot ->
+                        signedInUser = userSnapshot.toObject(User::class.java)
+                        //intent.putExtra("signedInUser",signedInUser)
                         Log.i(TAG, "signed in user: $signedInUser")
                     }
                     .addOnFailureListener { exception ->
                         Log.i(TAG, "Failure fetching signed in user", exception)
-                    }
+                    }*/
             }
         }
     }
@@ -123,6 +134,8 @@ class MainActivity : AppCompatActivity(){
 
         val argProfile = Bundle()
         argProfile.putString(EXTRA_TAB_TITLE, getString(R.string.me))
+        //argProfile.putParcelable("signedInUser",signedInUser)
+
 
         val profile = ProfileFragment()
         profile.arguments = argProfile
