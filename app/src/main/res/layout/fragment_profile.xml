@@ -28,8 +28,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/avatarImg"
                 android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:srcCompat="@color/primaryColor"/>
+                android:layout_height="100dp"/>
 
     </com.google.android.material.card.MaterialCardView>
 

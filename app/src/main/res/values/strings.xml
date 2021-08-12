@@ -67,6 +67,7 @@
     <string name="timeago">timeAgo</string>
     <string name="description">Description</string>
     <string name="_0">0</string>
+    <string name="settings">Settings</string>
 
 
 </resources>

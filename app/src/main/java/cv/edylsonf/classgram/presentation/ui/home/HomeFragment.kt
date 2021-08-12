@@ -39,6 +39,7 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
         setHasOptionsMenu(true)
+
         auth = Firebase.auth
         database = Firebase.firestore
         val settings = firestoreSettings {

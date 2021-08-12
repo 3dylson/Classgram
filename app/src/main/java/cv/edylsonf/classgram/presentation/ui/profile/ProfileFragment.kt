@@ -12,6 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
+import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.FragmentProfileBinding
 import cv.edylsonf.classgram.domain.models.User
 
@@ -33,6 +34,8 @@ class ProfileFragment : Fragment() {
     ): View {
         binding = FragmentProfileBinding.inflate(layoutInflater)
 
+        setHasOptionsMenu(true)
+
         auth = Firebase.auth
         database = Firebase.firestore
         val settings = firestoreSettings {
@@ -51,7 +54,20 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.profile_action_menu,menu)
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.settings -> appSettings()
+            R.id.sign_out -> signOut()
+        }
+        return true
+    }
+
+    private fun appSettings() {
+        TODO("Not yet implemented")
     }
 
     private fun setup() {
