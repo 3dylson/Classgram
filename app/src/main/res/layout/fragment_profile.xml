@@ -47,7 +47,7 @@
             android:layout_marginTop="35dp"
             app:layout_constraintStart_toEndOf="@+id/count_answers"
             app:layout_constraintTop_toBottomOf="@+id/avatarContainer"
-            android:text="@string/answers" />
+            android:text=" Answers" />
 
         <TextView
             android:id="@+id/count_answers"
@@ -67,7 +67,7 @@
             android:layout_marginTop="35dp"
             app:layout_constraintStart_toEndOf="@+id/count_connections"
             app:layout_constraintTop_toBottomOf="@+id/avatarContainer"
-            android:text="@string/connections" />
+            android:text=" Connections" />
 
         <TextView
             android:id="@+id/count_connections"
