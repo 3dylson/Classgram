@@ -6,7 +6,8 @@ data class Post(
     var creationTime: Long? = null,
     var comments: List<String>? = null,
     var mentions: List<String>? = null,
-    var starsCount: Int? = null,
+    var upsCount: Int? = null,
+    var ups: MutableMap<String, Boolean> = HashMap(),
     var tags: List<String>? = null,
     var user: User? = null
 )
