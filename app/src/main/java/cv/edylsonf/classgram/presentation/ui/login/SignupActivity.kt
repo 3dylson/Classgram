@@ -6,9 +6,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -17,7 +17,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.DEFAULT_PROFILE_PIC
-import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivitySignupBinding
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
 
@@ -25,6 +24,7 @@ private const val TAG = "SignupActivity"
 
 class SignupActivity : BaseActivity() {
 
+    private lateinit var emailResendUser: FirebaseUser
     private lateinit var binding: ActivitySignupBinding
 
     private lateinit var database: FirebaseFirestore
@@ -46,8 +46,13 @@ class SignupActivity : BaseActivity() {
         with(binding){
             signinBttn.setOnClickListener{ signUp() }
             backbtn.setOnClickListener { goBack()}
+            resendEmailBtn.setOnClickListener { resendEmail() }
         }
 
+    }
+
+    private fun resendEmail() {
+        emailResendUser.sendEmailVerification()
     }
 
 
@@ -87,8 +92,8 @@ class SignupActivity : BaseActivity() {
                 hideProgressBar()
 
                 if (task.isSuccessful) {
-                    onAuthSuccess(task.result?.user!!)
                     auth.signOut()
+                    onAuthSuccess(task.result?.user!!)
 
                 } else {
                     Log.e("Sign Up Failed: ", task.exception.toString())
@@ -102,27 +107,26 @@ class SignupActivity : BaseActivity() {
         val username = user.email?.let { usernameFromEmail(it) }
         val name = binding.editTextTextPersonName.text.toString()
 
-        val profile_picture = UserProfileChangeRequest.Builder()
+        val profilePicture = UserProfileChangeRequest.Builder()
             .setPhotoUri(Uri.parse(DEFAULT_PROFILE_PIC))
             .build()
 
-        var photo : String? = null
-        user.updateProfile(profile_picture)
+        user.updateProfile(profilePicture)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "Update default profile pic" + task.isSuccessful)
-                    photo = user.photoUrl.toString()
                 }
             }
 
-        //TODO enable resend email
+        emailResendUser = user
+        binding.resendEmailBtn.visibility = View.VISIBLE
         user.sendEmailVerification()
-        user.metadata?.let { writeNewUser(user.uid,username, name, user.email, photo, it.creationTimestamp) }
+        user.metadata?.let { writeNewUser(user.uid,username, name, user.email, it.creationTimestamp) }
         user.email?.let { showDialog(it) }
     }
 
     //TODO check how the metadata will be..
-    private fun writeNewUser(uid: String, username: String?, name:String, email: String?, photo: String?, creationTimestamp: Long) {
+    private fun writeNewUser(uid: String, username: String?, name:String, email: String?, creationTimestamp: Long) {
         val user = hashMapOf(
             "uid" to uid,
             "username" to username,
@@ -130,7 +134,10 @@ class SignupActivity : BaseActivity() {
             "firstLastName" to name,
             "email" to email,
             "phone" to null,
-            "profilePic" to photo,
+            "nationality" to null,
+            "education" to null,
+            "profilePic" to DEFAULT_PROFILE_PIC,
+            "answers" to 0,
             "emailVerified" to false,
             "dateCreated" to creationTimestamp,
         )
@@ -138,10 +145,20 @@ class SignupActivity : BaseActivity() {
             "city" to null,
             "country" to null
         )
-        //val follower = hashMapOf()
+        /*val connection = HashMap<String, Any>()
+        val posts = HashMap<String, Any>()*/
+
         val addressRef = database
             .collection("users").document(uid)
             .collection("addresses").document("college")
+
+        /*val connectionsRef = database
+            .collection("users").document(uid)
+            .collection("connections")
+
+        val postsRef = database
+            .collection("users").document(uid)
+            .collection("posts")*/
 
         database.collection("users")
             .document(uid)
@@ -149,7 +166,9 @@ class SignupActivity : BaseActivity() {
             .addOnSuccessListener {
                 Log.d(TAG,"User added with ID: $uid")
                 addressRef.set(address)
-                //followerRef.add(follower)
+                /*connectionsRef.add(connection)
+                postsRef.add(posts)*/
+
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "writeNewUser:onFailure: $exception")
@@ -171,7 +190,7 @@ class SignupActivity : BaseActivity() {
         builder.setMessage("We need to verify your email address. Link sent to the email provided:\n$email")
         builder.apply {
             setPositiveButton("Ok") { _,_ ->
-                navToLogin()
+                //navToLogin()
             }
         }
         builder.create().show()
