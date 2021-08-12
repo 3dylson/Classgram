@@ -58,6 +58,11 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        signedInUser = activity?.intent?.getParcelableExtra("signedInUser")
+    }
+
     private fun editProfile() {
         TODO("Not yet implemented")
     }
