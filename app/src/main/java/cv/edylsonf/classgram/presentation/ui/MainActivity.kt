@@ -83,6 +83,7 @@ class MainActivity : AppCompatActivity(){
                             return@addSnapshotListener
                         }
                         signedInUser = userSnapshot.toObject(User::class.java)
+                        intent.putExtra("signedInUser",signedInUser)
                         Log.i(TAG, "signed in user: $signedInUser")
 
 
@@ -148,7 +149,6 @@ class MainActivity : AppCompatActivity(){
 
         val profile = ProfileFragment()
         profile.arguments = argProfile
-        signedInUser?.let { profile.setSignedInUser(it) }
 
 
         return arrayListOf(home,profile)
