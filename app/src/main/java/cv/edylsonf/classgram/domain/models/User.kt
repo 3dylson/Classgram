@@ -1,5 +1,9 @@
 package cv.edylsonf.classgram.domain.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class User(
     var uid: String? = null,
     var username: String? = null,
@@ -13,6 +17,6 @@ data class User(
     var dateCreated: Long? = null,
     var addresses: List<String>? = null,
     var followers: List<String>? = null
-    )
+    ) : Parcelable
 
 
