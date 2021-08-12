@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
         <activity
+            android:screenOrientation="portrait"
             android:name="cv.edylsonf.classgram.presentation.ui.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,9 +24,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="cv.edylsonf.classgram.presentation.ui.login.SignupActivity"/>
-        <activity android:name="cv.edylsonf.classgram.presentation.ui.login.ForgotPassActivity"/>
-        <activity android:name=".presentation.ui.MainActivity"/>
+        <activity
+            android:screenOrientation="portrait"
+            android:name="cv.edylsonf.classgram.presentation.ui.login.SignupActivity"/>
+        <activity
+            android:screenOrientation="portrait"
+            android:name="cv.edylsonf.classgram.presentation.ui.login.ForgotPassActivity"/>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".presentation.ui.MainActivity"/>
         <activity android:name="cv.edylsonf.classgram.presentation.ui.home.CameraActivity"/>
     </application>
 
