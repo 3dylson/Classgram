@@ -6,6 +6,8 @@ import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,6 +17,7 @@ import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.FragmentProfileBinding
 import cv.edylsonf.classgram.domain.models.User
+import kotlin.math.sign
 
 
 private const val TAG = "ProfileFragment"
@@ -34,6 +37,8 @@ class ProfileFragment : Fragment() {
     ): View {
         binding = FragmentProfileBinding.inflate(layoutInflater)
 
+        signedInUser = activity?.intent?.getParcelableExtra("signedInUser")
+
         setHasOptionsMenu(true)
 
         auth = Firebase.auth
@@ -47,10 +52,14 @@ class ProfileFragment : Fragment() {
         setup()
 
         with(binding){
-
+          editProfileBtn.setOnClickListener { editProfile()}
         }
 
         return binding.root
+    }
+
+    private fun editProfile() {
+        TODO("Not yet implemented")
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -71,7 +80,14 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setup() {
-        // Something is going to be added here
+        Glide.with(this)
+            .load(signedInUser?.profilePic)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .into(binding.avatarImg)
+        binding.userName.text = signedInUser?.firstLastName
+        //TODO nationality and uni
+        binding.headlineText.text = signedInUser?.headLine
+        //TODO Answers and replace followers with Connections
     }
 
     //TODO make it a top menu action?
@@ -94,9 +110,6 @@ class ProfileFragment : Fragment() {
         activity?.startActivity(intent)*/
     }
 
-    fun setSignedInUser(user: User) {
-        this.signedInUser = user
-    }
 
 
 }
