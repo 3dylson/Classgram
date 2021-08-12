@@ -39,15 +39,78 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="120dp" />
 
-        <Button
-            android:id="@+id/logout"
+        <TextView
+            android:id="@+id/text_answers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="44dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline"
+            tools:text=" Answers" />
+
+        <TextView
+            android:id="@+id/count_answers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="4dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/text_answers"
+            app:layout_constraintTop_toTopOf="@+id/guideline"
+            tools:text="0" />
+
+        <TextView
+            android:id="@+id/count_connections"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="44dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/text_answers"
+            app:layout_constraintTop_toTopOf="@+id/guideline"
+            tools:text="0" />
+
+        <TextView
+            android:id="@+id/text_Connections"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="44dp"
+            app:layout_constraintStart_toEndOf="@+id/count_connections"
+            app:layout_constraintTop_toTopOf="@+id/guideline"
+            tools:text=" Connections" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/avatarContainer"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Edylson Frederico" />
+
+        <TextView
+            android:id="@+id/nacionality_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toEndOf="@+id/avatarContainer"
+            app:layout_constraintTop_toBottomOf="@+id/user_name"
+            tools:text="Capeverdian " />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/sign_out"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/avatarContainer"
+            app:layout_constraintTop_toBottomOf="@+id/nacionality_text"
+            tools:text=" " />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

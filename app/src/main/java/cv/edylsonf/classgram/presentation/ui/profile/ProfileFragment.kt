@@ -47,7 +47,7 @@ class ProfileFragment : Fragment() {
         setup()
 
         with(binding){
-            logout.setOnClickListener { signOut() }
+
         }
 
         return binding.root
