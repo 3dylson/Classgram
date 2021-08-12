@@ -47,7 +47,7 @@ class PostAdapter(val context: Context, val posts: List<Post>) :
             bindingPost.tvField.text = post.user?.headLine
             bindingPost.tvTimeAgo.text = DateUtils.getRelativeTimeSpanString(post.creationTime!!)
             bindingPost.tvText.text = post.text
-            bindingPost.starCount.text = post.upsCount.toString()
+            bindingPost.starCount.text = post.upCount.toString()
             bindingPost.commNum.text = post.comments?.size.toString()
             if (hasImagePost) {
                 Glide.with(context)

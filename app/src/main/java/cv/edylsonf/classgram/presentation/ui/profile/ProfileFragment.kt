@@ -58,10 +58,6 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        signedInUser = activity?.intent?.getParcelableExtra("signedInUser")
-    }
 
     private fun editProfile() {
         TODO("Not yet implemented")
@@ -90,9 +86,10 @@ class ProfileFragment : Fragment() {
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(binding.avatarImg)
         binding.userName.text = signedInUser?.firstLastName
-        //TODO nationality and uni
+        binding.nacionalityText.text = signedInUser?.nationality
         binding.headlineText.text = signedInUser?.headLine
-        //TODO Answers and replace followers with Connections
+        binding.countAnswers.text = signedInUser?.answers.toString()
+        binding.countConnections.text = signedInUser?.connections?.size.toString()
     }
 
     //TODO make it a top menu action?
