@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.firestoreSettings
+import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.EXTRA_TAB_SELECTED
 import cv.edylsonf.classgram.EXTRA_TAB_TITLE
 import cv.edylsonf.classgram.R
@@ -39,6 +42,12 @@ class MainActivity : AppCompatActivity(){
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        database = Firebase.firestore
+        val settings = firestoreSettings {
+            isPersistenceEnabled = true
+        }
+        database.firestoreSettings = settings
 
         // Obtain the FirebaseAnalytics instance.
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
@@ -139,6 +148,7 @@ class MainActivity : AppCompatActivity(){
 
         val profile = ProfileFragment()
         profile.arguments = argProfile
+        signedInUser?.let { profile.setSignedInUser(it) }
 
 
         return arrayListOf(home,profile)
@@ -154,7 +164,7 @@ class MainActivity : AppCompatActivity(){
             //Change Action bar title
             when (index) {
                 0     -> supportActionBar?.title = "Classgram"
-                1     -> supportActionBar?.title = "username"
+                1     -> supportActionBar?.title = signedInUser?.username
                 else  -> supportActionBar?.title = "Classgram"
             }
 

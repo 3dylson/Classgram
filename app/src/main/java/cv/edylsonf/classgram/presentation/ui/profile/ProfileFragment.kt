@@ -20,6 +20,7 @@ private const val TAG = "ProfileFragment"
 
 class ProfileFragment : Fragment() {
 
+    private var signedInUser: User? = null
     private lateinit var binding: FragmentProfileBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseFirestore
@@ -75,6 +76,10 @@ class ProfileFragment : Fragment() {
         //Because Fragment is not of Context type, we need to call the parent Activity
         /*val intent = Intent(activity,LoginActivity::class.java)
         activity?.startActivity(intent)*/
+    }
+
+    fun setSignedInUser(user: User) {
+        this.signedInUser = user
     }
 
 
