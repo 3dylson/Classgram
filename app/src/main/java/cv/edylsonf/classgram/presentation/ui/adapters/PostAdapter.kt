@@ -44,8 +44,8 @@ class PostAdapter(val context: Context, val posts: List<Post>) :
                 .circleCrop()
                 .into(itemView.findViewById(R.id.avatar))
             bindingPost.tvName.text = post.user?.firstLastName
-            bindingPost.tvField.text = post.user?.headLine
-            bindingPost.tvTimeAgo.text = DateUtils.getRelativeTimeSpanString(post.creationTime!!)
+            bindingPost.tvField.hint = post.user?.headLine
+            bindingPost.tvTimeAgo.hint = DateUtils.getRelativeTimeSpanString(post.creationTime!!)
             bindingPost.tvText.text = post.text
             bindingPost.starCount.text = post.upCount.toString()
             bindingPost.commNum.text = post.comments?.size.toString()

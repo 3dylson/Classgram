@@ -12,6 +12,7 @@
         android:id="@+id/background_login"
         android:layout_width="751dp"
         android:layout_height="930dp"
+        android:contentDescription="@string/backround"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,8 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.502"
-        app:srcCompat="@drawable/ipb"
-        android:contentDescription="@string/backround" />
+        app:srcCompat="@drawable/ipb"/>
 
     <ImageView
         android:id="@+id/logo"
