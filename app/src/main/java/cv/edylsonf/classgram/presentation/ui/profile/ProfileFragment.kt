@@ -95,12 +95,12 @@ class ProfileFragment : Fragment() {
         binding.headlineText.text = signedInUser?.headLine
         binding.countAnswers.text = signedInUser?.answers.toString()
 
-        if (signedInUser?.connections?.isNullOrEmpty() == true) {
+        /*if (signedInUser?.connections?.isNullOrEmpty() == true) {
             binding.countConnections.text = "0"
         }
         else {
             binding.countConnections.text = signedInUser?.connections?.size.toString()
-        }
+        }*/
     }
 
     fun readconnections() {
@@ -110,13 +110,15 @@ class ProfileFragment : Fragment() {
                 .collection("connections")
                 .get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val list = ArrayList<String>()
+                    //val list = ArrayList<String>()
+                    var count = 0
                     for (document in task.result!!) {
                         //val name = document.data["name"].toString()
-                            val uid = document.id
-                        list.add(uid)
+                            /*val uid = document.id
+                        list.add(uid)*/
+                        count++
                     }
-                    signedInUser?.connections = list
+                    binding.countConnections.text = count.toString()
                 }
             }
         }
