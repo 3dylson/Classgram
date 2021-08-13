@@ -75,6 +75,8 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="answers">Answers</string>
     <string name="connections">Connections</string>
+    <string name="posts">Posts</string>
+    <string name="about">About</string>
 
 
 </resources>
