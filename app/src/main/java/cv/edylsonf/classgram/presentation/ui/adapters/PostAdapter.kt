@@ -44,11 +44,11 @@ class PostAdapter(val context: Context, val posts: List<Post>) :
                 .circleCrop()
                 .into(itemView.findViewById(R.id.avatar))
             bindingPost.tvName.text = post.user?.firstLastName
-            bindingPost.tvField.hint = post.user?.headLine
+            post.user?.headLine?.let { bindingPost.tvField.hint = it } ?: run { bindingPost.tvField.hint = "@"+post.user?.username }
             bindingPost.tvTimeAgo.hint = DateUtils.getRelativeTimeSpanString(post.creationTime!!)
             bindingPost.tvText.text = post.text
-            bindingPost.starCount.text = post.upCount.toString()
-            bindingPost.commNum.text = post.comments?.size.toString()
+            post.upCount?.let { bindingPost.starCount.text = it.toString() } ?: run { bindingPost.starCount.text = "0" }
+            post.comments?.let { bindingPost.commNum.text = it.size.toString() } ?: run { bindingPost.commNum.text = "0" }
             if (hasImagePost) {
                 Glide.with(context)
                     .load(post.imageUrl)
