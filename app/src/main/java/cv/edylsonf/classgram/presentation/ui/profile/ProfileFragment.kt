@@ -5,8 +5,11 @@ import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,16 +19,19 @@ import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.FragmentProfileBinding
 import cv.edylsonf.classgram.domain.models.User
+import cv.edylsonf.classgram.presentation.ui.adapters.ProfileTabAdapter
 
 
 private const val TAG = "ProfileFragment"
 
 class ProfileFragment : Fragment() {
 
+    var tabTitles = arrayOf("Posts","About")
     private var signedInUser: User? = null
     private lateinit var binding: FragmentProfileBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseFirestore
+
 
 
     override fun onCreateView(
@@ -48,6 +54,15 @@ class ProfileFragment : Fragment() {
 
 
         setup()
+
+        val viewPager = binding.profileViewPager
+        val adapter = ProfileTabAdapter(this)
+        viewPager.adapter = adapter
+        TabLayoutMediator(binding.profileTab,viewPager) { tab, position ->
+            tab.text = tabTitles[position]
+            viewPager.currentItem = tab.position
+        }.attach()
+
 
         with(binding){
           editProfileBtn.setOnClickListener { editProfile()}

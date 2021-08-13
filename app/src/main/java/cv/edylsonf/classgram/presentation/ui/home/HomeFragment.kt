@@ -21,7 +21,7 @@ import cv.edylsonf.classgram.presentation.ui.adapters.PostAdapter
 
 private const val TAG = "HomeFragment"
 
-class HomeFragment : Fragment() {
+open class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var auth: FirebaseAuth
@@ -81,7 +81,7 @@ class HomeFragment : Fragment() {
             posts.addAll(postList)
             adapter.notifyDataSetChanged()
             for (post in postList) {
-
+                Log.i(TAG, "Post $post")
             }
 
         }

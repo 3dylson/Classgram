@@ -1,6 +1,18 @@
 package cv.edylsonf.classgram.presentation.ui.profile
 
-import androidx.fragment.app.Fragment
+import android.view.Menu
+import android.view.MenuInflater
+import cv.edylsonf.classgram.presentation.ui.home.HomeFragment
 
-class PostsTabFragment : Fragment() {
+private const val TAG = "PostsTabFragment"
+
+class PostsTabFragment : HomeFragment() {
+
+    /*override fun loadPosts() {
+    }*/
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        return
+    }
+
 }
