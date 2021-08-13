@@ -79,7 +79,11 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setup() {
-        readconnections()
+        readConnections()
+        bindUserFields()
+    }
+
+    private fun bindUserFields() {
         Glide.with(this)
             .load(signedInUser?.profilePic)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -88,8 +92,7 @@ class ProfileFragment : Fragment() {
         binding.nacionalityText.text = signedInUser?.nationality
         if (signedInUser?.education == null) {
             binding.bookEmoji.visibility = View.INVISIBLE
-        }
-        else {
+        } else {
             binding.uni.text = signedInUser?.education
         }
         binding.headlineText.text = signedInUser?.headLine
@@ -103,7 +106,7 @@ class ProfileFragment : Fragment() {
         }*/
     }
 
-    fun readconnections() {
+    private fun readConnections() {
 
         auth.currentUser?.let {
             database.collection("users").document(it.uid)
