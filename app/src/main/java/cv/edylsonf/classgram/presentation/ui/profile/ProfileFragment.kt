@@ -20,6 +20,7 @@ import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.FragmentProfileBinding
 import cv.edylsonf.classgram.domain.models.User
 import cv.edylsonf.classgram.presentation.ui.adapters.ProfileTabAdapter
+import cv.edylsonf.classgram.presentation.ui.utils.HorizontalFlipTransformation
 
 
 private const val TAG = "ProfileFragment"
@@ -52,23 +53,25 @@ class ProfileFragment : Fragment() {
         }
         database.firestoreSettings = settings
 
-
         setup()
-
-        val viewPager = binding.profileViewPager
-        val adapter = ProfileTabAdapter(this)
-        viewPager.adapter = adapter
-        TabLayoutMediator(binding.profileTab,viewPager) { tab, position ->
-            tab.text = tabTitles[position]
-            viewPager.currentItem = tab.position
-        }.attach()
-
+        configTabAndViewPager()
 
         with(binding){
           editProfileBtn.setOnClickListener { editProfile()}
         }
 
         return binding.root
+    }
+
+    private fun configTabAndViewPager() {
+        val viewPager = binding.profileViewPager
+        val adapter = ProfileTabAdapter(this)
+        viewPager.adapter = adapter
+        viewPager.setPageTransformer(HorizontalFlipTransformation())
+        TabLayoutMediator(binding.profileTab, viewPager) { tab, position ->
+            tab.text = tabTitles[position]
+            viewPager.currentItem = tab.position
+        }.attach()
     }
 
 
