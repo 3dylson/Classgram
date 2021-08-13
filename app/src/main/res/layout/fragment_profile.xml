@@ -157,7 +157,7 @@
             android:layout_marginTop="25dp"
             android:background="@drawable/vie_bg"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent=".74"
+            app:layout_constraintHeight_percent=".79"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_profile_btn">
 
