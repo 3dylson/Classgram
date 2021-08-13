@@ -18,10 +18,11 @@ import cv.edylsonf.classgram.REQUEST_IMAGE_CAPTURE
 import cv.edylsonf.classgram.databinding.FragmentHomeBinding
 import cv.edylsonf.classgram.domain.models.Post
 import cv.edylsonf.classgram.presentation.ui.adapters.PostAdapter
+import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
 
 private const val TAG = "HomeFragment"
 
-open class HomeFragment : Fragment() {
+open class HomeFragment : BaseFragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var auth: FirebaseAuth
@@ -65,9 +66,14 @@ open class HomeFragment : Fragment() {
     }
 
     private fun loadPosts() {
-        val postsDoc = database.collection("posts")
+        var postsDoc = database.collection("posts")
             .limit(20)
             .orderBy("creationTime", Query.Direction.DESCENDING)
+
+        val homeOrProfile = activity?.intent?.getStringExtra("profile")
+        if (homeOrProfile != null ) {
+            postsDoc = postsDoc.whereEqualTo("user.uid",uid)
+        }
         postsDoc.addSnapshotListener { snapshot, exception ->
             if (exception != null || snapshot == null) {
                 Log.w(TAG, "Unable to retrieve data. Error=$exception, snapshot=$snapshot")

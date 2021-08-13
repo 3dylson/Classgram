@@ -163,8 +163,14 @@ class MainActivity : AppCompatActivity(){
             }
             //Change Action bar title
             when (index) {
-                0     -> supportActionBar?.title = "Classgram"
-                1     -> supportActionBar?.title = signedInUser?.username
+                0     -> {
+                    supportActionBar?.title = "Classgram"
+                    //intent.ge
+                }
+                1     -> {
+                    supportActionBar?.title = signedInUser?.username
+                    intent.putExtra("profile","profile")
+                }
                 else  -> supportActionBar?.title = "Classgram"
             }
 
