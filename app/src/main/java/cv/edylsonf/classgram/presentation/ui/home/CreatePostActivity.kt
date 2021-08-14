@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import cv.edylsonf.classgram.PICK_PHOTO_CODE
 import cv.edylsonf.classgram.R
@@ -28,6 +29,7 @@ class CreatePostActivity : BaseActivity() {
     private var photoUri: Uri? = null
     private lateinit var database: FirebaseFirestore
     private lateinit var storageReference: StorageReference
+    private var actionBarMenu: Menu? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +38,17 @@ class CreatePostActivity : BaseActivity() {
         binding = ActivityCreatePostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        storageReference = FirebaseStorage.getInstance().reference
+
+        setup()
+
+        with(binding) {
+            captureFab.setOnClickListener { openCam() }
+            imgPicker.setOnClickListener { openGallery() }
+        }
+    }
+
+    private fun setup() {
         signedInUser = intent?.getParcelableExtra("signedInUser")
         Glide.with(this)
             .load(signedInUser?.profilePic)
@@ -47,11 +60,6 @@ class CreatePostActivity : BaseActivity() {
         supportActionBar?.title = "Create Post"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_close)
-
-        with(binding) {
-            captureFab.setOnClickListener { openCam() }
-            imgPicker.setOnClickListener { openGallery() }
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -69,6 +77,7 @@ class CreatePostActivity : BaseActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.create_post_action_menu,menu)
+        actionBarMenu = menu
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -87,6 +96,9 @@ class CreatePostActivity : BaseActivity() {
         else {
             binding.postText.error = null
         }
+
+        actionBarMenu?.findItem(R.id.submitPost)?.isEnabled = false
+
     }
 
     private fun openGallery() {
