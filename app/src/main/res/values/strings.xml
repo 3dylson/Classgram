@@ -77,6 +77,7 @@
     <string name="posts">Posts</string>
     <string name="about">About</string>
     <string name="ask_a_specific_question">Ask a specific question...</string>
+    <string name="post">Post</string>
 
 
 </resources>
