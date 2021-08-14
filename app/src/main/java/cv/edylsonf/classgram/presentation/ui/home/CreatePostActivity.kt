@@ -1,11 +1,13 @@
 package cv.edylsonf.classgram.presentation.ui.home
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
 import cv.edylsonf.classgram.PICK_PHOTO_CODE
@@ -39,6 +41,19 @@ class CreatePostActivity : BaseActivity() {
         with(binding) {
             captureFab.setOnClickListener { openCam() }
             imgPicker.setOnClickListener { openGallery() }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_PHOTO_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                photoUri = data?.data
+                Log.i(TAG, "photoUri $photoUri")
+                binding.imgPost.setImageURI(photoUri)
+            } else {
+                Toast.makeText(this, "Image picker action canceled", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
