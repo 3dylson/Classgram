@@ -8,6 +8,8 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
 import cv.edylsonf.classgram.PICK_PHOTO_CODE
@@ -33,6 +35,14 @@ class CreatePostActivity : BaseActivity() {
         setTheme(R.style.Theme_Classgram)
         binding = ActivityCreatePostBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        signedInUser = intent?.getParcelableExtra("signedInUser")
+        Glide.with(this)
+            .load(signedInUser?.profilePic)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .circleCrop()
+            .into(binding.createPostUserAvatar)
+        binding.createPostUsername.text = signedInUser?.firstLastName
 
         supportActionBar?.title = "Create Post"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -64,9 +74,19 @@ class CreatePostActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.submitPost) {
-            // ...
+            handlePostSubmit()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun handlePostSubmit() {
+        if (binding.postText.text.isBlank()) {
+            binding.postText.error = "Don't be shy..."
+            return
+        }
+        else {
+            binding.postText.error = null
+        }
     }
 
     private fun openGallery() {

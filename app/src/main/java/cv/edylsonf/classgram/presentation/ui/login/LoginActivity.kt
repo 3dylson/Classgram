@@ -108,9 +108,7 @@ class LoginActivity : BaseActivity() {
                         }
                     }
                 //onEmailVerficationSuccess(it.currentUser)
-                val email = it.currentUser?.email
                 val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra(EXTRA_EMAIL, email)
                 startActivity(intent)
                 finish()
             }

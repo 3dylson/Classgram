@@ -61,14 +61,12 @@ class MainActivity : BaseActivity(){
         //Click listeners
         with(binding){
             fab.setOnClickListener { createPost() }
-
         }
-
-
     }
 
     private fun createPost() {
         val intent = Intent(this,CreatePostActivity::class.java)
+        intent.putExtra("signedInUser",signedInUser)
         startActivity(intent)
     }
 
@@ -92,8 +90,6 @@ class MainActivity : BaseActivity(){
                         signedInUser = userSnapshot.toObject(User::class.java)
                         intent.putExtra("signedInUser",signedInUser)
                         Log.i(TAG, "signed in user: $signedInUser")
-
-
                     }
                 /*.addOnSuccessListener { userSnapshot ->
                         signedInUser = userSnapshot.toObject(User::class.java)
