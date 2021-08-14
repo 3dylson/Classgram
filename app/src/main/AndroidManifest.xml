@@ -19,7 +19,14 @@
             android:windowSoftInputMode="adjustResize"
             android:name=".presentation.ui.home.CreatePostActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:parentActivityName=".presentation.ui.MainActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".presentation.ui.MainActivity" />
+        </activity>
         <activity
             android:name=".presentation.ui.login.LoginActivity"
             android:screenOrientation="portrait">
