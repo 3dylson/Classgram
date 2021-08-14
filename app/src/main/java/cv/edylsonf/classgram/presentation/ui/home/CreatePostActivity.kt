@@ -7,16 +7,20 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import cv.edylsonf.classgram.PICK_PHOTO_CODE
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivityCreatePostBinding
 import cv.edylsonf.classgram.domain.models.User
+import cv.edylsonf.classgram.presentation.ui.MainActivity
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
 
 private const val TAG = "CreatePostActivity"
@@ -37,15 +41,24 @@ class CreatePostActivity : BaseActivity() {
         setTheme(R.style.Theme_Classgram)
         binding = ActivityCreatePostBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setProgressBar(binding.postLoading)
 
         storageReference = FirebaseStorage.getInstance().reference
+        database = Firebase.firestore
+
 
         setup()
 
         with(binding) {
             captureFab.setOnClickListener { openCam() }
             imgPicker.setOnClickListener { openGallery() }
+            discardImg.setOnClickListener { discardSelectedImg() }
         }
+    }
+
+    private fun discardSelectedImg() {
+        binding.discardImg.visibility = View.GONE
+        binding.imgPost.setImageResource(0)
     }
 
     private fun setup() {
@@ -69,6 +82,7 @@ class CreatePostActivity : BaseActivity() {
                 photoUri = data?.data
                 Log.i(TAG, "photoUri $photoUri")
                 binding.imgPost.setImageURI(photoUri)
+                binding.discardImg.visibility = View.VISIBLE
             } else {
                 Toast.makeText(this, "Image picker action canceled", Toast.LENGTH_SHORT).show()
             }
@@ -95,10 +109,92 @@ class CreatePostActivity : BaseActivity() {
         }
         else {
             binding.postText.error = null
+            actionBarMenu?.findItem(R.id.submitPost)?.isEnabled = false
+            showProgressBar()
+
+            //TODO mentions and tags function
+            if (photoUri == null) {
+                val post = hashMapOf(
+                    "text" to binding.postText.text.toString(),
+                    "imageUrl" to null,
+                    "creationTime" to System.currentTimeMillis(),
+                    "comments" to null,
+                    "mentions" to null,
+                    "upCount" to 0,
+                    "ups" to null,
+                    "tags" to null,
+                    "user" to signedInUser
+                )
+                database.collection("posts").add(post)
+                    .addOnCompleteListener { postCreationTask ->
+                        actionBarMenu?.findItem(R.id.submitPost)?.isEnabled = true
+                        hideProgressBar()
+                        if (!postCreationTask.isSuccessful) {
+
+                            Log.e(
+                                TAG,
+                                "Exception during Firebase operations",
+                                postCreationTask.exception
+                            )
+                            Toast.makeText(
+                                this,
+                                "Oops... Something went wrong! ",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        binding.postText.text.clear()
+                        discardSelectedImg()
+                        Toast.makeText(this, "Sent", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this,MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+            } else {
+                val photoUploadUri = photoUri as Uri
+                val photoReference = storageReference.child("images/post_photos/${System.currentTimeMillis()}-photo.jpg")
+                // Upload photo to Firebase Storage
+                photoReference.putFile(photoUploadUri)
+                    .continueWithTask { photoUploadTask ->
+                        Log.i(TAG, "uploaded bytes: ${photoUploadTask.result?.bytesTransferred}")
+                        // Retrieve image url of the uploaded image
+                        photoReference.downloadUrl
+                    }.continueWithTask { downloadUrlTask ->
+                        // Create a post hashMap with the image URL and add that to the posts collection
+                        val post = hashMapOf(
+                            "text" to binding.postText.text.toString(),
+                            "imageUrl" to downloadUrlTask.result.toString(),
+                            "creationTime" to System.currentTimeMillis(),
+                            "comments" to null,
+                            "mentions" to null,
+                            "upCount" to 0,
+                            "ups" to null,
+                            "tags" to null,
+                            "user" to signedInUser)
+                        database.collection("posts").add(post)
+                    }.addOnCompleteListener { postCreationTask ->
+                        actionBarMenu?.findItem(R.id.submitPost)?.isEnabled = true
+                        hideProgressBar()
+                        if (!postCreationTask.isSuccessful) {
+                            Log.e(
+                                TAG,
+                                "Exception during Firebase operations",
+                                postCreationTask.exception
+                            )
+                            Toast.makeText(
+                                this,
+                                "Oops... Something went wrong! ",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        binding.postText.text.clear()
+                        discardSelectedImg()
+                        Toast.makeText(this, "Sent", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this,MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+            }
         }
-
-        actionBarMenu?.findItem(R.id.submitPost)?.isEnabled = false
-
     }
 
     private fun openGallery() {
