@@ -16,8 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
         <activity
-            android:screenOrientation="portrait"
-            android:name="cv.edylsonf.classgram.presentation.ui.login.LoginActivity">
+            android:windowSoftInputMode="adjustResize"
+            android:name=".presentation.ui.home.CreatePostActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.ui.login.LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,15 +29,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:screenOrientation="portrait"
-            android:name="cv.edylsonf.classgram.presentation.ui.login.SignupActivity"/>
+            android:name=".presentation.ui.login.SignupActivity"
+            android:screenOrientation="portrait" />
         <activity
-            android:screenOrientation="portrait"
-            android:name="cv.edylsonf.classgram.presentation.ui.login.ForgotPassActivity"/>
+            android:name=".presentation.ui.login.ForgotPassActivity"
+            android:screenOrientation="portrait" />
         <activity
-            android:screenOrientation="portrait"
-            android:name=".presentation.ui.MainActivity"/>
-        <activity android:name="cv.edylsonf.classgram.presentation.ui.home.CameraActivity"/>
+            android:name=".presentation.ui.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".presentation.ui.home.CameraActivity" />
     </application>
 
 </manifest>

@@ -20,12 +20,13 @@ import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.FragmentProfileBinding
 import cv.edylsonf.classgram.domain.models.User
 import cv.edylsonf.classgram.presentation.ui.adapters.ProfileTabAdapter
+import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
 import cv.edylsonf.classgram.presentation.ui.utils.HorizontalFlipTransformation
 
 
 private const val TAG = "ProfileFragment"
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : BaseFragment() {
 
     var tabTitles = arrayOf("Posts","About")
     private var signedInUser: User? = null

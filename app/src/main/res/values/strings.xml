@@ -18,7 +18,6 @@
     <string name="home_title">Feed 📖</string>
 
 
-
     <!-- Firebase -->
     <string name="label_google_sign_in">Firebase + Google Sign In</string>
     <string name="desc_google_sign_in">Use a Google Sign In credential to authenticate with Firebase.</string>
@@ -77,6 +76,7 @@
     <string name="connections">Connections</string>
     <string name="posts">Posts</string>
     <string name="about">About</string>
+    <string name="ask_a_specific_question">Ask a specific question...</string>
 
 
 </resources>

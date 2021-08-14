@@ -16,14 +16,16 @@ import cv.edylsonf.classgram.EXTRA_TAB_TITLE
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivityMainBinding
 import cv.edylsonf.classgram.domain.models.User
+import cv.edylsonf.classgram.presentation.ui.home.CreatePostActivity
 import cv.edylsonf.classgram.presentation.ui.home.HomeFragment
 import cv.edylsonf.classgram.presentation.ui.login.LoginActivity
 import cv.edylsonf.classgram.presentation.ui.profile.ProfileFragment
+import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
 
 private const val TAG = "MainActivity"
 
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : BaseActivity(){
 
     private var signedInUser: User? = null
     private var selectedTab = 0
@@ -56,13 +58,18 @@ class MainActivity : AppCompatActivity(){
 
         setupBottomBarActions(selectedTabId)
 
-        /*when (selectedTabId){
-            0 -> supportActionBar?.title = "Classgram"
-            1 -> supportActionBar?.title = "username"
-            else -> supportActionBar?.title = "Classgram"
-        }*/
+        //Click listeners
+        with(binding){
+            fab.setOnClickListener { createPost() }
+
+        }
 
 
+    }
+
+    private fun createPost() {
+        val intent = Intent(this,CreatePostActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onStart() {

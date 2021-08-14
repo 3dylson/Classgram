@@ -5,6 +5,7 @@
     <item
         android:id="@+id/connect"
         android:title="@string/connect"
+        android:textColor="@color/white"
         app:showAsAction="always" />
     <item
         android:id="@+id/settings"
