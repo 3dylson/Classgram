@@ -40,7 +40,7 @@ class PostAdapter(val context: Context, val posts: List<Post>) :
             }
             Glide.with(context)
                 .load(post.user?.profilePic)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                //.diskCacheStrategy(DiskCacheStrategy.ALL)
                 .circleCrop()
                 .into(itemView.findViewById(R.id.avatar))
             bindingPost.tvName.text = post.user?.firstLastName
@@ -52,7 +52,7 @@ class PostAdapter(val context: Context, val posts: List<Post>) :
             if (hasImagePost) {
                 Glide.with(context)
                     .load(post.imageUrl)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    //.diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(itemView.findViewById(R.id.tv_postImage))
             }
             else {

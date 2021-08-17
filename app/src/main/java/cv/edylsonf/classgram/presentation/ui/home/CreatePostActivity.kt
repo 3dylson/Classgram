@@ -18,6 +18,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import cv.edylsonf.classgram.PICK_PHOTO_CODE
 import cv.edylsonf.classgram.R
+import cv.edylsonf.classgram.REQUEST_IMAGE_CAPTURE
 import cv.edylsonf.classgram.databinding.ActivityCreatePostBinding
 import cv.edylsonf.classgram.domain.models.User
 import cv.edylsonf.classgram.presentation.ui.MainActivity
@@ -105,7 +106,7 @@ class CreatePostActivity : BaseActivity() {
     private fun handlePostSubmit() {
         if (binding.postText.text.isBlank()) {
             binding.postText.error = "Don't be shy..."
-            return
+
         }
         else {
             binding.postText.error = null
@@ -211,6 +212,6 @@ class CreatePostActivity : BaseActivity() {
     }
 
     private fun openCam() {
-        TODO("Not yet implemented")
+        startActivityForResult(Intent(this, CameraActivity::class.java), REQUEST_IMAGE_CAPTURE)
     }
 }
