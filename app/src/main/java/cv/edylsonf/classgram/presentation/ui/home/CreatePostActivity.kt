@@ -138,16 +138,18 @@ class CreatePostActivity : BaseActivity() {
                             )
                             Toast.makeText(
                                 this,
-                                "Oops... Something went wrong! ",
+                                "Oops... Something went wrong!",
                                 Toast.LENGTH_SHORT
                             ).show()
+                        } else {
+                            binding.postText.text.clear()
+                            discardSelectedImg()
+                            Toast.makeText(this, "Sent", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this,MainActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(intent)
+                            finish()
                         }
-                        binding.postText.text.clear()
-                        discardSelectedImg()
-                        Toast.makeText(this, "Sent", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this,MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
                     }
             } else {
                 val photoUploadUri = photoUri as Uri
@@ -185,13 +187,15 @@ class CreatePostActivity : BaseActivity() {
                                 "Oops... Something went wrong! ",
                                 Toast.LENGTH_SHORT
                             ).show()
+                        } else {
+                            binding.postText.text.clear()
+                            discardSelectedImg()
+                            Toast.makeText(this, "Sent", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this,MainActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(intent)
+                            finish()
                         }
-                        binding.postText.text.clear()
-                        discardSelectedImg()
-                        Toast.makeText(this, "Sent", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this,MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
                     }
             }
         }
