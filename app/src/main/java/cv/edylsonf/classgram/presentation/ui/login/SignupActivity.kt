@@ -45,7 +45,7 @@ class SignupActivity : BaseActivity() {
         //Click listeners
         with(binding){
             signinBttn.setOnClickListener{ signUp() }
-            backbtn.setOnClickListener { goBack()}
+            backbtn.setOnClickListener { onBackPressed()}
             resendEmailBtn.setOnClickListener { resendEmail() }
         }
 
@@ -62,12 +62,6 @@ class SignupActivity : BaseActivity() {
 
     }
 
-    private fun goBack(){
-        showProgressBar()
-        onBackPressed()
-        hideProgressBar()
-        finish()
-    }
 
     private fun signUp() {
         Log.d(TAG, "signUp")

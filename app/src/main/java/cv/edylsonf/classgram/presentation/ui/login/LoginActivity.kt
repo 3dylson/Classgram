@@ -18,7 +18,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.ACTIVITY_REQUEST
-import cv.edylsonf.classgram.EXTRA_EMAIL
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivityLoginBinding
 import cv.edylsonf.classgram.presentation.ui.MainActivity
@@ -29,6 +28,7 @@ private const val REQUEST_SIGN_IN = 12345
 
 class LoginActivity : BaseActivity() {
 
+    var verifiedByProvider: Boolean = false
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseFirestore
     private lateinit var binding: ActivityLoginBinding
@@ -73,16 +73,12 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun goSignUp(){
-        showProgressBar()
         val intent = Intent(this, SignupActivity::class.java)
-        hideProgressBar()
         startActivity(intent)
     }
 
     private fun resetPass(){
-        showProgressBar()
         val intent = Intent(this, ForgotPassActivity::class.java)
-        hideProgressBar()
         startActivity(intent)
     }
 
@@ -95,36 +91,35 @@ class LoginActivity : BaseActivity() {
 
         FirebaseAuth.getInstance().addAuthStateListener {
             Log.d(TAG, "AuthStateListener triggered. User: ${it.currentUser}")
-            if (it.currentUser != null && it.currentUser!!.isEmailVerified) {
-                database.collection("users")
-                    .document(it.currentUser!!.uid)
-                    .get().addOnSuccessListener { userDoc ->
-                        if (!(userDoc.get("emailVerified") as Boolean)) {
-                            Log.d(TAG,"db User emailVerified returned false")
-                            onEmailVerficationSuccess(it.currentUser)
+            if (it.currentUser != null) {
+                if (it.currentUser!!.isEmailVerified || verifiedByProvider) {
+                    database.collection("users")
+                        .document(uid)
+                        .get().addOnSuccessListener { userDoc ->
+                            if (!(userDoc.get("emailVerified") as Boolean)) {
+                                Log.d(TAG,"db User emailVerified returned false")
+                                updateUser()
+                            }
+                            else {
+                                Log.d(TAG,"db User emailVerified returned true")
+                            }
                         }
-                        else {
-                            Log.d(TAG,"db User emailVerified returned true")
-                        }
-                    }
-                //onEmailVerficationSuccess(it.currentUser)
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+                    //onEmailVerficationSuccess(it.currentUser)
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
             }
         }
 
     }
 
-    private fun onEmailVerficationSuccess(user: FirebaseUser?) {
-        updateUser(user!!.uid, user.isEmailVerified)
-    }
 
     //TODO check how the metadata will be..
-    private fun updateUser(uid: String, emailVerified: Boolean ) {
+    private fun updateUser() {
         val userRef = database.collection("users").document(uid)
         userRef
-            .update("emailVerified", emailVerified)
+            .update("emailVerified", true)
             .addOnSuccessListener { Log.d(TAG, "User successfully updated!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error updating user", e) }
     }
@@ -133,6 +128,40 @@ class LoginActivity : BaseActivity() {
         registerForActivityResult(ActivityContract()) { result ->
             if (result != null) {
                 Log.d(TAG, "User signed in")
+                val user = hashMapOf(
+                    "uid" to uid,
+                    "username" to auth.currentUser?.email.toString().split("@".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0],
+                    "headline" to null,
+                    "firstLastName" to auth.currentUser?.displayName,
+                    "email" to auth.currentUser?.email,
+                    "phone" to auth.currentUser?.phoneNumber,
+                    "nationality" to null,
+                    "education" to null,
+                    "profilePic" to auth.currentUser?.photoUrl.toString(),
+                    "answers" to 0,
+                    "emailVerified" to true,
+                    "dateCreated" to (auth.currentUser?.metadata?.creationTimestamp ?: System.currentTimeMillis())
+                )
+                val address = hashMapOf(
+                    "city" to null,
+                    "country" to null
+                )
+                val addressRef = database
+                    .collection("users").document(uid)
+                    .collection("addresses").document("college")
+
+                database.collection("users")
+                    .document(uid)
+                    .set(user)
+                    .addOnSuccessListener {
+                        Log.d(TAG,"User added with ID: $uid")
+                        verifiedByProvider = true
+                        auth.currentUser?.reload()
+                        addressRef.set(address)
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.w(TAG, "writeNewUser:onFailure: $exception")
+                    }
             }
         }
 

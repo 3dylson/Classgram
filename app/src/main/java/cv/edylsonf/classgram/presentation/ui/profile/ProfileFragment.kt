@@ -1,5 +1,6 @@
 package cv.edylsonf.classgram.presentation.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -19,6 +20,7 @@ import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.FragmentProfileBinding
 import cv.edylsonf.classgram.domain.models.User
+import cv.edylsonf.classgram.presentation.ui.MainActivity
 import cv.edylsonf.classgram.presentation.ui.adapters.ProfileTabAdapter
 import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
 import cv.edylsonf.classgram.presentation.ui.utils.HorizontalFlipTransformation
@@ -94,7 +96,8 @@ class ProfileFragment : BaseFragment() {
     }
 
     private fun appSettings() {
-        TODO("Not yet implemented")
+        val intent = Intent(activity, SettingsActivity::class.java)
+        activity?.startActivity(intent)
     }
 
     private fun setup() {

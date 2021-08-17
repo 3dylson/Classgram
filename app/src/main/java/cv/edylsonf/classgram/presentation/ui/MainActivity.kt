@@ -80,7 +80,7 @@ class MainActivity : BaseActivity(){
             }
             else {
                 val usersDoc = database.collection("users")
-                    .document(it.currentUser?.uid as String)
+                    .document(uid)
                     //.get()
                     usersDoc.addSnapshotListener { userSnapshot, exception ->
                         if (exception != null || userSnapshot == null) {

@@ -29,22 +29,25 @@
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/drawable/loading_animation.xml" value="0.1685185185185185" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/drawable/loading_img.xml" value="0.24739583333333334" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/drawable/logo.xml" value="0.3880208333333333" />
+        <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/drawable/messages.xml" value="0.5755208333333334" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/drawable/splash_image.xml" value="0.25" />
+        <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/drawable/sync.xml" value="0.5755208333333334" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/drawable/vie_bg.xml" value="0.3880208333333333" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout-v28/activity_login.xml" value="0.371875" />
+        <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/activity_camera.xml" value="0.559375" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/activity_create_post.xml" value="0.33" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/activity_forgotpass.xml" value="0.23072916666666668" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/activity_login2.xml" value="0.371875" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/activity_login3.xml" value="0.371875" />
-        <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/activity_schedule.xml" value="0.371875" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/activity_signup.xml" value="0.33" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/activity_test.xml" value="0.371875" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/fragment_forgotpass.xml" value="0.33" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/fragment_home.xml" value="0.371875" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/fragment_post.xml" value="0.3435185185185185" />
-        <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/fragment_profile.xml" value="0.5" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/fragment_profile_about.xml" value="0.4305555555555556" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/fragment_profile_posts.xml" value="0.2564814814814815" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/fragment_signup.xml" value="0.33" />
@@ -54,6 +57,7 @@
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/item_tweet.xml" value="0.371875" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/login_tab_fragment.xml" value="0.36615384615384616" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/profile_fragment.xml" value="0.25" />
+        <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/settings_activity.xml" value="0.559375" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/layout/signup_tab_fragment.xml" value="0.25" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/menu/bottom_nav_menu.xml" value="0.371875" />
         <entry key="..\:/Users/Edyls/AndroidStudioProjects/Classgram/app/src/main/res/menu/create_post_action_menu.xml" value="0.25" />

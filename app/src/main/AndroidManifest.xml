@@ -16,11 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme">
         <activity
-            android:windowSoftInputMode="adjustResize"
+            android:name=".presentation.ui.profile.SettingsActivity"
+            android:exported="true"
+            android:label="@string/title_activity_settings" />
+        <activity
             android:name=".presentation.ui.home.CreatePostActivity"
             android:exported="true"
+            android:parentActivityName=".presentation.ui.MainActivity"
             android:screenOrientation="portrait"
-            android:parentActivityName=".presentation.ui.MainActivity">
+            android:windowSoftInputMode="adjustResize">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data

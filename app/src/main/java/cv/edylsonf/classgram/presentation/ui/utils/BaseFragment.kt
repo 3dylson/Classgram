@@ -26,7 +26,7 @@ open class BaseFragment : Fragment() {
     }
 
 
-    public override fun onStop() {
+    override fun onStop() {
         super.onStop()
         hideProgressBar()
     }
