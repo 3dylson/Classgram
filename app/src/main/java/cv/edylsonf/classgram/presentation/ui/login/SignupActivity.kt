@@ -113,10 +113,10 @@ class SignupActivity : BaseActivity() {
             }
 
         emailResendUser = user
-        binding.resendEmailBtn.visibility = View.VISIBLE
-        user.sendEmailVerification()
         user.metadata?.let { writeNewUser(user.uid,username, name, user.email, it.creationTimestamp) }
-        user.email?.let { showDialog(it) }
+        user.sendEmailVerification()
+        binding.resendEmailBtn.visibility = View.VISIBLE
+        //user.email?.let { showDialog(it) }
     }
 
     //TODO check how the metadata will be..
@@ -162,6 +162,7 @@ class SignupActivity : BaseActivity() {
                 addressRef.set(address)
                 /*connectionsRef.add(connection)
                 postsRef.add(posts)*/
+                showDialog(email!!)
 
             }
             .addOnFailureListener { exception ->

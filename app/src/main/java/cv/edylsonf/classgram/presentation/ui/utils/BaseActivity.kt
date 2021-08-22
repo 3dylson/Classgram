@@ -12,7 +12,7 @@ open class BaseActivity : AppCompatActivity() {
 
     private var progressBar: ProgressBar? = null
 
-    val uid: String
+    var uid: String = ""
         get() = Firebase.auth.currentUser!!.uid
 
     fun setProgressBar(bar: ProgressBar) {
