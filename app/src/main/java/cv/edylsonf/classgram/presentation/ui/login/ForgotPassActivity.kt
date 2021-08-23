@@ -41,7 +41,7 @@ class ForgotPassActivity : BaseActivity() {
 
         //Click listeners
         with(binding){
-            backbtn2.setOnClickListener{ goBack() }
+            backbtn2.setOnClickListener{ onBackPressed() }
             resetPassbtn.setOnClickListener { sendPasswordReset() }
 
         }
@@ -51,13 +51,6 @@ class ForgotPassActivity : BaseActivity() {
 
         //TODO Animate text fields
 
-    }
-
-    private fun goBack(){
-        showProgressBar()
-        onBackPressed()
-        hideProgressBar()
-        finish()
     }
 
 

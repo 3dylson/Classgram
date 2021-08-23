@@ -199,12 +199,11 @@ class LoginActivity : BaseActivity() {
 
     private fun signIn() {
         Log.d(TAG, "signIn")
-        binding.login.isEnabled = false
         if (!validateForm()) {
-            binding.login.isEnabled = true
             return
         }
 
+        binding.login.isEnabled = false
         showProgressBar()
         val email = binding.email.text.toString()
         val password = binding.password.text.toString()

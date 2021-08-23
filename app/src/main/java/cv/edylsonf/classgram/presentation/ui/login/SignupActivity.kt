@@ -24,6 +24,7 @@ private const val TAG = "SignupActivity"
 
 class SignupActivity : BaseActivity() {
 
+    private var accCreated: Boolean = false
     private lateinit var emailResendUser: FirebaseUser
     private lateinit var binding: ActivitySignupBinding
 
@@ -46,13 +47,16 @@ class SignupActivity : BaseActivity() {
         with(binding){
             signinBttn.setOnClickListener{ signUp() }
             backbtn.setOnClickListener { onBackPressed()}
-            resendEmailBtn.setOnClickListener { resendEmail() }
+            resendEmailBtn.setOnClickListener { emailResendUser.sendEmailVerification() }
         }
 
     }
 
-    private fun resendEmail() {
-        emailResendUser.sendEmailVerification()
+    override fun onResume() {
+        super.onResume()
+        if (accCreated) {
+            binding.resendEmailBtn.visibility = View.VISIBLE
+        }
     }
 
 
@@ -77,19 +81,22 @@ class SignupActivity : BaseActivity() {
             return
         }
 
+        binding.signinBttn.isEnabled = false
         showProgressBar()
         val email = binding.signInEmailSentText.text.toString()
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 Log.d(TAG, "createUser:onComplete:" + task.isSuccessful)
-                hideProgressBar()
 
                 if (task.isSuccessful) {
                     auth.signOut()
+                    accCreated = true
                     onAuthSuccess(task.result?.user!!)
 
                 } else {
+                    binding.signinBttn.isEnabled = true
+                    hideProgressBar()
                     Log.e("Sign Up Failed: ", task.exception.toString())
                     Toast.makeText(this, task.exception?.message,
                         Toast.LENGTH_SHORT).show()
@@ -115,7 +122,6 @@ class SignupActivity : BaseActivity() {
         emailResendUser = user
         user.metadata?.let { writeNewUser(user.uid,username, name, user.email, it.creationTimestamp) }
         user.sendEmailVerification()
-        binding.resendEmailBtn.visibility = View.VISIBLE
         //user.email?.let { showDialog(it) }
     }
 
@@ -162,6 +168,9 @@ class SignupActivity : BaseActivity() {
                 addressRef.set(address)
                 /*connectionsRef.add(connection)
                 postsRef.add(posts)*/
+                hideProgressBar()
+                binding.signinBttn.isEnabled = true
+                binding.resendEmailBtn.visibility = View.VISIBLE
                 showDialog(email!!)
 
             }
