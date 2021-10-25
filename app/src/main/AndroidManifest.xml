@@ -14,14 +14,53 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/splashScreenTheme">
+        android:theme="@style/Theme.Classgram">
+
         <activity
-            android:name=".presentation.ui.profile.SettingsActivity"
+            android:name=".presentation.ui.login.SplashScreenActivity"
             android:exported="true"
-            android:label="@string/title_activity_settings" />
+            android:screenOrientation="portrait"
+            android:theme="@style/splashScreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!--##########################################################-->
+        <activity
+            android:name=".presentation.ui.login.LoginActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/loginTheme"/>
+        <!--##########################################################-->
+        <activity
+            android:name=".presentation.ui.login.SignupActivity"
+            android:parentActivityName=".presentation.ui.login.LoginActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".presentation.ui.login.LoginActivity" />
+        </activity>
+        <!--##########################################################-->
+        <activity
+            android:name=".presentation.ui.login.ForgotPassActivity"
+            android:parentActivityName=".presentation.ui.login.LoginActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".presentation.ui.login.LoginActivity" />
+        </activity>
+        <!--##########################################################-->
+        <activity
+            android:name=".presentation.ui.MainActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!--##########################################################-->
+        <activity android:name=".presentation.ui.home.CameraActivity" />
+        <!--##########################################################-->
         <activity
             android:name=".presentation.ui.home.CreatePostActivity"
-            android:exported="true"
             android:parentActivityName=".presentation.ui.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
@@ -31,40 +70,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".presentation.ui.MainActivity" />
         </activity>
+        <!--##########################################################-->
         <activity
-            android:name=".presentation.ui.login.LoginActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".presentation.ui.login.SignupActivity"
-            android:screenOrientation="portrait" >
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".presentation.ui.login.LoginActivity" />
-
-        </activity>
-        <activity
-            android:name=".presentation.ui.login.ForgotPassActivity"
-            android:screenOrientation="portrait" >
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".presentation.ui.login.LoginActivity" />
-
-        </activity>
-        <activity
-            android:name=".presentation.ui.MainActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop"/>
-
-        <activity android:name=".presentation.ui.home.CameraActivity" />
+            android:name=".presentation.ui.profile.SettingsActivity"
+            android:exported="true"
+            android:label="@string/title_activity_settings" />
+        <!--##########################################################-->
     </application>
 
 </manifest>

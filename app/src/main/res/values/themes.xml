@@ -14,16 +14,21 @@
         <!-- Customize your theme here. -->
                
     </style>
+
+    <style name="loginTheme" parent="Theme.Classgram">
+        <item name="android:windowDisablePreview">true</item>
+    </style>
     
     <style name="splashScreenTheme" parent="Theme.Classgram.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_image</item>
         <item name="android:statusBarColor">@color/primaryDarkColor</item>
-
     </style>
+
     <style name="Theme.Classgram.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="Theme.Classgram.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="Theme.Classgram.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
