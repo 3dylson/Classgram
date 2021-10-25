@@ -26,7 +26,7 @@ import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
 private const val TAG = "LoginActivity"
 private const val REQUEST_SIGN_IN = 12345
 
-class LoginActivity : BaseActivity() {
+class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
 
     private var verifiedByProvider: Boolean = false
     private lateinit var auth: FirebaseAuth
@@ -89,30 +89,7 @@ class LoginActivity : BaseActivity() {
             openPostActivityCustom.launch(REQUEST_SIGN_IN)
         }
 
-        FirebaseAuth.getInstance().addAuthStateListener { firebaseAuth ->
-            Log.d(TAG, "AuthStateListener triggered. User: ${firebaseAuth.currentUser}")
-            if (firebaseAuth.currentUser != null) {
-                uid = firebaseAuth.currentUser!!.uid
-                if (firebaseAuth.currentUser!!.isEmailVerified || verifiedByProvider) {
-                    database.collection("users")
-                        .document(firebaseAuth.currentUser!!.uid)
-                        .get().addOnCompleteListener(this) { userDoc ->
-                            if (userDoc.result!!.exists()) {
-                               if (!(userDoc.result!!.get("emailVerified") as Boolean)) {
-                                   Log.d(TAG,"db User emailVerified returned false")
-                                   updateUser()
-                                }
-                                val intent = Intent(this, MainActivity::class.java)
-                                startActivity(intent)
-                                finish()
-                           } else {
-                                createUserFromProvider(firebaseAuth)
-                            }
-                        }
-                    //onEmailVerificationSuccess(it.currentUser)
-                }
-            }
-        }
+        auth.addAuthStateListener(this)
 
     }
 
@@ -221,8 +198,12 @@ class LoginActivity : BaseActivity() {
                             Toast.LENGTH_SHORT).show()
                         auth.signOut()
                     } else {
-                        Toast.makeText(this, "Successfully logged in!",
+                        Toast.makeText(this, "Logged In",
                             Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        //googleSignUp()
+                        finish()
                     }
                 } else {
                     Log.e(TAG,"signInWithEmail failed",task.exception)
@@ -249,6 +230,38 @@ class LoginActivity : BaseActivity() {
         }
 
         return result
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        auth.removeAuthStateListener(this)
+
+    }
+
+    override fun onAuthStateChanged(firebaseAuth: FirebaseAuth) {
+        Log.d(TAG, "AuthStateListener triggered. User: ${firebaseAuth.currentUser}")
+        if (firebaseAuth.currentUser != null) {
+            uid = firebaseAuth.currentUser!!.uid
+            if (firebaseAuth.currentUser!!.isEmailVerified || verifiedByProvider) {
+                database.collection("users")
+                    .document(firebaseAuth.currentUser!!.uid)
+                    .get().addOnCompleteListener(this) { userDoc ->
+                        if (userDoc.result!!.exists()) {
+                            if (!(userDoc.result!!.get("emailVerified") as Boolean)) {
+                                //TODO Consider doing through cloud function
+                                Log.d(TAG,"db User emailVerified returned false")
+                                updateUser()
+                            }
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            createUserFromProvider(firebaseAuth)
+                        }
+                    }
+                //onEmailVerificationSuccess(it.currentUser)
+            }
+        }
     }
 
 }

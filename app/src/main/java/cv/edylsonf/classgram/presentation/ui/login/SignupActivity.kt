@@ -41,23 +41,34 @@ class SignupActivity : BaseActivity() {
         database = Firebase.firestore
         auth = Firebase.auth
 
+        if (auth.currentUser?.isEmailVerified == false) {
+            binding.resendEmailBtn.visibility = View.VISIBLE
+        }
+
         animations()
 
         //Click listeners
         with(binding){
             signinBttn.setOnClickListener{ signUp() }
             backbtn.setOnClickListener { onBackPressed()}
-            resendEmailBtn.setOnClickListener { emailResendUser.sendEmailVerification() }
+            resendEmailBtn.setOnClickListener { resendEmail() }
         }
 
     }
 
-    override fun onResume() {
+    private fun resendEmail(){
+        auth.currentUser?.sendEmailVerification()
+        Toast.makeText(this, "Email Sent!",
+            Toast.LENGTH_SHORT).show()
+
+    }
+
+    /*override fun onResume() {
         super.onResume()
         if (accCreated) {
             binding.resendEmailBtn.visibility = View.VISIBLE
         }
-    }
+    }*/
 
 
     private fun animations(){
@@ -90,7 +101,7 @@ class SignupActivity : BaseActivity() {
                 Log.d(TAG, "createUser:onComplete:" + task.isSuccessful)
 
                 if (task.isSuccessful) {
-                    auth.signOut()
+                    //auth.signOut()
                     accCreated = true
                     onAuthSuccess(task.result?.user!!)
 
@@ -194,7 +205,8 @@ class SignupActivity : BaseActivity() {
         builder.setMessage("We need to verify your email address. Link sent to the email provided:\n$email")
         builder.apply {
             setPositiveButton("Ok") { _,_ ->
-                //navToLogin()
+                navToLogin()
+                //auth.signOut()
             }
         }
         builder.create().show()
