@@ -23,7 +23,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.502"
-            app:srcCompat="@drawable/ipb"
+            app:srcCompat="@drawable/ipb_blur_low_dp"
             tools:visibility="gone" />
 
         <TextView

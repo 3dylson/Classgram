@@ -23,6 +23,8 @@
 
     <style name="loginTheme" parent="Theme.Classgram">
         <item name="android:windowDisablePreview">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="splashScreenTheme" parent="Theme.Classgram.NoActionBar">
