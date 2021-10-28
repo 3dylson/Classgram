@@ -3,16 +3,22 @@ package cv.edylsonf.classgram.presentation.ui.login
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View.TRANSLATION_Y
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.annotation.ColorInt
 import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.common.SignInButton
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
@@ -30,29 +36,36 @@ private const val REQUEST_SIGN_IN = 12345
 
 class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
 
-    private var verifiedByProvider: Boolean = false
+    private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseFirestore
-    private lateinit var binding: ActivityLoginBinding
+    private var verifiedByProvider: Boolean = false
+    private lateinit var loginTextColorDefault: ColorStateList
+
     private lateinit var appLogo: ImageView
+    private lateinit var emailTextInput: TextInputEditText
+    private lateinit var passwordTextInput: TextInputEditText
+    private lateinit var logInBtn: Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        appLogo = binding.ivLogo
-        if (isDarkTheme()) appLogo.setImageResource(R.drawable.classgram_logo_white)
-        else appLogo.setImageResource(R.drawable.classgram_logo)
-
         setProgressBar(binding.progressBar)
 
-
-
-        // Initialize Firebase Auth
         auth = Firebase.auth
         database = Firebase.firestore
+        appLogo = binding.ivLogo
+        emailTextInput = binding.email
+        passwordTextInput = binding.password
+        logInBtn = binding.login
+        loginTextColorDefault = logInBtn.textColors
 
+        emailTextInput.addTextChangedListener(textWatcher)
+        passwordTextInput.addTextChangedListener(textWatcher)
+
+        setLogoTheme()
         animations()
         googleSignUp()
 
@@ -64,30 +77,43 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
         }
     }
 
+
     private fun Context.isDarkTheme(): Boolean {
         return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
     }
 
 
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            if (validateForm()) {
+                logInBtn.isEnabled = true
+                logInBtn.setTextColor(resources.getColor(R.color.white))
+            }
+            else {
+                logInBtn.isEnabled = false
+                logInBtn.setTextColor(loginTextColorDefault)
+            }
+        }
+        override fun afterTextChanged(s: Editable?) {
+        }
+    }
 
 
     private fun animations() {
-
         val google = findViewById<SignInButton>(R.id.google_signin)
-
         TRANSLATION_Y.set(google, 300F)
-
         google.alpha = 0F
-
         google.animate().translationY(0F).alpha(1F).setDuration(1000).setStartDelay(400).start()
-
-
     }
+
 
     private fun goSignUp(){
         val intent = Intent(this, SignupActivity::class.java)
         startActivity(intent)
     }
+
 
     private fun resetPass(){
         val intent = Intent(this, ForgotPassActivity::class.java)
@@ -104,6 +130,7 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
         auth.addAuthStateListener(this)
 
     }
+
 
     private fun createUserFromProvider(firebaseAuth: FirebaseAuth) {
         val user = hashMapOf(
@@ -158,6 +185,7 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
             .addOnFailureListener { e -> Log.w(TAG, "Error updating user", e) }
     }
 
+
     private val openPostActivityCustom =
         registerForActivityResult(ActivityContract()) { result ->
             if (result != null) {
@@ -187,25 +215,26 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
     //End Google Sign in Region
 
     private fun signIn() {
-        Log.d(TAG, "signIn")
-        if (!validateForm()) {
-            return
-        }
-
-        binding.login.isEnabled = false
+        hideKeyboard(binding.root)
+        logInBtn.isEnabled = false
+        logInBtn.text = ""
         showProgressBar()
-        val email = binding.email.text.toString()
-        val password = binding.password.text.toString()
+
+        val email = emailTextInput.text.toString()
+        val password = passwordTextInput.text.toString()
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 Log.d(TAG, "signIn:onComplete:" + task.isSuccessful)
+
                 hideProgressBar()
-                binding.login.isEnabled = true
+                logInBtn.text = getString(R.string.login)
+                logInBtn.isEnabled = true
 
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     if (!user!!.isEmailVerified) {
+                        //TODO Change to snackbar dialog
                         Toast.makeText(this, "Verify your email!",
                             Toast.LENGTH_SHORT).show()
                         auth.signOut()
@@ -219,6 +248,7 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
                     }
                 } else {
                     Log.e(TAG,"signInWithEmail failed",task.exception)
+                    //TODO Change to snackbar dialog
                     Toast.makeText(this, task.exception?.message,
                         Toast.LENGTH_SHORT).show()
                 }
@@ -227,18 +257,12 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
 
     private fun validateForm(): Boolean {
         var result = true
-        if (TextUtils.isEmpty(binding.email.text.toString())) {
-            binding.email.error = "Required"
+        if (TextUtils.isEmpty(emailTextInput.text.toString())) {
             result = false
-        } else {
-            binding.email.error = null
         }
 
-        if (TextUtils.isEmpty(binding.password.text.toString())) {
-            binding.password.error = "Required"
+        if (TextUtils.isEmpty(passwordTextInput.text.toString())) {
             result = false
-        } else {
-            binding.password.error = null
         }
 
         return result
@@ -252,6 +276,10 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
 
     override fun onResume() {
         super.onResume()
+        setLogoTheme()
+    }
+
+    private fun setLogoTheme() {
         if (isDarkTheme()) appLogo.setImageResource(R.drawable.classgram_logo_white)
         else appLogo.setImageResource(R.drawable.classgram_logo)
     }

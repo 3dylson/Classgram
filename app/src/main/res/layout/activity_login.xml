@@ -20,7 +20,7 @@
             android:id="@+id/iv_logo"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:contentDescription="@string/app_s_logo_description"
             app:srcCompat="@drawable/classgram_logo" />
 
@@ -47,7 +47,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:imeOptions="actionNext" />
+                android:imeOptions="actionNext"
+                android:selectAllOnFocus="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -91,6 +92,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginTop="26dp"
                 android:backgroundTint="?colorPrimary"
+                android:enabled="false"
                 android:paddingStart="24dp"
                 android:paddingTop="12dp"
                 android:paddingEnd="24dp"
@@ -98,7 +100,7 @@
                 android:text="@string/login"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/white" />
+                android:textColor="@color/material_on_surface_disabled" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
