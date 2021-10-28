@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ipb_blur_low_dp"
     android:padding="16dp"
     android:scrollbars="none"
     tools:context=".presentation.ui.login.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -32,15 +31,14 @@
             android:layout_marginBottom="40dp"
             android:fontFamily="sans-serif"
             android:text="@string/app_name"
-            android:textColor="@color/black"
+            android:textColor="?colorOnBackground"
             android:textSize="25sp"
             android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_email"
-            android:textColorHint="@color/black">
+            android:hint="@string/hint_email">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email"
@@ -48,8 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:imeOptions="actionDone"
-                android:textColor="@color/primaryDarkColor" />
+                android:imeOptions="actionDone" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,7 +55,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_password"
-            android:textColorHint="@color/black"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -68,8 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:ems="10"
-                android:imeOptions="actionDone"
-                android:textColor="@color/primaryDarkColor" />
+                android:imeOptions="actionDone" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -80,7 +75,8 @@
             android:layout_marginTop="16dp"
             android:gravity="end"
             android:text="@string/forgot_password"
-            android:textColor="@color/colorPrimaryContrastText" />
+            android:textColor="?colorPrimaryVariant"
+            android:textStyle="bold" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -93,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="26dp"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="?colorPrimary"
                 android:paddingStart="24dp"
                 android:paddingTop="12dp"
                 android:paddingEnd="24dp"
@@ -133,7 +129,7 @@
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:text="@string/or"
-                android:textColor="@color/white" />
+                android:textColor="?colorOnBackground" />
 
             <View
                 android:layout_width="match_parent"
@@ -168,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:text="@string/dont_have_an_account"
-                android:textColor="@color/colorPrimaryContrastText"
+                android:textColor="?colorOnBackground"
                 android:textSize="14sp" />
 
             <TextView
@@ -181,7 +177,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:text="@string/sign_up2"
-                android:textColor="@color/colorPrimaryContrastText"
+                android:textColor="?colorOnBackground"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 

@@ -3,10 +3,12 @@ package cv.edylsonf.classgram.presentation.ui.login
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View.TRANSLATION_Y
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
 import com.firebase.ui.auth.AuthUI
@@ -32,12 +34,17 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseFirestore
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var appLogo: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
+
+        appLogo = binding.ivLogo
+        if (isDarkTheme()) appLogo.setImageResource(R.drawable.classgram_logo_white)
+        else appLogo.setImageResource(R.drawable.classgram_logo)
+
         setProgressBar(binding.progressBar)
 
 
@@ -56,6 +63,11 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
             resetPass.setOnClickListener{ resetPass() }
         }
     }
+
+    private fun Context.isDarkTheme(): Boolean {
+        return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+    }
+
 
 
 
@@ -236,6 +248,12 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
         super.onDestroy()
         auth.removeAuthStateListener(this)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (isDarkTheme()) appLogo.setImageResource(R.drawable.classgram_logo_white)
+        else appLogo.setImageResource(R.drawable.classgram_logo)
     }
 
     override fun onAuthStateChanged(firebaseAuth: FirebaseAuth) {
