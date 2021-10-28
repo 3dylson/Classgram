@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:scrollbars="none"
+    android:fillViewport="true"
+    android:scrollbarStyle="insideInset"
     tools:context=".presentation.ui.login.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
 
         <ImageView
@@ -46,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:imeOptions="actionDone" />
+                android:imeOptions="actionNext" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -147,15 +148,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="20dp"
             app:buttonSize="wide" />
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:gravity="center"
+            android:gravity="center|bottom"
             android:orientation="horizontal">
 
             <TextView
