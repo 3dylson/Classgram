@@ -17,6 +17,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.ColorInt
+import androidx.appcompat.app.AlertDialog
 import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.common.SignInButton
 import com.google.android.material.textfield.TextInputEditText
@@ -250,8 +251,15 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
                 } else {
                     Log.e(TAG,"signInWithEmail failed",task.exception)
                     //TODO Change to snackbar dialog
-                    Toast.makeText(this, task.exception?.message,
-                        Toast.LENGTH_SHORT).show()
+                    val builder = AlertDialog.Builder(this)
+                    //builder.setTitle("Log in")
+                    builder.setMessage(task.exception?.message)
+                    builder.apply {
+                        setPositiveButton("Try again") { _,_ ->
+
+                        }
+                    }
+                    builder.create().show()
                 }
             }
     }

@@ -80,6 +80,7 @@ class SignupActivity : BaseActivity() {
         editTextPersonName = binding.editTextTextPersonName
         signInEmailText = binding.signInEmailSentText
         passwordReg = binding.passwordReg
+        confirmPassword = binding.confirmPassword
         signinBttn = binding.signinBttn
     }
 
