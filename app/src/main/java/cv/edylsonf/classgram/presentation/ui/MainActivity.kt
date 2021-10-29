@@ -1,10 +1,15 @@
 package cv.edylsonf.classgram.presentation.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -29,6 +34,7 @@ class MainActivity : BaseActivity(){
 
     private var signedInUser: User? = null
     private var selectedTab = 0
+    private lateinit var fab: FloatingActionButton
     private val fragments: ArrayList<Fragment> by lazy {
         setup()
     }
@@ -40,10 +46,15 @@ class MainActivity : BaseActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.Theme_Classgram)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        fab = binding.fab
+
+        /*findViewById<RecyclerView>(R.id.rvPosts).setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if (scrollY > oldScrollY) fab.hide()
+            else fab.show()
+        }*/
 
         database = Firebase.firestore
         val settings = firestoreSettings {
@@ -62,7 +73,11 @@ class MainActivity : BaseActivity(){
         with(binding){
             fab.setOnClickListener { createPost() }
         }
+
+
+
     }
+
 
     private fun createPost() {
         val intent = Intent(this,CreatePostActivity::class.java)

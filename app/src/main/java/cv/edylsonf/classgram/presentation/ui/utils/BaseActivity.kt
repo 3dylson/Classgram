@@ -12,6 +12,7 @@ open class BaseActivity : AppCompatActivity() {
 
     private var progressBar: ProgressBar? = null
 
+
     var uid: String = ""
         get() = Firebase.auth.currentUser!!.uid
 

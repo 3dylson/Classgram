@@ -3,14 +3,24 @@ package cv.edylsonf.classgram.presentation.ui.login
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.view.View.TRANSLATION_Y
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.annotation.ColorInt
+import androidx.appcompat.app.AlertDialog
 import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.common.SignInButton
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
@@ -26,26 +36,25 @@ import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
 private const val TAG = "LoginActivity"
 private const val REQUEST_SIGN_IN = 12345
 
-class LoginActivity : BaseActivity() {
+class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
 
-    private var verifiedByProvider: Boolean = false
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var view: View
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseFirestore
-    private lateinit var binding: ActivityLoginBinding
+    private var verifiedByProvider: Boolean = false
+
+    private lateinit var appLogo: ImageView
+    private lateinit var emailTextInput: TextInputEditText
+    private lateinit var passwordTextInput: TextInputEditText
+    private lateinit var logInBtn: Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-
-        setContentView(binding.root)
-        setProgressBar(binding.progressBar)
-
-
-
-        // Initialize Firebase Auth
-        auth = Firebase.auth
-        database = Firebase.firestore
-
+        bindingUi()
+        setup()
+        setLogoTheme()
         animations()
         googleSignUp()
 
@@ -57,25 +66,54 @@ class LoginActivity : BaseActivity() {
         }
     }
 
+    private fun bindingUi() {
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        view = binding.root
+        auth = Firebase.auth
+        database = Firebase.firestore
+        appLogo = binding.ivLogo
+        emailTextInput = binding.email
+        passwordTextInput = binding.password
+        logInBtn = binding.login
+    }
+
+    private fun setup() {
+        setContentView(view)
+        setProgressBar(binding.progressBar)
+        emailTextInput.addTextChangedListener(textWatcher)
+        passwordTextInput.addTextChangedListener(textWatcher)
+    }
+
+
+    private fun Context.isDarkTheme(): Boolean {
+        return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+    }
+
+
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            logInBtn.isEnabled = validateForm()
+        }
+        override fun afterTextChanged(s: Editable?) {
+        }
+    }
 
 
     private fun animations() {
-
         val google = findViewById<SignInButton>(R.id.google_signin)
-
         TRANSLATION_Y.set(google, 300F)
-
         google.alpha = 0F
-
         google.animate().translationY(0F).alpha(1F).setDuration(1000).setStartDelay(400).start()
-
-
     }
+
 
     private fun goSignUp(){
         val intent = Intent(this, SignupActivity::class.java)
         startActivity(intent)
     }
+
 
     private fun resetPass(){
         val intent = Intent(this, ForgotPassActivity::class.java)
@@ -89,32 +127,10 @@ class LoginActivity : BaseActivity() {
             openPostActivityCustom.launch(REQUEST_SIGN_IN)
         }
 
-        FirebaseAuth.getInstance().addAuthStateListener { firebaseAuth ->
-            Log.d(TAG, "AuthStateListener triggered. User: ${firebaseAuth.currentUser}")
-            if (firebaseAuth.currentUser != null) {
-                uid = firebaseAuth.currentUser!!.uid
-                if (firebaseAuth.currentUser!!.isEmailVerified || verifiedByProvider) {
-                    database.collection("users")
-                        .document(firebaseAuth.currentUser!!.uid)
-                        .get().addOnCompleteListener(this) { userDoc ->
-                            if (userDoc.result!!.exists()) {
-                               if (!(userDoc.result!!.get("emailVerified") as Boolean)) {
-                                   Log.d(TAG,"db User emailVerified returned false")
-                                   updateUser()
-                                }
-                                val intent = Intent(this, MainActivity::class.java)
-                                startActivity(intent)
-                                finish()
-                           } else {
-                                createUserFromProvider(firebaseAuth)
-                            }
-                        }
-                    //onEmailVerificationSuccess(it.currentUser)
-                }
-            }
-        }
+        auth.addAuthStateListener(this)
 
     }
+
 
     private fun createUserFromProvider(firebaseAuth: FirebaseAuth) {
         val user = hashMapOf(
@@ -169,6 +185,7 @@ class LoginActivity : BaseActivity() {
             .addOnFailureListener { e -> Log.w(TAG, "Error updating user", e) }
     }
 
+
     private val openPostActivityCustom =
         registerForActivityResult(ActivityContract()) { result ->
             if (result != null) {
@@ -198,57 +215,108 @@ class LoginActivity : BaseActivity() {
     //End Google Sign in Region
 
     private fun signIn() {
-        Log.d(TAG, "signIn")
-        if (!validateForm()) {
-            return
-        }
-
-        binding.login.isEnabled = false
+        view.isEnabled = false
+        hideKeyboard(view)
+        logInBtn.isEnabled = false
+        logInBtn.text = ""
         showProgressBar()
-        val email = binding.email.text.toString()
-        val password = binding.password.text.toString()
+
+        val email = emailTextInput.text.toString()
+        val password = passwordTextInput.text.toString()
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 Log.d(TAG, "signIn:onComplete:" + task.isSuccessful)
+
+                view.isEnabled = true
                 hideProgressBar()
-                binding.login.isEnabled = true
+                logInBtn.text = getString(R.string.login)
+                logInBtn.isEnabled = true
 
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     if (!user!!.isEmailVerified) {
+                        //TODO Change to snackbar dialog
                         Toast.makeText(this, "Verify your email!",
                             Toast.LENGTH_SHORT).show()
                         auth.signOut()
                     } else {
-                        Toast.makeText(this, "Successfully logged in!",
+                        Toast.makeText(this, "Logged In",
                             Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        //googleSignUp()
+                        finish()
                     }
                 } else {
                     Log.e(TAG,"signInWithEmail failed",task.exception)
-                    Toast.makeText(this, task.exception?.message,
-                        Toast.LENGTH_SHORT).show()
+                    //TODO Change to snackbar dialog
+                    val builder = AlertDialog.Builder(this)
+                    //builder.setTitle("Log in")
+                    builder.setMessage(task.exception?.message)
+                    builder.apply {
+                        setPositiveButton("Try again") { _,_ ->
+
+                        }
+                    }
+                    builder.create().show()
                 }
             }
     }
 
     private fun validateForm(): Boolean {
         var result = true
-        if (TextUtils.isEmpty(binding.email.text.toString())) {
-            binding.email.error = "Required"
+        if (TextUtils.isEmpty(emailTextInput.text.toString())) {
             result = false
-        } else {
-            binding.email.error = null
         }
 
-        if (TextUtils.isEmpty(binding.password.text.toString())) {
-            binding.password.error = "Required"
+        if (TextUtils.isEmpty(passwordTextInput.text.toString())) {
             result = false
-        } else {
-            binding.password.error = null
         }
 
         return result
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        auth.removeAuthStateListener(this)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setLogoTheme()
+    }
+
+    private fun setLogoTheme() {
+        if (isDarkTheme()) appLogo.setImageResource(R.drawable.classgram_logo_white)
+        else appLogo.setImageResource(R.drawable.classgram_logo)
+    }
+
+    override fun onAuthStateChanged(firebaseAuth: FirebaseAuth) {
+        Log.d(TAG, "AuthStateListener triggered. User: ${firebaseAuth.currentUser}")
+        if (firebaseAuth.currentUser != null) {
+            uid = firebaseAuth.currentUser!!.uid
+            if (firebaseAuth.currentUser!!.isEmailVerified || verifiedByProvider) {
+                database.collection("users")
+                    .document(firebaseAuth.currentUser!!.uid)
+                    .get().addOnCompleteListener(this) { userDoc ->
+                        if (userDoc.result!!.exists()) {
+                            if (!(userDoc.result!!.get("emailVerified") as Boolean)) {
+                                //TODO Consider doing through cloud function
+                                Log.d(TAG,"db User emailVerified returned false")
+                                updateUser()
+                            }
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            createUserFromProvider(firebaseAuth)
+                        }
+                    }
+                //onEmailVerificationSuccess(it.currentUser)
+            }
+        }
     }
 
 }

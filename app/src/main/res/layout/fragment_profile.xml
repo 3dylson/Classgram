@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"
-            android:textColor="?attr/colorOnSurface"
+            android:textColor="?attr/colorOnBackground"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/avatarContainer"
             app:layout_constraintTop_toTopOf="parent"
@@ -107,7 +107,6 @@
 
         <TextView
             android:id="@+id/book_emoji"
-            android:textColor="?attr/colorOnSurface"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"

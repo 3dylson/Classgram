@@ -19,8 +19,14 @@
         <item name="colorOnSurface">@color/white</item>
         <item name="colorOnError">@color/black</item>
 
-
     </style>
+
+    <style name="loginTheme" parent="Theme.Classgram">
+        <item name="android:windowDisablePreview">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="splashScreenTheme" parent="Theme.Classgram.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_image</item>
         <item name="android:statusBarColor">@color/primaryDarkColor</item>

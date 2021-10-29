@@ -19,5 +19,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="errorRedDark">#CF6679</color>
 
+    <color name="colorPrimaryDark60">#99002884</color>
+    <color name="colorPrimaryContrastText">#FFFFFF</color>
+    <color name="colorPrimaryDarkContrastText">#BDBDBD</color>
+
 
 </resources>
