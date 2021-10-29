@@ -4,11 +4,15 @@ package cv.edylsonf.classgram.presentation.ui.login
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -17,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.DEFAULT_PROFILE_PIC
+import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivitySignupBinding
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
 
@@ -24,36 +29,68 @@ private const val TAG = "SignupActivity"
 
 class SignupActivity : BaseActivity() {
 
-    private var accCreated: Boolean = false
-    private lateinit var emailResendUser: FirebaseUser
     private lateinit var binding: ActivitySignupBinding
-
     private lateinit var database: FirebaseFirestore
+    private lateinit var view: View
     private lateinit var auth: FirebaseAuth
+    private lateinit var emailResendUser: FirebaseUser
+    private var accCreated: Boolean = false
+
+    private lateinit var  editTextPersonName: TextInputEditText
+    private lateinit var  signInEmailText: TextInputEditText
+    private lateinit var  passwordReg: TextInputEditText
+    private lateinit var  confirmPassword: TextInputEditText
+    private lateinit var  signinBttn: Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySignupBinding.inflate(layoutInflater)
+        bindingUi()
+        setup()
 
-        setContentView(binding.root)
-        setProgressBar(binding.progressBar2)
 
-        database = Firebase.firestore
-        auth = Firebase.auth
-
-        if (auth.currentUser?.isEmailVerified == false) {
-            binding.resendEmailBtn.visibility = View.VISIBLE
-        }
+        /*if (auth.currentUser?.isEmailVerified == false) {
+            //binding.resendEmailBtn.visibility = View.VISIBLE
+        }*/
 
         animations()
 
         //Click listeners
         with(binding){
             signinBttn.setOnClickListener{ signUp() }
-            backbtn.setOnClickListener { onBackPressed()}
-            resendEmailBtn.setOnClickListener { resendEmail() }
+            //resendEmailBtn.setOnClickListener { resendEmail() }
         }
 
+    }
+
+    private fun setup() {
+        setContentView(view)
+        setProgressBar(binding.progressBar)
+        editTextPersonName.addTextChangedListener(textWatcher)
+        signInEmailText.addTextChangedListener(textWatcher)
+        passwordReg.addTextChangedListener(textWatcher)
+        confirmPassword.addTextChangedListener(textWatcher)
+    }
+
+    private fun bindingUi() {
+        binding = ActivitySignupBinding.inflate(layoutInflater)
+        view = binding.root
+        auth = Firebase.auth
+        database = Firebase.firestore
+        editTextPersonName = binding.editTextTextPersonName
+        signInEmailText = binding.signInEmailSentText
+        passwordReg = binding.passwordReg
+        signinBttn = binding.signinBttn
+    }
+
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            signinBttn.isEnabled = validateForm()
+        }
+        override fun afterTextChanged(s: Editable?) {
+        }
     }
 
     private fun resendEmail(){
@@ -79,22 +116,23 @@ class SignupActivity : BaseActivity() {
 
 
     private fun signUp() {
-        Log.d(TAG, "signUp")
-        if (!validateForm()) {
-            return
-        }
-
-        val password = binding.passwordReg.text.toString()
-        val confirmPassword = binding.confirmPassword.text.toString()
-
+        val password = passwordReg.text.toString()
+        val confirmPassword = confirmPassword.text.toString()
         if (confirmPassword != password) {
             binding.confirmPassword.error = "Password don't match!"
             return
         }
+        else {
+            binding.confirmPassword.error = null
+        }
 
-        binding.signinBttn.isEnabled = false
+        view.isEnabled = false
+        hideKeyboard(view)
+        signinBttn.isEnabled = false
+        signinBttn.text = ""
         showProgressBar()
-        val email = binding.signInEmailSentText.text.toString()
+
+        val email = signInEmailText.text.toString()
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
@@ -106,8 +144,8 @@ class SignupActivity : BaseActivity() {
                     onAuthSuccess(task.result?.user!!)
 
                 } else {
-                    binding.signinBttn.isEnabled = true
-                    hideProgressBar()
+                    enableSignInBtn()
+                    //TODO Change to snackbar dialog
                     Log.e("Sign Up Failed: ", task.exception.toString())
                     Toast.makeText(this, task.exception?.message,
                         Toast.LENGTH_SHORT).show()
@@ -117,9 +155,9 @@ class SignupActivity : BaseActivity() {
 
     private fun onAuthSuccess(user: FirebaseUser) {
         val username = user.email?.let { usernameFromEmail(it) }
-        val name = binding.editTextTextPersonName.text.toString()
+        val name = editTextPersonName.text.toString()
 
-        val profilePicture = UserProfileChangeRequest.Builder()
+        /*val profilePicture = UserProfileChangeRequest.Builder()
             .setPhotoUri(Uri.parse(DEFAULT_PROFILE_PIC))
             .build()
 
@@ -128,7 +166,7 @@ class SignupActivity : BaseActivity() {
                 if (task.isSuccessful) {
                     Log.d(TAG, "Update default profile pic" + task.isSuccessful)
                 }
-            }
+            }*/
 
         emailResendUser = user
         user.metadata?.let { writeNewUser(user.uid,username, name, user.email, it.creationTimestamp) }
@@ -179,16 +217,24 @@ class SignupActivity : BaseActivity() {
                 addressRef.set(address)
                 /*connectionsRef.add(connection)
                 postsRef.add(posts)*/
-                hideProgressBar()
-                binding.signinBttn.isEnabled = true
-                binding.resendEmailBtn.visibility = View.VISIBLE
+                //binding.resendEmailBtn.visibility = View.VISIBLE
+
+                enableSignInBtn()
                 showDialog(email!!)
 
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "writeNewUser:onFailure: $exception")
+                enableSignInBtn()
             }
 
+    }
+
+    private fun enableSignInBtn() {
+        view.isEnabled = true
+        hideProgressBar()
+        signinBttn.text = getString(R.string.sign_up)
+        signinBttn.isEnabled = true
     }
 
     private fun usernameFromEmail(email: String): String {
@@ -205,8 +251,8 @@ class SignupActivity : BaseActivity() {
         builder.setMessage("We need to verify your email address. Link sent to the email provided:\n$email")
         builder.apply {
             setPositiveButton("Ok") { _,_ ->
+                auth.signOut()
                 navToLogin()
-                //auth.signOut()
             }
         }
         builder.create().show()
@@ -222,34 +268,21 @@ class SignupActivity : BaseActivity() {
 
     private fun validateForm(): Boolean {
         var result = true
-        if (TextUtils.isEmpty(binding.signInEmailSentText.text.toString())) {
-            binding.signInEmailSentText.error = "Required"
+        if (TextUtils.isEmpty(signInEmailText.text.toString())) {
             result = false
-        } else {
-            binding.signInEmailSentText.error = null
         }
 
-        if (TextUtils.isEmpty(binding.passwordReg.text.toString())) {
-            binding.passwordReg.error = "Required"
+        if (TextUtils.isEmpty(passwordReg.text.toString())) {
             result = false
-        } else {
-            binding.passwordReg.error = null
         }
 
-        if (TextUtils.isEmpty(binding.editTextTextPersonName.text.toString())) {
-            binding.editTextTextPersonName.error = "Required"
+        if (TextUtils.isEmpty(editTextPersonName.text.toString())) {
             result = false
-        } else {
-            binding.editTextTextPersonName.error = null
         }
 
-        if (TextUtils.isEmpty(binding.confirmPassword.text.toString())) {
-            binding.confirmPassword.error = "Required"
+        if (TextUtils.isEmpty(confirmPassword.text.toString())) {
             result = false
-        } else {
-            binding.confirmPassword.error = null
         }
-
         return result
     }
 

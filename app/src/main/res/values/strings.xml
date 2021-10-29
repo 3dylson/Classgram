@@ -95,6 +95,7 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="app_s_logo_description">App´s logo</string>
+    <string name="please_enter_your_personal_information_label">Please Enter Your Personal Information</string>
 
 
 </resources>

@@ -10,6 +10,7 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.view.View.TRANSLATION_Y
 import android.widget.Button
 import android.widget.ImageView
@@ -37,10 +38,10 @@ private const val REQUEST_SIGN_IN = 12345
 class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
 
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var view: View
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseFirestore
     private var verifiedByProvider: Boolean = false
-    private lateinit var loginTextColorDefault: ColorStateList
 
     private lateinit var appLogo: ImageView
     private lateinit var emailTextInput: TextInputEditText
@@ -50,21 +51,8 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        setProgressBar(binding.progressBar)
-
-        auth = Firebase.auth
-        database = Firebase.firestore
-        appLogo = binding.ivLogo
-        emailTextInput = binding.email
-        passwordTextInput = binding.password
-        logInBtn = binding.login
-        loginTextColorDefault = logInBtn.textColors
-
-        emailTextInput.addTextChangedListener(textWatcher)
-        passwordTextInput.addTextChangedListener(textWatcher)
-
+        bindingUi()
+        setup()
         setLogoTheme()
         animations()
         googleSignUp()
@@ -77,6 +65,24 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
         }
     }
 
+    private fun bindingUi() {
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        view = binding.root
+        auth = Firebase.auth
+        database = Firebase.firestore
+        appLogo = binding.ivLogo
+        emailTextInput = binding.email
+        passwordTextInput = binding.password
+        logInBtn = binding.login
+    }
+
+    private fun setup() {
+        setContentView(view)
+        setProgressBar(binding.progressBar)
+        emailTextInput.addTextChangedListener(textWatcher)
+        passwordTextInput.addTextChangedListener(textWatcher)
+    }
+
 
     private fun Context.isDarkTheme(): Boolean {
         return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
@@ -87,14 +93,7 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
         }
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            if (validateForm()) {
-                logInBtn.isEnabled = true
-                logInBtn.setTextColor(resources.getColor(R.color.white))
-            }
-            else {
-                logInBtn.isEnabled = false
-                logInBtn.setTextColor(loginTextColorDefault)
-            }
+            logInBtn.isEnabled = validateForm()
         }
         override fun afterTextChanged(s: Editable?) {
         }
@@ -215,7 +214,8 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
     //End Google Sign in Region
 
     private fun signIn() {
-        hideKeyboard(binding.root)
+        view.isEnabled = false
+        hideKeyboard(view)
         logInBtn.isEnabled = false
         logInBtn.text = ""
         showProgressBar()
@@ -227,6 +227,7 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
             .addOnCompleteListener(this) { task ->
                 Log.d(TAG, "signIn:onComplete:" + task.isSuccessful)
 
+                view.isEnabled = true
                 hideProgressBar()
                 logInBtn.text = getString(R.string.login)
                 logInBtn.isEnabled = true
