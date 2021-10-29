@@ -4,8 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.AbsListView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -30,6 +34,9 @@ open class HomeFragment : BaseFragment() {
 
     private lateinit var posts: MutableList<Post>
     private lateinit var adapter: PostAdapter
+    private lateinit var fab: FloatingActionButton
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var bottomAppBar: BottomAppBar
 
 
     override fun onCreateView(
@@ -38,6 +45,11 @@ open class HomeFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
+        recyclerView = binding.rvPosts
+
+        fab = requireActivity().findViewById(R.id.fab)
+        bottomAppBar = requireActivity().findViewById(R.id.bottomAppBar)
+
 
         setHasOptionsMenu(true)
 
@@ -51,6 +63,25 @@ open class HomeFragment : BaseFragment() {
         setup()
         loadPosts()
 
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                when (newState) {
+                    0 -> {
+                        fab.show()
+                        bottomAppBar.performShow()
+                    }
+                    else -> {
+                        fab.hide()
+                        bottomAppBar.performHide()
+                    }
+
+                }
+            }
+
+        })
+
 
         return binding.root
     }
@@ -62,6 +93,7 @@ open class HomeFragment : BaseFragment() {
         adapter = context1?.let { PostAdapter(it,posts) }!!*/
         adapter = PostAdapter(requireContext(),posts)
         binding.rvPosts.adapter = adapter
+        recyclerView.setHasFixedSize(true)
         binding.rvPosts.layoutManager = LinearLayoutManager(requireContext())
     }
 
