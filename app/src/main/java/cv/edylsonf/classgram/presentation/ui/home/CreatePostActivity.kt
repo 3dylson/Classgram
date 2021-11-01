@@ -90,7 +90,7 @@ class CreatePostActivity : BaseActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.create_post_action_menu,menu)
         actionBarMenu = menu
         return super.onCreateOptionsMenu(menu)
