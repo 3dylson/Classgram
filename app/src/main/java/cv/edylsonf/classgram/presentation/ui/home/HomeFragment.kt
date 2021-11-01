@@ -63,7 +63,7 @@ open class HomeFragment : BaseFragment() {
         setup()
         loadPosts()
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        /*recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -80,7 +80,7 @@ open class HomeFragment : BaseFragment() {
                 }
             }
 
-        })
+        })*/
 
 
         return binding.root
