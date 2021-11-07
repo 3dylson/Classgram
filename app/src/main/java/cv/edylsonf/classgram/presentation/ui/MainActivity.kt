@@ -26,10 +26,11 @@ import cv.edylsonf.classgram.presentation.ui.home.HomeFragment
 import cv.edylsonf.classgram.presentation.ui.login.LoginActivity
 import cv.edylsonf.classgram.presentation.ui.profile.ProfileFragment
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "MainActivity"
 
-
+@AndroidEntryPoint
 class MainActivity : BaseActivity(){
 
     private var signedInUser: User? = null

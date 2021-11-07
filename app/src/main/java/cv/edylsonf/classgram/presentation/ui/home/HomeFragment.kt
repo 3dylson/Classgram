@@ -4,8 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.AbsListView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -21,7 +19,6 @@ import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.REQUEST_IMAGE_CAPTURE
 import cv.edylsonf.classgram.databinding.FragmentHomeBinding
 import cv.edylsonf.classgram.domain.models.Post
-import cv.edylsonf.classgram.presentation.ui.adapters.PostAdapter
 import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
 
 private const val TAG = "HomeFragment"

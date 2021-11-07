@@ -1,4 +1,4 @@
-package cv.edylsonf.classgram.presentation.ui.adapters
+package cv.edylsonf.classgram.presentation.ui.home
 
 import android.content.Context
 import android.text.format.DateUtils
@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ItemFeedBinding
 import cv.edylsonf.classgram.domain.models.Post

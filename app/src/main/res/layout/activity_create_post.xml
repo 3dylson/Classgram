@@ -53,6 +53,7 @@
         android:layout_marginTop="12dp"
         android:ems="10"
         android:gravity="start|top"
+        android:maxLines="10"
         android:hint="@string/ask_a_specific_question"
         android:inputType="textMultiLine"
         app:layout_constraintStart_toStartOf="parent"
