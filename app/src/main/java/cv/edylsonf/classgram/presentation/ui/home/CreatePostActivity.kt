@@ -24,7 +24,7 @@ import cv.edylsonf.classgram.domain.models.User
 import cv.edylsonf.classgram.presentation.ui.MainActivity
 import cv.edylsonf.classgram.presentation.ui.messages.SnackbarMessageManager
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
-import cv.edylsonf.classgram.widget.FadingSnackbar
+import cv.edylsonf.classgram.presentation.widget.FadingSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

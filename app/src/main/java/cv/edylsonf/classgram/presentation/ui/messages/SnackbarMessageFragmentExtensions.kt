@@ -4,7 +4,7 @@ import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.fragment.app.Fragment
 import cv.edylsonf.classgram.presentation.ui.utils.launchAndRepeatWithViewLifecycle
-import cv.edylsonf.classgram.widget.FadingSnackbar
+import cv.edylsonf.classgram.presentation.widget.FadingSnackbar
 import kotlinx.coroutines.flow.collect
 
 /**

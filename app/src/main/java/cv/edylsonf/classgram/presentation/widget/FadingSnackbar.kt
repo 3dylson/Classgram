@@ -1,4 +1,4 @@
-package cv.edylsonf.classgram.widget
+package cv.edylsonf.classgram.presentation.widget
 
 import android.content.Context
 import android.util.AttributeSet

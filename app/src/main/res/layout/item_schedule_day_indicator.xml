@@ -11,19 +11,22 @@
 
     </data>
 
+    <!--android:checked="@{indicator.checked}"
+    android:enabled="@{indicator.enabled}"
+    app:indicatorText="@{indicator}"-->
+
     <CheckedTextView
         android:layout_width="wrap_content"
         android:layout_height="@dimen/a11y_min_touch_target"
         android:background="?selectableItemBackgroundBorderless"
-        android:checked="@{indicator.checked}"
-        android:enabled="@{indicator.enabled}"
+        android:checked="false"
+        android:enabled="true"
         android:gravity="center"
         android:minWidth="@dimen/a11y_min_touch_target"
         android:paddingLeft="@dimen/spacing_normal"
         android:paddingRight="@dimen/spacing_normal"
         android:textAlignment="center"
         android:textAppearance="?textAppearanceBody1"
-        app:indicatorText="@{indicator}"
         tools:checked="@sample/day_indicator.json/indicators/checked"
         tools:text="@sample/day_indicator.json/indicators/label" />
 
