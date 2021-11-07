@@ -2,17 +2,17 @@
   "comment": "Sample tag data for use with tools:... attributes in layouts, primarily list items",
   "tags": [
     {
-      "name": "Ads",
+      "name": "Class",
       "color": "#B0BEC5",
       "checked": false
     },
     {
-      "name": "Android",
+      "name": "Zoom",
       "color": "#AED581",
       "checked": true
     },
     {
-      "name": "Assistant",
+      "name": "Degree",
       "color": "#1ce8b5",
       "checked": false
     },

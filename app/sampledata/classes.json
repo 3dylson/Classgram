@@ -1,0 +1,20 @@
+{
+  "comment": "Sample classes for use with tools:... attributes in layouts",
+  "classes": [
+    {
+      "name": "Estatística"
+    },
+    {
+      "name": "PO"
+    },
+    {
+      "name": "AED"
+    },
+    {
+      "name": "Desenvolvimento Web"
+    },
+    {
+      "label": "QSI"
+    }
+  ]
+}
