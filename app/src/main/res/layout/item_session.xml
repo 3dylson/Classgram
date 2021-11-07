@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:paddingBottom="@dimen/schedule_item_padding_vertical"
+        android:paddingTop="@dimen/schedule_item_padding_vertical">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_start"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="64dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/margin_small" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="viewStart"
+            android:textAppearance="?textAppearanceListItem"
+            app:layout_constraintStart_toEndOf="@id/guideline_start"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Estatística" />
+
+
+        <!--<ImageButton
+            android:id="@+id/bookmark_session"
+            android:layout_width="@dimen/a11y_min_touch_target"
+            android:layout_height="@dimen/a11y_min_touch_target"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_baseline_star_"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>-->
+
+
+        <!--<TextView
+            android:id="@+id/reservation_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_micro"
+            android:drawablePadding="@dimen/spacing_normal"
+            android:gravity="center_vertical"
+            app:layout_constraintStart_toEndOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            tools:text="Reserved" />-->
+
+
+        <ImageView
+            android:id="@+id/livestream_icon"
+            android:layout_width="18dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="@dimen/spacing_micro"
+            android:layout_marginEnd="14dp"
+            android:importantForAccessibility="no"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@id/tags_barrier"
+            app:layout_constraintEnd_toStartOf="@id/length_location"
+            app:layout_constraintStart_toEndOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:srcCompat="@drawable/ic_baseline_videocam" />
+
+        <TextView
+            android:id="@+id/length_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="viewStart"
+            android:layout_marginTop="@dimen/spacing_micro"
+            app:layout_constraintBottom_toTopOf="@id/tags_barrier"
+            app:layout_constraintEnd_toStartOf="@id/guideline_end"
+            app:layout_constraintStart_toEndOf="@id/livestream_icon"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            tools:text="Nov 7 / Sala 110" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/tags_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="livestream_icon,length_location" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tags"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_micro"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="@id/guideline_end"
+            app:layout_constraintStart_toEndOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/tags_barrier"
+            tools:itemCount="3"
+            tools:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/item_inline_tag"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

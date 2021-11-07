@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_normal"
+        tools:drawableStart="@drawable/tag_dot"
+        tools:text="@sample/tags.json/tags/name"
+        android:drawablePadding="@dimen/spacing_micro"
+        tools:drawableTint="@sample/tags.json/tags/color"/>
+
+</layout>

@@ -1,0 +1,17 @@
+{
+  "comment": "Sample day indicators for use with tools:... attributes in layouts",
+  "indicators": [
+    {
+      "label": "Nov 7",
+      "checked": false
+    },
+    {
+      "label": "Nov 8",
+      "checked": true
+    },
+    {
+      "label": "Nov 9",
+      "checked": false
+    }
+  ]
+}
