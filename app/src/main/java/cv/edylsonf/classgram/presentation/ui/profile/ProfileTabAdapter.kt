@@ -1,4 +1,4 @@
-package cv.edylsonf.classgram.presentation.ui.adapters
+package cv.edylsonf.classgram.presentation.ui.profile
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter

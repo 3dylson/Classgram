@@ -5,11 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
-import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -20,8 +17,6 @@ import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.FragmentProfileBinding
 import cv.edylsonf.classgram.domain.models.User
-import cv.edylsonf.classgram.presentation.ui.MainActivity
-import cv.edylsonf.classgram.presentation.ui.adapters.ProfileTabAdapter
 import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
 import cv.edylsonf.classgram.presentation.ui.utils.HorizontalFlipTransformation
 

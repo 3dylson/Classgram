@@ -9,7 +9,12 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.presentation.ui.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * A 'Trampoline' activity for sending users to an appropriate screen on launch.
+ */
+@AndroidEntryPoint
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
 

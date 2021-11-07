@@ -22,26 +22,37 @@ import cv.edylsonf.classgram.REQUEST_IMAGE_CAPTURE
 import cv.edylsonf.classgram.databinding.ActivityCreatePostBinding
 import cv.edylsonf.classgram.domain.models.User
 import cv.edylsonf.classgram.presentation.ui.MainActivity
+import cv.edylsonf.classgram.presentation.ui.messages.SnackbarMessageManager
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
+import cv.edylsonf.classgram.widget.FadingSnackbar
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 private const val TAG = "CreatePostActivity"
 
+@AndroidEntryPoint
 class CreatePostActivity : BaseActivity() {
 
     private lateinit var binding: ActivityCreatePostBinding
 
     private var signedInUser: User? = null
     private var photoUri: Uri? = null
+    private lateinit var view: View
     private lateinit var database: FirebaseFirestore
     private lateinit var storageReference: StorageReference
     private var actionBarMenu: Menu? = null
 
+    @Inject
+    lateinit var snackbarMessageManager: SnackbarMessageManager
+
+    private lateinit var snackbar: FadingSnackbar
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.Theme_Classgram)
         binding = ActivityCreatePostBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        view = binding.root
+        setContentView(view)
         setProgressBar(binding.postLoading)
 
         storageReference = FirebaseStorage.getInstance().reference
@@ -49,6 +60,8 @@ class CreatePostActivity : BaseActivity() {
 
 
         setup()
+
+
 
         with(binding) {
             captureFab.setOnClickListener { openCam() }
@@ -111,7 +124,9 @@ class CreatePostActivity : BaseActivity() {
         else {
             binding.postText.error = null
             actionBarMenu?.findItem(R.id.submitPost)?.isEnabled = false
+            view.isEnabled = false
             showProgressBar()
+            hideKeyboard(view)
 
             //TODO mentions and tags function
             if (photoUri == null) {
@@ -130,6 +145,7 @@ class CreatePostActivity : BaseActivity() {
                     .addOnCompleteListener { postCreationTask ->
                         actionBarMenu?.findItem(R.id.submitPost)?.isEnabled = true
                         hideProgressBar()
+                        view.isEnabled = true
                         if (!postCreationTask.isSuccessful) {
 
                             Log.e(
@@ -143,6 +159,7 @@ class CreatePostActivity : BaseActivity() {
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
+                            hideKeyboard(binding.root)
                             binding.postText.text.clear()
                             discardSelectedImg()
                             Toast.makeText(this, "Sent", Toast.LENGTH_SHORT).show()
@@ -177,6 +194,7 @@ class CreatePostActivity : BaseActivity() {
                     }.addOnCompleteListener { postCreationTask ->
                         actionBarMenu?.findItem(R.id.submitPost)?.isEnabled = true
                         hideProgressBar()
+                        view.isEnabled = true
                         if (!postCreationTask.isSuccessful) {
                             Log.e(
                                 TAG,
