@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Configuration
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -32,10 +33,14 @@ import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivityLoginBinding
 import cv.edylsonf.classgram.presentation.ui.MainActivity
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
+import javax.inject.Inject
 
 private const val TAG = "LoginActivity"
 private const val REQUEST_SIGN_IN = 12345
 
+@AndroidEntryPoint
 class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
 
     private lateinit var binding: ActivityLoginBinding
@@ -48,6 +53,9 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
     private lateinit var emailTextInput: TextInputEditText
     private lateinit var passwordTextInput: TextInputEditText
     private lateinit var logInBtn: Button
+
+    @Inject
+    lateinit var connectivityManager: ConnectivityManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -165,12 +173,21 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
                             .collection("users").document(it)
                             .collection("addresses").document("college")
                     }.set(address)
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    hideProgressBar()
+                    navToMain()
                 }
                 .addOnFailureListener { exception ->
+                    hideProgressBar()
                     Log.w(TAG, "writeNewUser:onFailure: $exception")
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("Error")
+                    builder.setMessage(exception.message)
+                    builder.apply {
+                        setPositiveButton("Try again") { _,_ ->
+
+                        }
+                    }
+                    builder.create().show()
                 }
         }
     }
@@ -188,10 +205,22 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
 
     private val openPostActivityCustom =
         registerForActivityResult(ActivityContract()) { result ->
-            if (result != null) {
-                Log.d(TAG, "User signed in")
+            if (result == true) {
+                Timber.d("User signed in")
                 verifiedByProvider = true
+            } else {
+                //TODO check if is network issue
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Error")
+                builder.setMessage("An unknown network error has occurred.")
+                builder.apply {
+                    setPositiveButton("Dismiss") { _,_ ->
+
+                    }
+                }
+                builder.create().show()
             }
+
         }
 
 
@@ -215,53 +244,61 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
     //End Google Sign in Region
 
     private fun signIn() {
-        view.isEnabled = false
-        hideKeyboard(view)
-        logInBtn.isEnabled = false
-        logInBtn.text = ""
-        showProgressBar()
-
-        val email = emailTextInput.text.toString()
-        val password = passwordTextInput.text.toString()
-
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                Log.d(TAG, "signIn:onComplete:" + task.isSuccessful)
-
-                view.isEnabled = true
-                hideProgressBar()
-                logInBtn.text = getString(R.string.login)
-                logInBtn.isEnabled = true
-
-                if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    if (!user!!.isEmailVerified) {
-                        //TODO Change to snackbar dialog
-                        Toast.makeText(this, "Verify your email!",
-                            Toast.LENGTH_SHORT).show()
-                        auth.signOut()
-                    } else {
-                        Toast.makeText(this, "Logged In",
-                            Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        //googleSignUp()
-                        finish()
-                    }
-                } else {
-                    Log.e(TAG,"signInWithEmail failed",task.exception)
-                    //TODO Change to snackbar dialog
-                    val builder = AlertDialog.Builder(this)
-                    //builder.setTitle("Log in")
-                    builder.setMessage(task.exception?.message)
-                    builder.apply {
-                        setPositiveButton("Try again") { _,_ ->
-
-                        }
-                    }
-                    builder.create().show()
+        if (connectivityManager.activeNetworkInfo?.isConnected == false){
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Error")
+            builder.setMessage("Please check your network connection")
+            builder.apply {
+                setPositiveButton("Dismiss") { _,_ ->
                 }
             }
+            builder.create().show()
+        } else {
+            view.isEnabled = false
+            hideKeyboard(view)
+            logInBtn.isEnabled = false
+            logInBtn.text = ""
+            showProgressBar()
+
+            val email = emailTextInput.text.toString()
+            val password = passwordTextInput.text.toString()
+
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    Log.d(TAG, "signIn:onComplete:" + task.isSuccessful)
+
+                    view.isEnabled = true
+                    hideProgressBar()
+                    logInBtn.text = getString(R.string.login)
+                    logInBtn.isEnabled = true
+
+                    if (task.isSuccessful) {
+                        val user = auth.currentUser
+                        if (!user!!.isEmailVerified) {
+                            //TODO Change to snackbar dialog
+                            Toast.makeText(this, "Verify your email!",
+                                Toast.LENGTH_SHORT).show()
+                            auth.signOut()
+                        } else {
+                            Toast.makeText(this, "Logged In",
+                                Toast.LENGTH_SHORT).show()
+                            navToMain()
+                        }
+                    } else {
+                        Log.e(TAG,"signInWithEmail failed",task.exception)
+                        val builder = AlertDialog.Builder(this)
+                        //builder.setTitle("Log in")
+                        builder.setMessage(task.exception?.message)
+                        builder.apply {
+                            setPositiveButton("Try again") { _,_ ->
+
+                            }
+                        }
+                        builder.create().show()
+                    }
+                }
+
+        }
     }
 
     private fun validateForm(): Boolean {
@@ -307,16 +344,21 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
                                 Log.d(TAG,"db User emailVerified returned false")
                                 updateUser()
                             }
-                            val intent = Intent(this, MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
+                            navToMain()
                         } else {
+                            showProgressBar()
                             createUserFromProvider(firebaseAuth)
                         }
                     }
                 //onEmailVerificationSuccess(it.currentUser)
             }
         }
+    }
+
+    private fun navToMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
 }

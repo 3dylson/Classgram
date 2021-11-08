@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
@@ -56,7 +57,7 @@ open class PostAdapter(query: Query, private val listener: OnPostSelectedListene
             }
             Glide.with(binding.avatar.context)
                 .load(post.user?.profilePic)
-                //.diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .circleCrop()
                 .into(itemView.findViewById(R.id.avatar))
             binding.tvName.text = post.user?.firstLastName
@@ -68,7 +69,7 @@ open class PostAdapter(query: Query, private val listener: OnPostSelectedListene
             if (hasImagePost) {
                 Glide.with(binding.tvPostImage.context)
                     .load(post.imageUrl)
-                    //.diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(itemView.findViewById(R.id.tv_postImage))
             }
             else {

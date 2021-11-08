@@ -33,7 +33,6 @@ open class HomeFragment : BaseFragment(),
     private lateinit var database: FirebaseFirestore
     private lateinit var query: Query
 
-    private lateinit var posts: MutableList<Post>
     private lateinit var adapter: PostAdapter
     private lateinit var fab: FloatingActionButton
     private lateinit var recyclerView: RecyclerView
