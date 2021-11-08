@@ -101,7 +101,7 @@ data class Session(
      */
     fun getCalendarDescription(
         paragraphDelimiter: String,
-        speakerDelimiter: String
+        //speakerDelimiter: String
     ): String = buildString {
         append(description)
         append(paragraphDelimiter)

@@ -2,15 +2,17 @@ package cv.edylsonf.classgram.presentation.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
@@ -23,13 +25,14 @@ import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
 
 private const val TAG = "HomeFragment"
 
-open class HomeFragment : BaseFragment() {
+open class HomeFragment : BaseFragment(),
+            PostAdapter.OnPostSelectedListener {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseFirestore
+    private lateinit var query: Query
 
-    private lateinit var posts: MutableList<Post>
     private lateinit var adapter: PostAdapter
     private lateinit var fab: FloatingActionButton
     private lateinit var recyclerView: RecyclerView
@@ -57,8 +60,12 @@ open class HomeFragment : BaseFragment() {
         }
         database.firestoreSettings = settings
 
+        query = database.collection("posts")
+            .limit(20)
+            .orderBy("creationTime", Query.Direction.DESCENDING)
+
         setup()
-        loadPosts()
+        profilePosts()
 
         /*recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
@@ -84,26 +91,50 @@ open class HomeFragment : BaseFragment() {
     }
 
     private fun setup(){
-        //TODO organize it better
-        posts = mutableListOf()
+        adapter = object : PostAdapter(query, this@HomeFragment) {
+            override fun onDataChanged() {
+                // Show/hide content if the query returns empty.
+                // TODO empty view
+                if (itemCount == 0) {
+                    binding.rvPosts.visibility = View.GONE
+                    //binding.viewEmpty.visibility = View.VISIBLE
+                } else {
+                    binding.rvPosts.visibility = View.VISIBLE
+                    //binding.viewEmpty.visibility = View.GONE
+                }
+            }
+
+            // TODO change on production
+            override fun onError(e: FirebaseFirestoreException) {
+                // Show a snackbar on errors
+                Snackbar.make(binding.root,
+                    "Error: check logs for info.", Snackbar.LENGTH_LONG).show()
+            }
+        }
+
+        binding.rvPosts.layoutManager = LinearLayoutManager(context)
+        binding.rvPosts.adapter = adapter
+
+        //posts = mutableListOf()
         /*val context1 = container?.context
         adapter = context1?.let { PostAdapter(it,posts) }!!*/
-        adapter = PostAdapter(requireContext(),posts)
+        /*adapter = PostAdapter(requireContext(),posts)
         binding.rvPosts.adapter = adapter
         recyclerView.setHasFixedSize(true)
-        binding.rvPosts.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvPosts.layoutManager = LinearLayoutManager(requireContext())*/
     }
 
-    private fun loadPosts() {
-        var postsDoc = database.collection("posts")
+    private fun profilePosts() {
+        /*var postsDoc = database.collection("posts")
             .limit(20)
-            .orderBy("creationTime", Query.Direction.DESCENDING)
+            .orderBy("creationTime", Query.Direction.DESCENDING)*/
 
         val homeOrProfile = activity?.intent?.getStringExtra("profile")
         if (homeOrProfile != null ) {
-            postsDoc = postsDoc.whereEqualTo("user.uid",uid)
+            query = query.whereEqualTo("user.uid",uid)
+            adapter.setQuery(query)
         }
-        postsDoc.addSnapshotListener { snapshot, exception ->
+        /*postsDoc.addSnapshotListener { snapshot, exception ->
             if (exception != null || snapshot == null) {
                 Log.w(TAG, "Unable to retrieve data. Error=$exception, snapshot=$snapshot")
                 return@addSnapshotListener
@@ -119,7 +150,7 @@ open class HomeFragment : BaseFragment() {
                 Log.i(TAG, "Post $post")
             }
 
-        }
+        }*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -140,6 +171,20 @@ open class HomeFragment : BaseFragment() {
         startActivityForResult(Intent(context, CameraActivity::class.java), REQUEST_IMAGE_CAPTURE)
     }
 
+    override fun onPostSelected(post: DocumentSnapshot) {
+        Snackbar.make(binding.root,
+            "Post selected "+post.id, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        adapter.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        adapter.stopListening()
+    }
 
 
 }
