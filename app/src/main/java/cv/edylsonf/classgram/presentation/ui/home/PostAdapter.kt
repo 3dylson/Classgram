@@ -22,8 +22,6 @@ open class PostAdapter(query: Query, private val listener: OnPostSelectedListene
         fun onPostSelected(post: DocumentSnapshot)
     }
 
-    private lateinit var bindingPost: ItemFeedBinding
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         //val view = LayoutInflater.from(parent.context).inflate(R.layout.item_feed,parent,false)

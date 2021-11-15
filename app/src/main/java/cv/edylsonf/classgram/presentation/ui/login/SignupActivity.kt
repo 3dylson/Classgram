@@ -2,7 +2,6 @@ package cv.edylsonf.classgram.presentation.ui.login
 
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -13,9 +12,9 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -36,11 +35,12 @@ class SignupActivity : BaseActivity() {
     private lateinit var emailResendUser: FirebaseUser
     private var accCreated: Boolean = false
 
-    private lateinit var  editTextPersonName: TextInputEditText
-    private lateinit var  signInEmailText: TextInputEditText
-    private lateinit var  passwordReg: TextInputEditText
-    private lateinit var  confirmPassword: TextInputEditText
-    private lateinit var  signinBttn: Button
+    private lateinit var editTextPersonName: TextInputEditText
+    private lateinit var signInEmailText: TextInputEditText
+    private lateinit var passwordReg: TextInputEditText
+    private lateinit var confirmPassTil: TextInputLayout
+    private lateinit var confirmPassword: TextInputEditText
+    private lateinit var signinBttn: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,6 +81,7 @@ class SignupActivity : BaseActivity() {
         signInEmailText = binding.signInEmailSentText
         passwordReg = binding.passwordReg
         confirmPassword = binding.confirmPassword
+        confirmPassTil = binding.confirmPasswordTil
         signinBttn = binding.signinBttn
     }
 
@@ -120,11 +121,11 @@ class SignupActivity : BaseActivity() {
         val password = passwordReg.text.toString()
         val confirmPassword = confirmPassword.text.toString()
         if (confirmPassword != password) {
-            binding.confirmPassword.error = "Password don't match!"
+            confirmPassTil.error = "Password don't match!"
             return
         }
         else {
-            binding.confirmPassword.error = null
+            confirmPassTil.error = null
         }
 
         view.isEnabled = false

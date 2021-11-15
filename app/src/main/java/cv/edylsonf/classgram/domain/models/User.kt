@@ -1,8 +1,10 @@
 package cv.edylsonf.classgram.domain.models
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import kotlinx.parcelize.Parcelize
 
+@Keep
 @Parcelize
 data class User(
     var uid: String? = null,

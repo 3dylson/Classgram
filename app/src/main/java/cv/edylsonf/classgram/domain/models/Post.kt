@@ -1,5 +1,8 @@
 package cv.edylsonf.classgram.domain.models
 
+import androidx.annotation.Keep
+
+@Keep
 data class Post(
     var text: String? = null,
     var imageUrl: String? = null,
