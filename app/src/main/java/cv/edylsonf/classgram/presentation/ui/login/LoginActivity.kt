@@ -3,9 +3,7 @@ package cv.edylsonf.classgram.presentation.ui.login
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.content.res.Configuration
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -17,14 +15,12 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
-import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
 import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.common.SignInButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -33,9 +29,9 @@ import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivityLoginBinding
 import cv.edylsonf.classgram.presentation.ui.MainActivity
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
+import cv.edylsonf.classgram.util.NetworkUtils
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import javax.inject.Inject
 
 private const val TAG = "LoginActivity"
 private const val REQUEST_SIGN_IN = 12345
@@ -54,8 +50,10 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
     private lateinit var passwordTextInput: TextInputEditText
     private lateinit var logInBtn: Button
 
-    @Inject
-    lateinit var connectivityManager: ConnectivityManager
+    private lateinit var networkUtils: NetworkUtils
+
+    /*@Inject
+    lateinit var connectivityManager: ConnectivityManager*/
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,6 +88,7 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
         setProgressBar(binding.progressBar)
         emailTextInput.addTextChangedListener(textWatcher)
         passwordTextInput.addTextChangedListener(textWatcher)
+        networkUtils = NetworkUtils(applicationContext)
     }
 
 
@@ -244,7 +243,7 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
     //End Google Sign in Region
 
     private fun signIn() {
-        if (connectivityManager.activeNetworkInfo?.isConnected == false){
+        if (!networkUtils.hasNetworkConnection()){
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Error")
             builder.setMessage("Please check your network connection")
