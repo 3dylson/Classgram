@@ -102,6 +102,7 @@
     <!-- Snackbar -->
     <string name="got_it" translation_description="The label for dismissing a information messages.">Got it</string>
     <string name="dont_show" translation_description="The label for opting out of in-app notification messages.">Don\'t show</string>
+    <string name="title_activity_chat">ChatActivity</string>
 
 
 </resources>
