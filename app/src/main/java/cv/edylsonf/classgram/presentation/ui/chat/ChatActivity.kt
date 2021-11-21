@@ -8,26 +8,28 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import cv.edylsonf.classgram.R
-import cv.edylsonf.classgram.domain.models.Chat
 import cv.edylsonf.classgram.presentation.ui.theme.ClassgramTheme
-import org.w3c.dom.Text
 
 class ChatActivity : ComponentActivity() {
 
@@ -41,51 +43,100 @@ class ChatActivity : ComponentActivity() {
         setContent {
             ClassgramTheme {
                 // auth.currentUser?.let { ChatCard(Chat(null,null,null), it) }
-                ChatCard()
+                ChatScreen()
             }
         }
     }
 }
 
+@Composable
+private fun ChatScreen() {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text("Chats")
+                },
+                actions = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(Icons.Filled.Add, contentDescription = null)
+                    }
+                },
+                navigationIcon = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(Icons.Filled.ArrowBack, null)
+                    }
+                }
+            )
+        }
+    ) { innerPadding ->
+        ChatList(Modifier.padding(innerPadding))
+    }
+}
 
 @Composable
-private fun ChatCard() {
+private fun ChatList(modifier: Modifier = Modifier) {
+    // We save the scrolling position with this state that can also
+    // be used to programmatically scroll the list
+    val scrollState = rememberLazyListState()
+    // We save the coroutine scope where our animated scroll will be executed
+    val coroutineScope = rememberCoroutineScope()
+
+    // LazyColumn in Jetpack Compose is the equivalent of RecyclerView in Android Views.
+    LazyColumn(state = scrollState) {
+        items(20) {
+            ChatCard("User #$it")
+        }
+    }
+}
+
+
+@ExperimentalCoilApi
+@Composable
+private fun ChatCard(testString: String) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .clickable { }
-        .padding(all = 16.dp)
+        .padding(all = 8.dp)
         .background(MaterialTheme.colors.surface)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.classgram_logo),
+            /*painter = painterResource(id = R.drawable.classgram_logo),*/
+            painter = rememberImagePainter(
+                data = "https://developer.android.com/images/brand/Android_Robot.png"
+            ),
             contentDescription = null,
             modifier = Modifier
-                .size(64.dp)
+                .size(50.dp)
                 .clip(CircleShape)
                 .border(1.5.dp, MaterialTheme.colors.secondary, CircleShape)
         )
         Column(
             modifier = Modifier
-                .padding(8.dp),
-            /*verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally*/
+                .padding(start = 8.dp)
+                .align(Alignment.CenterVertically)
         ) {
-            Text("Edylson Frederico")
+            Text(testString)
             Row {
-                Text(
-                    "Yo classgram!",
-                    color = Color.DarkGray
-                )
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                        "Yo classgram!",
+                        style = MaterialTheme.typography.body2
+                    )
+                }
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     "-",
-                    color = Color.Black
+                    style = MaterialTheme.typography.body2,
+                    fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.width(4.dp))
-                Text(
-                    "4h",
-                    color = Color.DarkGray
-                )
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                    Text(
+                        "4h",
+                        style = MaterialTheme.typography.body2
+                    )
+                }
             }
         }
     }
@@ -107,11 +158,11 @@ private fun ChatCard(chat: Chat, currentUser: FirebaseUser) {
 }*/
 
 
-
 @Preview(showBackground = true, widthDp = 320)
 @Composable
-fun DefaultPreview() {
+fun ChatScreenPreview() {
     ClassgramTheme {
-        ChatCard()
+        ChatScreen()
     }
 }
+
