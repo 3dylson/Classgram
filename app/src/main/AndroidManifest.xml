@@ -94,7 +94,11 @@
             android:name=".presentation.ui.chat.ChatActivity"
             android:exported="false"
             android:label="@string/title_activity_chat"
-            android:theme="@style/Theme.Classgram.NoActionBar" />
+            android:theme="@style/Theme.Classgram.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".presentation.ui.MainActivity" />
+        </activity>
         <!-- ########################################################## -->
         <!--
             <meta-data

@@ -20,7 +20,10 @@ import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.REQUEST_IMAGE_CAPTURE
 import cv.edylsonf.classgram.databinding.FragmentHomeBinding
+import cv.edylsonf.classgram.domain.models.Chat
 import cv.edylsonf.classgram.domain.models.Post
+import cv.edylsonf.classgram.presentation.ui.chat.ChatActivity
+import cv.edylsonf.classgram.presentation.ui.login.SignupActivity
 import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
 
 private const val TAG = "HomeFragment"
@@ -162,8 +165,14 @@ open class HomeFragment : BaseFragment(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.cam -> openCamera()
+            R.id.notifications -> navChatScreen()
         }
         return true
+    }
+
+    private fun navChatScreen() {
+        val intent = Intent(activity, ChatActivity::class.java)
+        activity?.startActivity(intent)
     }
 
     //TODO send photo to ImageView

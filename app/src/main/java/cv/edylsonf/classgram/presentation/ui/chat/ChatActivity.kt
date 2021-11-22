@@ -15,6 +15,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.outlined.Camera
+import androidx.compose.material.icons.outlined.PhotoCamera
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.rememberCoroutineScope
@@ -47,99 +49,118 @@ class ChatActivity : ComponentActivity() {
             }
         }
     }
-}
 
-@Composable
-private fun ChatScreen() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text("Chats")
-                },
-                actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(Icons.Filled.Add, contentDescription = null)
+    @Composable
+    private fun ChatScreen() {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text("Chats")
+                    },
+                    actions = {
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(Icons.Filled.Add, contentDescription = null)
+                        }
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = { onBackPressed() }) {
+                            Icon(Icons.Filled.ArrowBack, null)
+                        }
                     }
-                },
-                navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(Icons.Filled.ArrowBack, null)
-                    }
-                }
-            )
-        }
-    ) { innerPadding ->
-        ChatList(Modifier.padding(innerPadding))
-    }
-}
-
-@Composable
-private fun ChatList(modifier: Modifier = Modifier) {
-    // We save the scrolling position with this state that can also
-    // be used to programmatically scroll the list
-    val scrollState = rememberLazyListState()
-    // We save the coroutine scope where our animated scroll will be executed
-    val coroutineScope = rememberCoroutineScope()
-
-    // LazyColumn in Jetpack Compose is the equivalent of RecyclerView in Android Views.
-    LazyColumn(state = scrollState) {
-        items(20) {
-            ChatCard("User #$it")
-        }
-    }
-}
-
-
-@ExperimentalCoilApi
-@Composable
-private fun ChatCard(testString: String) {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .clickable { }
-        .padding(all = 8.dp)
-        .background(MaterialTheme.colors.surface)
-    ) {
-        Image(
-            /*painter = painterResource(id = R.drawable.classgram_logo),*/
-            painter = rememberImagePainter(
-                data = "https://developer.android.com/images/brand/Android_Robot.png"
-            ),
-            contentDescription = null,
-            modifier = Modifier
-                .size(50.dp)
-                .clip(CircleShape)
-                .border(1.5.dp, MaterialTheme.colors.secondary, CircleShape)
-        )
-        Column(
-            modifier = Modifier
-                .padding(start = 8.dp)
-                .align(Alignment.CenterVertically)
-        ) {
-            Text(testString)
-            Row {
-                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                    Text(
-                        "Yo classgram!",
-                        style = MaterialTheme.typography.body2
-                    )
-                }
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(
-                    "-",
-                    style = MaterialTheme.typography.body2,
-                    fontWeight = FontWeight.Bold
                 )
-                Spacer(modifier = Modifier.width(4.dp))
-                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-                    Text(
-                        "4h",
-                        style = MaterialTheme.typography.body2
-                    )
-                }
+            }
+        ) { innerPadding ->
+            ChatList(Modifier.padding(innerPadding))
+        }
+    }
+
+    @Composable
+    private fun ChatList(modifier: Modifier = Modifier) {
+        // We save the scrolling position with this state that can also
+        // be used to programmatically scroll the list
+        val scrollState = rememberLazyListState()
+        // We save the coroutine scope where our animated scroll will be executed
+        val coroutineScope = rememberCoroutineScope()
+
+        // LazyColumn in Jetpack Compose is the equivalent of RecyclerView in Android Views.
+        LazyColumn(state = scrollState) {
+            items(20) {
+                ChatCard("User #$it")
             }
         }
     }
+
+
+    @ExperimentalCoilApi
+    @Composable
+    private fun ChatCard(testString: String) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .clickable(
+                onClick = { /*TODO*/ }
+            )
+            .padding(all = 8.dp)
+            .background(MaterialTheme.colors.surface)
+        ) {
+            Image(
+                /*painter = painterResource(id = R.drawable.classgram_logo),*/
+                painter = rememberImagePainter(
+                    data = "https://developer.android.com/images/brand/Android_Robot.png"
+                ),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(50.dp)
+                    .clip(CircleShape)
+                    .border(1.5.dp, MaterialTheme.colors.secondary, CircleShape)
+            )
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 8.dp)
+                    .align(Alignment.CenterVertically)
+            ) {
+                Text(testString)
+                Row {
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Text(
+                            "Yo classgram!",
+                            style = MaterialTheme.typography.body2
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        "-",
+                        style = MaterialTheme.typography.body2,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+                        Text(
+                            "4h",
+                            style = MaterialTheme.typography.body2
+                        )
+                    }
+                }
+            }
+            IconButton(
+                onClick = { /*TODO*/ }
+            ) {
+                Icon(imageVector = Icons.Outlined.PhotoCamera, contentDescription = null)
+            }
+        }
+    }
+
+
+    @Preview(showBackground = true, widthDp = 320)
+    @Composable
+    fun ChatScreenPreview() {
+        ClassgramTheme {
+            ChatScreen()
+        }
+    }
+
+
 }
 
 
@@ -158,11 +179,5 @@ private fun ChatCard(chat: Chat, currentUser: FirebaseUser) {
 }*/
 
 
-@Preview(showBackground = true, widthDp = 320)
-@Composable
-fun ChatScreenPreview() {
-    ClassgramTheme {
-        ChatScreen()
-    }
-}
+
 
