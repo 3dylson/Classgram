@@ -15,7 +15,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.outlined.Camera
 import androidx.compose.material.icons.outlined.PhotoCamera
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -23,24 +22,28 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberImagePainter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.presentation.ui.theme.ClassgramTheme
+import cv.edylsonf.classgram.presentation.ui.utils.GlideHelper
 
 class ChatActivity : ComponentActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var glideHelper: GlideHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         auth = Firebase.auth
+        glideHelper = GlideHelper(applicationContext)
 
         setContent {
             ClassgramTheme {
@@ -86,15 +89,45 @@ class ChatActivity : ComponentActivity() {
         // LazyColumn in Jetpack Compose is the equivalent of RecyclerView in Android Views.
         LazyColumn(state = scrollState) {
             items(20) {
-                ChatCard("User #$it")
+                ChatCard("User #$it", modifier)
             }
         }
+    }
+
+    @Composable
+    fun GlideImage(url: String, modifier: Modifier) {
+        val image = glideHelper.fetchImage(url = url)
+
+        if (image == null) {
+            Image(
+                painter = ColorPainter(Color.DarkGray),
+                contentDescription = null,
+                modifier = modifier
+                    .size(50.dp)
+                    .clip(CircleShape)
+                    .border(1.5.dp, MaterialTheme.colors.secondary, CircleShape)
+            )
+        }
+
+        else {
+            Image(
+                painter = image,
+                contentDescription = null,
+                modifier = modifier
+                    .size(50.dp)
+                    .clip(CircleShape)
+                    .border(1.5.dp, MaterialTheme.colors.secondary, CircleShape)
+            )
+        }
+
+
+
     }
 
 
     @ExperimentalCoilApi
     @Composable
-    private fun ChatCard(testString: String) {
+    private fun ChatCard(testString: String, modifier: Modifier) {
         Row(modifier = Modifier
             .fillMaxWidth()
             .clickable(
@@ -103,8 +136,8 @@ class ChatActivity : ComponentActivity() {
             .padding(all = 8.dp)
             .background(MaterialTheme.colors.surface)
         ) {
-            Image(
-                /*painter = painterResource(id = R.drawable.classgram_logo),*/
+            /*Image(
+                *//*painter = painterResource(id = R.drawable.classgram_logo),*//*
                 painter = rememberImagePainter(
                     data = "https://developer.android.com/images/brand/Android_Robot.png"
                 ),
@@ -113,7 +146,8 @@ class ChatActivity : ComponentActivity() {
                     .size(50.dp)
                     .clip(CircleShape)
                     .border(1.5.dp, MaterialTheme.colors.secondary, CircleShape)
-            )
+            )*/
+            GlideImage(url = "https://developer.android.com/images/brand/Android_Robot.png", modifier = modifier)
             Column(
                 modifier = Modifier
                     .weight(1f)
