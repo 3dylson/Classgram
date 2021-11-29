@@ -2,6 +2,7 @@ package cv.edylsonf.classgram.presentation.ui.login
 
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -34,6 +35,7 @@ class SignupActivity : BaseActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var emailResendUser: FirebaseUser
     private var accCreated: Boolean = false
+    private var photoUri: Uri? = null
 
     private lateinit var editTextPersonName: TextInputEditText
     private lateinit var signInEmailText: TextInputEditText
@@ -170,10 +172,17 @@ class SignupActivity : BaseActivity() {
                 }
             }*/
 
+        //photoUri = getPhotoFromIPB()
+
         emailResendUser = user
         user.metadata?.let { writeNewUser(user.uid,username, name, user.email, it.creationTimestamp) }
         user.sendEmailVerification()
         //user.email?.let { showDialog(it) }
+    }
+
+    private fun getPhotoFromIPB(): Uri? {
+        // TODO implement retrofit to download image from:https://apps2.ipb.pt/online/api/rfid/loginfoto/a39221
+        return photoUri
     }
 
     //TODO check how the metadata will be..
