@@ -64,7 +64,7 @@ class ChatActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-// Provide WindowInsets to our content. We don't want to consume them, so that
+            // Provide WindowInsets to our content. We don't want to consume them, so that
             // they keep being pass down the view hierarchy (since we're using fragments).
             ProvideWindowInsets(consumeWindowInsets = false) {
                 CompositionLocalProvider(
@@ -76,6 +76,13 @@ class ChatActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    override fun onBackPressed() {
+        //TODO fix this nav (maybe not use onBackPressedDispatcher)
+        val frag = supportFragmentManager.findFragmentById(R.id.chatsFragment)
+        if (frag != null && frag.isVisible) super.onBackPressed()
+        else onSupportNavigateUp()
     }
 
 

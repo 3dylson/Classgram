@@ -157,7 +157,7 @@ fun ChannelNameBar(
                 )
                 // Number of members
                 Text(
-                    text = "2", //stringResource(R.string.members, channelMembers),
+                    text = "2 Members", //stringResource(R.string.members, channelMembers),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

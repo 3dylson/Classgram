@@ -20,8 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:fabCradleMargin="20dp"
-        app:fabCradleRoundedCornerRadius="20dp"
+        app:fabCradleMargin="10dp"
+        app:fabCradleRoundedCornerRadius="10dp"
         app:fabCradleVerticalOffset="10dp"
         app:hideOnScroll="true"
         app:layout_scrollFlags="scroll|enterAlways">
@@ -33,6 +33,7 @@
             android:layout_marginEnd="16dp"
             android:background="@android:color/transparent"
             app:elevation="0dp"
+            app:itemRippleColor="@null"
             app:menu="@menu/bottom_nav_menu" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>

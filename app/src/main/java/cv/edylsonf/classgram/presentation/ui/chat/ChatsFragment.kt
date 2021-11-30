@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
@@ -37,6 +36,7 @@ import androidx.navigation.fragment.findNavController
 import coil.annotation.ExperimentalCoilApi
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ViewWindowInsetObserver
+import com.google.accompanist.insets.statusBarsPadding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -83,7 +83,7 @@ class ChatsFragment: BaseFragment() {
     private fun ChatScreen() {
         Scaffold(
             topBar = {
-                TopAppBar(
+                SmallTopAppBar(
                     title = {
                         Text("Chats")
                     },
@@ -98,7 +98,9 @@ class ChatsFragment: BaseFragment() {
                         }
                     }
                 )
-            }
+            },
+            // Use statusBarsPadding() to move the app bar content below the status bar
+            modifier = Modifier.statusBarsPadding()
         ) { innerPadding ->
             ChatList(Modifier.padding(innerPadding))
         }
@@ -185,7 +187,7 @@ class ChatsFragment: BaseFragment() {
                     CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                         Text(
                             "Yo classgram!",
-                            style = MaterialTheme.typography.headlineSmall
+                            style = MaterialTheme.typography.bodySmall
                         )
                     }
                     Spacer(modifier = Modifier.width(4.dp))
