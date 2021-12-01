@@ -46,8 +46,8 @@ class ConversationFragment: BaseFragment() {
                         navigateToProfile = {},
                         // Add padding so that we are inset from any left/right navigation bars
                         // (usually shown when in landscape orientation)
-                        modifier = Modifier.navigationBarsPadding(bottom = false),
-                    onBackClick = {findNavController().navigate(R.id.chatsFragment) })
+                        //modifier = Modifier.navigationBarsPadding(bottom = false),
+                    onBackClick = { requireActivity().onBackPressed() /*findNavController().navigate(R.id.chatsFragment) */})
                 }
             }
         }

@@ -79,7 +79,6 @@ class ChatActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        //TODO fix this nav (maybe not use onBackPressedDispatcher)
         val frag = supportFragmentManager.findFragmentById(R.id.chatsFragment)
         if (frag != null && frag.isVisible) super.onBackPressed()
         else onSupportNavigateUp()
