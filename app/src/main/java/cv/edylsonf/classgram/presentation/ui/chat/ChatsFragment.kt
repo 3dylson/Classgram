@@ -5,29 +5,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.LocalContentAlpha
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.PhotoCamera
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -114,13 +117,123 @@ class ChatsFragment: BaseFragment() {
         // We save the coroutine scope where our animated scroll will be executed
         val coroutineScope = rememberCoroutineScope()
 
-        // LazyColumn in Jetpack Compose is the equivalent of RecyclerView in Android Views.
-        LazyColumn(state = scrollState) {
-            items(20) {
-                ChatCard("User #$it", modifier)
+        var state by remember { mutableStateOf(0) }
+        val icons = listOf( Icons.Filled.ChatBubble,  Icons.Filled.People)
+        // Reuse the default offset animation modifier, but use our own indicator
+        val indicator = @Composable { tabPositions: List<TabPosition> ->
+            AnimatedIndicator(tabPositions = tabPositions, selectedTabIndex = state)
+            //CustomIndicator(MaterialTheme.colorScheme.primary, Modifier.tabIndicatorOffset(tabPositions[state]))
+        }
+
+        Column {
+            TabRow(selectedTabIndex = state, indicator = indicator, backgroundColor = Color.Transparent) {
+                icons.forEachIndexed { index, icon ->
+                    CustomTab(icon = icon, onClick = { state = index }, selected = (index == state) )
+                    /*Tab(
+                        icon = { Icon(icon, contentDescription = null) },
+                        selected = state == index,
+                        onClick = { state = index }
+                    )*/
+                }
+            }
+            if (state == 0) {
+                // LazyColumn in Jetpack Compose is the equivalent of RecyclerView in Android Views.
+                LazyColumn(state = scrollState) {
+                    items(20) {
+                        ChatCard("User #$it", modifier)
+                    }
+                }
+            } else {
+                Text(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text = "Group Chat tab ${state + 1} selected",
+                    style = MaterialTheme.typography.bodyLarge
+                )
             }
         }
     }
+
+    @Composable
+    private fun CustomTab(icon: ImageVector, onClick: () -> Unit, selected: Boolean) {
+        Tab(selected = selected, onClick = onClick) {
+            Column(
+                Modifier.padding(10.dp).fillMaxWidth(),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    if (selected) MaterialTheme.colorScheme.primary else Color.DarkGray
+                )
+            }
+        }
+    }
+
+
+    @Composable
+    private fun AnimatedIndicator(tabPositions: List<TabPosition>, selectedTabIndex: Int) {
+        val transition = updateTransition(selectedTabIndex, label = "indicator transition")
+        val indicatorStart by transition.animateDp(
+            transitionSpec = {
+                // Handle directionality here, if we are moving to the right, we
+                // want the right side of the indicator to move faster, if we are
+                // moving to the left, we want the left side to move faster.
+                if (initialState < targetState) {
+                    spring(dampingRatio = 1f, stiffness = 50f)
+                } else {
+                    spring(dampingRatio = 1f, stiffness = 1000f)
+                }
+            }, label = "start indicator"
+        ) {
+            tabPositions[it].left
+        }
+
+        val indicatorEnd by transition.animateDp(
+            transitionSpec = {
+                // Handle directionality here, if we are moving to the right, we
+                // want the right side of the indicator to move faster, if we are
+                // moving to the left, we want the left side to move faster.
+                if (initialState < targetState) {
+                    spring(dampingRatio = 1f, stiffness = 1000f)
+                } else {
+                    spring(dampingRatio = 1f, stiffness = 50f)
+                }
+            }, label = "end indicator"
+        ) {
+            tabPositions[it].right
+        }
+
+        /*val indicatorColor by transition.animateColor {
+            colors[it % colors.size]
+        }*/
+
+        CustomIndicator(
+            // Pass the current color to the indicator
+            MaterialTheme.colorScheme.primary,
+            modifier = Modifier
+                // Fill up the entire TabRow, and place the indicator at the start
+                .fillMaxSize()
+                .wrapContentSize(align = Alignment.BottomStart)
+                // Apply an offset from the start to correctly position the indicator around the tab
+                .offset(x = indicatorStart)
+                // Make the width of the indicator follow the animated width as we move between tabs
+                .width(indicatorEnd - indicatorStart)
+        )
+    }
+
+    @Composable
+    private fun CustomIndicator(color: Color, modifier: Modifier) {
+        // Draws a rounded rectangular with border around the Tab, with a 5.dp padding from the edges
+        // Color is passed in as a parameter [color]
+        Box(
+            modifier
+                .padding(5.dp)
+                .fillMaxSize()
+                .border(BorderStroke(2.dp, color), RoundedCornerShape(5.dp))
+        )
+    }
+
 
     @Composable
     fun GlideImage(url: String, modifier: Modifier) {

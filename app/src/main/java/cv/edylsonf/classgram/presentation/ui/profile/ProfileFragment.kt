@@ -17,6 +17,7 @@ import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.FragmentProfileBinding
 import cv.edylsonf.classgram.domain.models.User
+import cv.edylsonf.classgram.domain.models.UserPostDetail
 import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
 import cv.edylsonf.classgram.presentation.ui.utils.HorizontalFlipTransformation
 
@@ -26,7 +27,7 @@ private const val TAG = "ProfileFragment"
 class ProfileFragment : BaseFragment() {
 
     var tabTitles = arrayOf("Posts","About")
-    private var signedInUser: User? = null
+    private var signedInUser: UserPostDetail? = null
     private lateinit var binding: FragmentProfileBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseFirestore

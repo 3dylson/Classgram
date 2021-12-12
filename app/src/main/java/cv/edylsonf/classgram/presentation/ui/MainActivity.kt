@@ -16,10 +16,13 @@ import cv.edylsonf.classgram.EXTRA_TAB_TITLE
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivityMainBinding
 import cv.edylsonf.classgram.domain.models.User
+import cv.edylsonf.classgram.domain.models.UserPostDetail
 import cv.edylsonf.classgram.presentation.ui.home.CreatePostActivity
 import cv.edylsonf.classgram.presentation.ui.home.HomeFragment
 import cv.edylsonf.classgram.presentation.ui.login.LoginActivity
 import cv.edylsonf.classgram.presentation.ui.profile.ProfileFragment
+import cv.edylsonf.classgram.presentation.ui.schedule.ScheduleFragment
+import cv.edylsonf.classgram.presentation.ui.search.SearchFragment
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +31,7 @@ private const val TAG = "MainActivity"
 @AndroidEntryPoint
 class MainActivity : BaseActivity(){
 
-    private var signedInUser: User? = null
+    private var signedInUser: UserPostDetail? = null
     private var selectedTab = 0
     private lateinit var fab: FloatingActionButton
     private val fragments: ArrayList<Fragment> by lazy {
@@ -98,7 +101,7 @@ class MainActivity : BaseActivity(){
                             Log.w(TAG, "Unable to retrieve user. Error=$exception, snapshot=$userSnapshot")
                             return@addSnapshotListener
                         }
-                        signedInUser = userSnapshot.toObject(User::class.java)
+                        signedInUser = userSnapshot.toObject(UserPostDetail::class.java)
                         intent.putExtra("signedInUser",signedInUser)
                         Log.i(TAG, "signed in user: $signedInUser")
                     }
@@ -142,18 +145,18 @@ class MainActivity : BaseActivity(){
         home.arguments = argHome
 
 
-        /*val argSearch = Bundle()
+        val argSearch = Bundle()
         argSearch.putString(EXTRA_TAB_TITLE, getString(R.string.discover))
 
         val search = SearchFragment()
-        search.arguments = argSearch*/
+        search.arguments = argSearch
 
 
-        /*val argSchedule = Bundle()
+        val argSchedule = Bundle()
         argSchedule.putString(EXTRA_TAB_TITLE, getString(R.string.schedule))
 
         val schedule = ScheduleFragment()
-        schedule.arguments = argSchedule*/
+        schedule.arguments = argSchedule
 
 
         val argProfile = Bundle()
@@ -165,15 +168,17 @@ class MainActivity : BaseActivity(){
         profile.arguments = argProfile
 
 
-        return arrayListOf(home,profile)
+        return arrayListOf(home, search, schedule, profile)
     }
 
     private fun setupBottomBarActions(selectedTabId: Int) {
         binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             val index: Int = when (item.itemId) {
-                R.id.home_button    -> 0
-                R.id.profile_button -> 1
-                else                -> 0
+                R.id.home_button     -> 0
+                R.id.search_button   -> 1
+                R.id.schedule_button -> 2
+                R.id.profile_button  -> 3
+                else                 -> 0
             }
             //Change Action bar title
             when (index) {
@@ -182,6 +187,14 @@ class MainActivity : BaseActivity(){
                     //intent.ge
                 }
                 1     -> {
+                   // supportActionBar?.title = null
+
+                }
+                2     -> {
+                    supportActionBar?.title = "Schedule"
+
+                }
+                3     -> {
                     supportActionBar?.title = signedInUser?.username
                     intent.putExtra("profile","profile")
                 }

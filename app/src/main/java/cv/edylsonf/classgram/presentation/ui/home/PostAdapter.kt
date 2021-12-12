@@ -63,6 +63,7 @@ open class PostAdapter(query: Query, private val listener: OnPostSelectedListene
             binding.tvTimeAgo.text = DateUtils.getRelativeTimeSpanString(post.creationTime!!)
             binding.tvText.text = post.text
             post.upCount?.let { binding.votesTv.text = it.toString() } ?: run { binding.votesTv.text = "0" }
+            post.viewsCount?.let { binding.viewsTv.text = it.toString() } ?: run { binding.viewsTv.text = "0" }
             post.comments?.let { binding.answersTv.text = it.size.toString() } ?: run { binding.answersTv.text = "0" }
             if (hasImagePost) {
                 Glide.with(binding.tvPostImage.context)

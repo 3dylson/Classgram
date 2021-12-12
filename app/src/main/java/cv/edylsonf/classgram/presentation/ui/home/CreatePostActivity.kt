@@ -21,6 +21,7 @@ import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.REQUEST_IMAGE_CAPTURE
 import cv.edylsonf.classgram.databinding.ActivityCreatePostBinding
 import cv.edylsonf.classgram.domain.models.User
+import cv.edylsonf.classgram.domain.models.UserPostDetail
 import cv.edylsonf.classgram.presentation.ui.MainActivity
 import cv.edylsonf.classgram.presentation.ui.messages.SnackbarMessageManager
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
@@ -35,7 +36,7 @@ class CreatePostActivity : BaseActivity() {
 
     private lateinit var binding: ActivityCreatePostBinding
 
-    private var signedInUser: User? = null
+    private var signedInUser: UserPostDetail? = null
     private var photoUri: Uri? = null
     private lateinit var view: View
     private lateinit var database: FirebaseFirestore
@@ -137,6 +138,7 @@ class CreatePostActivity : BaseActivity() {
                     "comments" to null,
                     "mentions" to null,
                     "upCount" to 0,
+                    "viewsCount" to 0,
                     "ups" to null,
                     "tags" to null,
                     "user" to signedInUser
@@ -187,6 +189,7 @@ class CreatePostActivity : BaseActivity() {
                             "comments" to null,
                             "mentions" to null,
                             "upCount" to 0,
+                            "viewsCount" to 0,
                             "ups" to null,
                             "tags" to null,
                             "user" to signedInUser)

@@ -127,6 +127,8 @@
     <string name="votes_label">Votes</string>
     <string name="answers_label">Answers</string>
     <string name="views_label">Views</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
