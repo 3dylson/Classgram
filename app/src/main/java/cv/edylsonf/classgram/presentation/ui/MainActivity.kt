@@ -187,11 +187,12 @@ class MainActivity : BaseActivity(){
                     //intent.ge
                 }
                 1     -> {
-                   // supportActionBar?.title = null
+                    supportActionBar?.title = "Discover"
 
                 }
                 2     -> {
                     supportActionBar?.title = "Schedule"
+                    //setSupportActionBar()
 
                 }
                 3     -> {

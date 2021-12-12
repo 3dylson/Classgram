@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
+import androidx.compose.material3.MaterialTheme
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.tabs.TabLayoutMediator
@@ -81,6 +82,9 @@ class ProfileFragment : BaseFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.profile_action_menu,menu)
+
+        val connectItem = menu.findItem(R.id.connect)
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 

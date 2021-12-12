@@ -1,5 +1,6 @@
 package cv.edylsonf.classgram.presentation.ui.schedule
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -28,6 +29,10 @@ class ScheduleFragment : BaseFragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        //activity?.actionBar.
+
+
     }
 
     override fun onCreateView(
