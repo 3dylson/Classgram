@@ -105,7 +105,7 @@ class CreatePostActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.create_post_action_menu,menu)
+        menuInflater.inflate(R.menu.create_post_action_menu, menu)
         actionBarMenu = menu
         return super.onCreateOptionsMenu(menu)
     }
@@ -121,8 +121,7 @@ class CreatePostActivity : BaseActivity() {
         if (binding.postText.text.isBlank()) {
             binding.postText.error = "Don't be shy..."
 
-        }
-        else {
+        } else {
             binding.postText.error = null
             actionBarMenu?.findItem(R.id.submitPost)?.isEnabled = false
             view.isEnabled = false
@@ -165,15 +164,17 @@ class CreatePostActivity : BaseActivity() {
                             binding.postText.text.clear()
                             discardSelectedImg()
                             Toast.makeText(this, "Sent", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this,MainActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            val intent = Intent(this, MainActivity::class.java)
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
                             finish()
                         }
                     }
             } else {
                 val photoUploadUri = photoUri as Uri
-                val photoReference = storageReference.child("images/post_photos/${System.currentTimeMillis()}-photo.jpg")
+                val photoReference =
+                    storageReference.child("images/post_photos/${System.currentTimeMillis()}-photo.jpg")
                 // Upload photo to Firebase Storage
                 photoReference.putFile(photoUploadUri)
                     .continueWithTask { photoUploadTask ->
@@ -192,7 +193,8 @@ class CreatePostActivity : BaseActivity() {
                             "viewsCount" to 0,
                             "ups" to null,
                             "tags" to null,
-                            "user" to signedInUser)
+                            "user" to signedInUser
+                        )
                         database.collection("posts").add(post)
                     }.addOnCompleteListener { postCreationTask ->
                         actionBarMenu?.findItem(R.id.submitPost)?.isEnabled = true
@@ -213,8 +215,9 @@ class CreatePostActivity : BaseActivity() {
                             binding.postText.text.clear()
                             discardSelectedImg()
                             Toast.makeText(this, "Sent", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this,MainActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            val intent = Intent(this, MainActivity::class.java)
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
                             finish()
                         }

@@ -41,12 +41,12 @@ import dagger.hilt.android.AndroidEntryPoint
 private const val TAG = "MainActivity"
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity(){
+class MainActivity : BaseActivity() {
 
     private var signedInUser: UserPostDetail? = null
     private lateinit var fab: FloatingActionButton
     private val navController by lazy {
-        (supportFragmentManager.findFragmentById(R.id.navHostFragment) as  NavHostFragment).navController
+        (supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment).navController
     }
     private val bottomNavView by lazy { binding.bottomNavigationView }
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -78,7 +78,14 @@ class MainActivity : BaseActivity(){
         // Obtain the FirebaseAnalytics instance.
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
-        appBarConfiguration = AppBarConfiguration(setOf(R.id.home_nav, R.id.search_nav, R.id.schedule_nav, R.id.profile_nav))
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.home_nav,
+                R.id.search_nav,
+                R.id.schedule_nav,
+                R.id.profile_nav
+            )
+        )
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         // Handle Navigation item clicks
@@ -86,7 +93,7 @@ class MainActivity : BaseActivity(){
         bottomNavView.setupWithNavController(navController)
 
         //Click listeners
-        with(binding){
+        with(binding) {
             fab.setOnClickListener { createPost() }
         }
 
@@ -94,41 +101,35 @@ class MainActivity : BaseActivity(){
 
 
     private fun createPost() {
-        val intent = Intent(this,CreatePostActivity::class.java)
-        intent.putExtra("signedInUser",signedInUser)
+        val intent = Intent(this, CreatePostActivity::class.java)
+        //TODO Use Shared View Model
+        intent.putExtra("signedInUser", signedInUser)
         startActivity(intent)
     }
 
     override fun onStart() {
         super.onStart()
-
         FirebaseAuth.getInstance().addAuthStateListener {
             Log.d(TAG, "AuthStateListener triggered. User: ${it.currentUser}")
-            if (it.currentUser == null){
+            if (it.currentUser == null) {
                 startLogin()
-            }
-            else {
+            } else {
                 val usersDoc = database.collection("users")
                     .document(uid)
-                    //.get()
-                    usersDoc.addSnapshotListener { userSnapshot, exception ->
-                        if (exception != null || userSnapshot == null) {
-                            Log.w(TAG, "Unable to retrieve user. Error=$exception, snapshot=$userSnapshot")
-                            return@addSnapshotListener
-                        }
-                        signedInUser = userSnapshot.toObject(UserPostDetail::class.java)
-                        //intent.putExtra("signedInUser",signedInUser)
-                        signedInUser?.let { user -> model.selectUser(user) }
-                        Log.i(TAG, "signed in user: $signedInUser")
+                //.get()
+                usersDoc.addSnapshotListener { userSnapshot, exception ->
+                    if (exception != null || userSnapshot == null) {
+                        Log.w(
+                            TAG,
+                            "Unable to retrieve user. Error=$exception, snapshot=$userSnapshot"
+                        )
+                        return@addSnapshotListener
                     }
-                /*.addOnSuccessListener { userSnapshot ->
-                        signedInUser = userSnapshot.toObject(User::class.java)
-                        //intent.putExtra("signedInUser",signedInUser)
-                        Log.i(TAG, "signed in user: $signedInUser")
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.i(TAG, "Failure fetching signed in user", exception)
-                    }*/
+                    signedInUser = userSnapshot.toObject(UserPostDetail::class.java)
+                    //intent.putExtra("signedInUser",signedInUser)
+                    signedInUser?.let { user -> model.selectUser(user) }
+                    Log.i(TAG, "signed in user: $signedInUser")
+                }
             }
         }
     }
@@ -145,41 +146,6 @@ class MainActivity : BaseActivity(){
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.navHostFragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
-
-    private fun setup(): ArrayList<Fragment> {
-
-        val argHome = Bundle()
-        argHome.putString(EXTRA_TAB_TITLE, getString(R.string.home))
-
-        val home = HomeFragment()
-        home.arguments = argHome
-
-
-        val argSearch = Bundle()
-        argSearch.putString(EXTRA_TAB_TITLE, getString(R.string.discover))
-
-        val search = SearchFragment()
-        search.arguments = argSearch
-
-
-        val argSchedule = Bundle()
-        argSchedule.putString(EXTRA_TAB_TITLE, getString(R.string.schedule))
-
-        val schedule = ScheduleFragment()
-        schedule.arguments = argSchedule
-
-
-        val argProfile = Bundle()
-        argProfile.putString(EXTRA_TAB_TITLE, getString(R.string.me))
-        //argProfile.putParcelable("signedInUser",signedInUser)
-
-
-        val profile = ProfileFragment()
-        profile.arguments = argProfile
-
-
-        return arrayListOf(home, search, schedule, profile)
     }
 
 }
