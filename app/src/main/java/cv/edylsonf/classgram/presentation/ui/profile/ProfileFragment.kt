@@ -8,6 +8,9 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.MaterialTheme
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.tabs.TabLayoutMediator
@@ -23,6 +26,7 @@ import cv.edylsonf.classgram.domain.models.User
 import cv.edylsonf.classgram.domain.models.UserPostDetail
 import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
 import cv.edylsonf.classgram.presentation.ui.utils.HorizontalFlipTransformation
+import cv.edylsonf.classgram.presentation.viewModels.SharedSignedUserViewModel
 
 
 private const val TAG = "ProfileFragment"
@@ -32,16 +36,23 @@ class ProfileFragment : BaseFragment() {
     private var tabTitles = arrayOf("Posts","About")
     private var toolbar: ActionBar? = null
     private var signedInUser: UserPostDetail? = null
+    private val model: SharedSignedUserViewModel by activityViewModels()
+
     private lateinit var binding: FragmentProfileBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activity?.intent?.apply {
+        /*activity?.intent?.apply {
             signedInUser = getParcelableExtra("signedInUser")
-        }
+        }*/
         toolbar = (activity as AppCompatActivity).supportActionBar
+
+        model.signedInUser.observe(this.requireActivity(), { user ->
+            signedInUser = user
+        })
+            toolbar?.title = signedInUser?.username
     }
 
     override fun onCreateView(
@@ -51,7 +62,7 @@ class ProfileFragment : BaseFragment() {
     ): View {
         binding = FragmentProfileBinding.inflate(layoutInflater)
 
-        toolbar?.title = signedInUser?.username
+        //toolbar?.title = signedInUser?.username
 
         setHasOptionsMenu(true)
 
@@ -91,7 +102,7 @@ class ProfileFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        toolbar?.title = signedInUser?.username
+        //toolbar?.title = signedInUser?.username
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

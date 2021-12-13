@@ -6,6 +6,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'com.google.firebase.crashlytics'
     id 'dagger.hilt.android.plugin'
+    id("androidx.navigation.safeargs.kotlin")
 
 }
 
@@ -147,6 +148,8 @@ dependencies {
     def nav_version = "2.3.5"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    // Jetpack Compose Integration
+    implementation("androidx.navigation:navigation-compose:2.4.0-beta02")
 
     //RecyclerView
     implementation "androidx.recyclerview:recyclerview:1.2.1"

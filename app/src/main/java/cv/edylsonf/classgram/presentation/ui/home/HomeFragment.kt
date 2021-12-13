@@ -60,7 +60,7 @@ open class HomeFragment : BaseFragment(),
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
-        toolbar?.title = fragTitle
+        //toolbar?.title = fragTitle
 
         recyclerView = binding.rvPosts
 
@@ -201,7 +201,7 @@ open class HomeFragment : BaseFragment(),
 
     override fun onResume() {
         super.onResume()
-        toolbar?.title = fragTitle
+        //toolbar?.title = fragTitle
     }
 
     override fun onStart() {

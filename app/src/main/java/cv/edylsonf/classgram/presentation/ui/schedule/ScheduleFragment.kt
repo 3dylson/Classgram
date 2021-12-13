@@ -32,7 +32,7 @@ class ScheduleFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        toolbar?.title = fragTitle
+        //toolbar?.title = fragTitle
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_schedule, container, false)
@@ -40,6 +40,6 @@ class ScheduleFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        toolbar?.title = fragTitle
+        //toolbar?.title = fragTitle
     }
 }

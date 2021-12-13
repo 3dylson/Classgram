@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/home_nav">
+
+    <fragment
+        android:id="@+id/home_nav"
+        android:name="cv.edylsonf.classgram.presentation.ui.home.HomeFragment"
+        android:label="Classgram"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/search_nav"
+        android:name="cv.edylsonf.classgram.presentation.ui.search.SearchFragment"
+        android:label="Discover"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/schedule_nav"
+        android:name="cv.edylsonf.classgram.presentation.ui.schedule.ScheduleFragment"
+        android:label="Schedule"
+        tools:layout="@layout/fragment_schedule" />
+    <fragment
+        android:id="@+id/profile_nav"
+        android:name="cv.edylsonf.classgram.presentation.ui.profile.ProfileFragment"
+        android:label=""
+        tools:layout="@layout/fragment_profile" />
+
+</navigation>

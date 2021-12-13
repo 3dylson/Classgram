@@ -3,8 +3,20 @@ package cv.edylsonf.classgram.presentation.ui
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationBarView
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,7 +27,6 @@ import cv.edylsonf.classgram.EXTRA_TAB_SELECTED
 import cv.edylsonf.classgram.EXTRA_TAB_TITLE
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivityMainBinding
-import cv.edylsonf.classgram.domain.models.User
 import cv.edylsonf.classgram.domain.models.UserPostDetail
 import cv.edylsonf.classgram.presentation.ui.home.CreatePostActivity
 import cv.edylsonf.classgram.presentation.ui.home.HomeFragment
@@ -24,6 +35,7 @@ import cv.edylsonf.classgram.presentation.ui.profile.ProfileFragment
 import cv.edylsonf.classgram.presentation.ui.schedule.ScheduleFragment
 import cv.edylsonf.classgram.presentation.ui.search.SearchFragment
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
+import cv.edylsonf.classgram.presentation.viewModels.SharedSignedUserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "MainActivity"
@@ -32,11 +44,13 @@ private const val TAG = "MainActivity"
 class MainActivity : BaseActivity(){
 
     private var signedInUser: UserPostDetail? = null
-    private var selectedTab = 0
     private lateinit var fab: FloatingActionButton
-    private val fragments: ArrayList<Fragment> by lazy {
-        setup()
+    private val navController by lazy {
+        (supportFragmentManager.findFragmentById(R.id.navHostFragment) as  NavHostFragment).navController
     }
+    private val bottomNavView by lazy { binding.bottomNavigationView }
+    private lateinit var appBarConfiguration: AppBarConfiguration
+    private val model: SharedSignedUserViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var firebaseAnalytics: FirebaseAnalytics
@@ -64,24 +78,20 @@ class MainActivity : BaseActivity(){
         // Obtain the FirebaseAnalytics instance.
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
-        val selectedTabId = savedInstanceState?.getInt(EXTRA_TAB_SELECTED) ?: R.id.home_button
+        appBarConfiguration = AppBarConfiguration(setOf(R.id.home_nav, R.id.search_nav, R.id.schedule_nav, R.id.profile_nav))
 
-        setupBottomBarActions(selectedTabId)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        // Handle Navigation item clicks
+        // This works with no further action if the menu and destination id’s match.
+        bottomNavView.setupWithNavController(navController)
 
         //Click listeners
         with(binding){
             fab.setOnClickListener { createPost() }
         }
 
-
-
     }
 
-    override fun onResume() {
-        super.onResume()
-        switchFragments(selectedTab)
-
-    }
 
     private fun createPost() {
         val intent = Intent(this,CreatePostActivity::class.java)
@@ -107,7 +117,8 @@ class MainActivity : BaseActivity(){
                             return@addSnapshotListener
                         }
                         signedInUser = userSnapshot.toObject(UserPostDetail::class.java)
-                        intent.putExtra("signedInUser",signedInUser)
+                        //intent.putExtra("signedInUser",signedInUser)
+                        signedInUser?.let { user -> model.selectUser(user) }
                         Log.i(TAG, "signed in user: $signedInUser")
                     }
                 /*.addOnSuccessListener { userSnapshot ->
@@ -131,14 +142,9 @@ class MainActivity : BaseActivity(){
     }
 
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt(EXTRA_TAB_SELECTED, binding.bottomNavigationView.selectedItemId)
-        super.onSaveInstanceState(outState)
-    }
-
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
+        val navController = findNavController(R.id.navHostFragment)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     private fun setup(): ArrayList<Fragment> {
@@ -175,54 +181,5 @@ class MainActivity : BaseActivity(){
 
         return arrayListOf(home, search, schedule, profile)
     }
-
-    private fun setupBottomBarActions(selectedTabId: Int) {
-        binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            val index: Int = when (item.itemId) {
-                R.id.home_button     -> 0
-                R.id.search_button   -> 1
-                R.id.schedule_button -> 2
-                R.id.profile_button  -> 3
-                else                 -> 0
-            }
-            //Change Action bar title
-            when (index) {
-                3     -> {
-                    intent.putExtra("profile","profile")
-                }
-            }
-
-            switchFragments(index)
-            selectedTab = index
-
-            return@setOnNavigationItemSelectedListener true
-        }
-
-        binding.bottomNavigationView.selectedItemId = selectedTabId
-    }
-
-    private fun switchFragments(index: Int) {
-        val transaction = supportFragmentManager.beginTransaction()
-        val tag = "${fragments[index].arguments?.get(EXTRA_TAB_TITLE)}"
-
-        // if the fragment has not yet been added to the container, add it first
-        if(supportFragmentManager.findFragmentByTag(tag) == null) {
-            transaction.add(R.id.fragmentContainerView, fragments[index], tag)
-
-        } else {
-            if (fragments[index] === supportFragmentManager.findFragmentByTag(tag)) {
-                fragments[index].onResume()
-
-            } else {
-                transaction.replace(R.id.fragmentContainerView, fragments[index], tag)
-            }
-        }
-
-        transaction.hide(fragments[selectedTab])
-        transaction.show(fragments[index])
-        transaction.commit()
-
-    }
-
 
 }
