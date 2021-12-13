@@ -3,6 +3,8 @@ package cv.edylsonf.classgram.presentation.ui.home
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -17,6 +19,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
+import cv.edylsonf.classgram.EXTRA_TAB_TITLE
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.REQUEST_IMAGE_CAPTURE
 import cv.edylsonf.classgram.databinding.FragmentHomeBinding
@@ -29,18 +32,25 @@ import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
 private const val TAG = "HomeFragment"
 
 open class HomeFragment : BaseFragment(),
-            PostAdapter.OnPostSelectedListener {
+    PostAdapter.OnPostSelectedListener {
 
+    private var toolbar: ActionBar? = null
     private lateinit var binding: FragmentHomeBinding
     private lateinit var auth: FirebaseAuth
-    private lateinit var database: FirebaseFirestore
-    private lateinit var query: Query
+    lateinit var database: FirebaseFirestore
+    lateinit var query: Query
 
-    private lateinit var adapter: PostAdapter
-    private lateinit var fab: FloatingActionButton
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var bottomAppBar: BottomAppBar
+    lateinit var adapter: PostAdapter
+    lateinit var fab: FloatingActionButton
+    lateinit var recyclerView: RecyclerView
+    lateinit var bottomAppBar: BottomAppBar
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        toolbar = (activity as AppCompatActivity).supportActionBar
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +58,7 @@ open class HomeFragment : BaseFragment(),
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
+
         recyclerView = binding.rvPosts
 
         fab = requireActivity().findViewById(R.id.fab)
@@ -63,37 +74,21 @@ open class HomeFragment : BaseFragment(),
         }
         database.firestoreSettings = settings
 
-        query = database.collection("posts")
-            .limit(20)
-            .orderBy("creationTime", Query.Direction.DESCENDING)
-
+        setQuery()
         setup()
-        profilePosts()
-
-        /*recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                when (newState) {
-                    0 -> {
-                        fab.show()
-                        bottomAppBar.performShow()
-                    }
-                    else -> {
-                        fab.hide()
-                        bottomAppBar.performHide()
-                    }
-
-                }
-            }
-
-        })*/
 
 
         return binding.root
     }
 
-    private fun setup(){
+    open fun setQuery() {
+        query = database.collection("posts")
+            .limit(20)
+            .orderBy("creationTime", Query.Direction.DESCENDING)
+    }
+
+
+    private fun setup() {
         adapter = object : PostAdapter(query, this@HomeFragment) {
             override fun onDataChanged() {
                 // Show/hide content if the query returns empty.
@@ -110,54 +105,21 @@ open class HomeFragment : BaseFragment(),
             // TODO change on production
             override fun onError(e: FirebaseFirestoreException) {
                 // Show a snackbar on errors
-                Snackbar.make(binding.root,
-                    "Error: check logs for info.", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(
+                    binding.root,
+                    "Error: check logs for info.", Snackbar.LENGTH_LONG
+                ).show()
             }
         }
 
         binding.rvPosts.layoutManager = LinearLayoutManager(context)
         binding.rvPosts.adapter = adapter
 
-        //posts = mutableListOf()
-        /*val context1 = container?.context
-        adapter = context1?.let { PostAdapter(it,posts) }!!*/
-        /*adapter = PostAdapter(requireContext(),posts)
-        binding.rvPosts.adapter = adapter
-        recyclerView.setHasFixedSize(true)
-        binding.rvPosts.layoutManager = LinearLayoutManager(requireContext())*/
     }
 
-    private fun profilePosts() {
-        /*var postsDoc = database.collection("posts")
-            .limit(20)
-            .orderBy("creationTime", Query.Direction.DESCENDING)*/
-
-        val homeOrProfile = activity?.intent?.getStringExtra("profile")
-        if (homeOrProfile != null ) {
-            query = query.whereEqualTo("user.uid",uid)
-            adapter.setQuery(query)
-        }
-        /*postsDoc.addSnapshotListener { snapshot, exception ->
-            if (exception != null || snapshot == null) {
-                Log.w(TAG, "Unable to retrieve data. Error=$exception, snapshot=$snapshot")
-                return@addSnapshotListener
-            }
-
-            Log.d(TAG, "Posts retrieved:${snapshot.documents.size}")
-
-            val postList = snapshot.toObjects(Post::class.java)
-            posts.clear()
-            posts.addAll(postList)
-            adapter.notifyDataSetChanged()
-            for (post in postList) {
-                Log.i(TAG, "Post $post")
-            }
-
-        }*/
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.home_action_menu,menu)
+        inflater.inflate(R.menu.home_action_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -181,9 +143,12 @@ open class HomeFragment : BaseFragment(),
     }
 
     override fun onPostSelected(post: DocumentSnapshot) {
-        Snackbar.make(binding.root,
-            "Post selected "+post.id, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(
+            binding.root,
+            "Post selected " + post.id, Snackbar.LENGTH_LONG
+        ).show()
     }
+
 
     override fun onStart() {
         super.onStart()

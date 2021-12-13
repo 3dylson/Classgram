@@ -2,7 +2,10 @@ package cv.edylsonf.classgram.presentation.ui.search
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import cv.edylsonf.classgram.EXTRA_TAB_TITLE
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.FragmentSearchBinding
 import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
@@ -12,6 +15,18 @@ class SearchFragment : BaseFragment() {
 
     private lateinit var binding: FragmentSearchBinding
     private lateinit var filterItem: MenuItem
+    private var fragTitle: String? = null
+    private var toolbar: ActionBar? = null
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            fragTitle = it.getString(EXTRA_TAB_TITLE)
+        }
+
+        toolbar = (activity as AppCompatActivity).supportActionBar
+    }
 
 
     override fun onCreateView(
@@ -21,9 +36,16 @@ class SearchFragment : BaseFragment() {
         // Inflate the layout for this fragment
         binding = FragmentSearchBinding.inflate(layoutInflater)
 
+        //toolbar?.title = fragTitle
+
         setHasOptionsMenu(true)
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //toolbar?.title = fragTitle
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
