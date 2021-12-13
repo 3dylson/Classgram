@@ -77,6 +77,11 @@ class MainActivity : BaseActivity(){
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        switchFragments(selectedTab)
+
+    }
 
     private fun createPost() {
         val intent = Intent(this,CreatePostActivity::class.java)
@@ -182,24 +187,9 @@ class MainActivity : BaseActivity(){
             }
             //Change Action bar title
             when (index) {
-                0     -> {
-                    supportActionBar?.title = "Classgram"
-                    //intent.ge
-                }
-                1     -> {
-                    supportActionBar?.title = "Discover"
-
-                }
-                2     -> {
-                    supportActionBar?.title = "Schedule"
-                    //setSupportActionBar()
-
-                }
                 3     -> {
-                    supportActionBar?.title = signedInUser?.username
                     intent.putExtra("profile","profile")
                 }
-                else  -> supportActionBar?.title = "Classgram"
             }
 
             switchFragments(index)

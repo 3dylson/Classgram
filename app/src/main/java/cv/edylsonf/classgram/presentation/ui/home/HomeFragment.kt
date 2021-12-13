@@ -3,6 +3,8 @@ package cv.edylsonf.classgram.presentation.ui.home
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -17,6 +19,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
+import cv.edylsonf.classgram.EXTRA_TAB_TITLE
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.REQUEST_IMAGE_CAPTURE
 import cv.edylsonf.classgram.databinding.FragmentHomeBinding
@@ -31,6 +34,8 @@ private const val TAG = "HomeFragment"
 open class HomeFragment : BaseFragment(),
             PostAdapter.OnPostSelectedListener {
 
+    private var fragTitle = "Classgram"
+    private var toolbar: ActionBar? = null
     private lateinit var binding: FragmentHomeBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseFirestore
@@ -41,6 +46,12 @@ open class HomeFragment : BaseFragment(),
     private lateinit var recyclerView: RecyclerView
     private lateinit var bottomAppBar: BottomAppBar
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        toolbar = (activity as AppCompatActivity).supportActionBar
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +59,9 @@ open class HomeFragment : BaseFragment(),
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
+
+        toolbar?.title = fragTitle
+
         recyclerView = binding.rvPosts
 
         fab = requireActivity().findViewById(R.id.fab)
@@ -183,6 +197,11 @@ open class HomeFragment : BaseFragment(),
     override fun onPostSelected(post: DocumentSnapshot) {
         Snackbar.make(binding.root,
             "Post selected "+post.id, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        toolbar?.title = fragTitle
     }
 
     override fun onStart() {

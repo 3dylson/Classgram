@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.MaterialTheme
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -27,13 +29,20 @@ private const val TAG = "ProfileFragment"
 
 class ProfileFragment : BaseFragment() {
 
-    var tabTitles = arrayOf("Posts","About")
+    private var tabTitles = arrayOf("Posts","About")
+    private var toolbar: ActionBar? = null
     private var signedInUser: UserPostDetail? = null
     private lateinit var binding: FragmentProfileBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseFirestore
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.intent?.apply {
+            signedInUser = getParcelableExtra("signedInUser")
+        }
+        toolbar = (activity as AppCompatActivity).supportActionBar
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,7 +51,7 @@ class ProfileFragment : BaseFragment() {
     ): View {
         binding = FragmentProfileBinding.inflate(layoutInflater)
 
-        signedInUser = activity?.intent?.getParcelableExtra("signedInUser")
+        toolbar?.title = signedInUser?.username
 
         setHasOptionsMenu(true)
 
@@ -80,10 +89,15 @@ class ProfileFragment : BaseFragment() {
         TODO("Not yet implemented")
     }
 
+    override fun onResume() {
+        super.onResume()
+        toolbar?.title = signedInUser?.username
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.profile_action_menu,menu)
 
-        val connectItem = menu.findItem(R.id.connect)
+        //val connectItem = menu.findItem(R.id.connect)
 
         super.onCreateOptionsMenu(menu, inflater)
     }
