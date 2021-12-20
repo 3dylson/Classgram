@@ -62,8 +62,6 @@ class ProfileFragment : BaseFragment() {
     ): View {
         binding = FragmentProfileBinding.inflate(layoutInflater)
 
-        //toolbar?.title = signedInUser?.username
-
         setHasOptionsMenu(true)
 
         auth = Firebase.auth
@@ -98,11 +96,6 @@ class ProfileFragment : BaseFragment() {
     private fun editProfile() {
         return
         TODO("Not yet implemented")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        //toolbar?.title = signedInUser?.username
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -78,6 +78,7 @@ class MainActivity : BaseActivity() {
         // Obtain the FirebaseAnalytics instance.
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
+        // Setup the ActionBar with navController and 4 top level destinations
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.home_nav,
@@ -86,7 +87,6 @@ class MainActivity : BaseActivity() {
                 R.id.profile_nav
             )
         )
-
         setupActionBarWithNavController(navController, appBarConfiguration)
         // Handle Navigation item clicks
         // This works with no further action if the menu and destination id’s match.

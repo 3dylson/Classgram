@@ -35,18 +35,11 @@ class SearchFragment : BaseFragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentSearchBinding.inflate(layoutInflater)
-
-        //toolbar?.title = fragTitle
-
         setHasOptionsMenu(true)
 
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        //toolbar?.title = fragTitle
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.seacrh_menu, menu)
