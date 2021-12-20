@@ -21,6 +21,7 @@ import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.REQUEST_IMAGE_CAPTURE
 import cv.edylsonf.classgram.databinding.ActivityCreatePostBinding
 import cv.edylsonf.classgram.domain.models.User
+import cv.edylsonf.classgram.domain.models.UserPostDetail
 import cv.edylsonf.classgram.presentation.ui.MainActivity
 import cv.edylsonf.classgram.presentation.ui.messages.SnackbarMessageManager
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
@@ -35,7 +36,7 @@ class CreatePostActivity : BaseActivity() {
 
     private lateinit var binding: ActivityCreatePostBinding
 
-    private var signedInUser: User? = null
+    private var signedInUser: UserPostDetail? = null
     private var photoUri: Uri? = null
     private lateinit var view: View
     private lateinit var database: FirebaseFirestore
@@ -104,7 +105,7 @@ class CreatePostActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.create_post_action_menu,menu)
+        menuInflater.inflate(R.menu.create_post_action_menu, menu)
         actionBarMenu = menu
         return super.onCreateOptionsMenu(menu)
     }
@@ -120,8 +121,7 @@ class CreatePostActivity : BaseActivity() {
         if (binding.postText.text.isBlank()) {
             binding.postText.error = "Don't be shy..."
 
-        }
-        else {
+        } else {
             binding.postText.error = null
             actionBarMenu?.findItem(R.id.submitPost)?.isEnabled = false
             view.isEnabled = false
@@ -137,6 +137,7 @@ class CreatePostActivity : BaseActivity() {
                     "comments" to null,
                     "mentions" to null,
                     "upCount" to 0,
+                    "viewsCount" to 0,
                     "ups" to null,
                     "tags" to null,
                     "user" to signedInUser
@@ -163,15 +164,17 @@ class CreatePostActivity : BaseActivity() {
                             binding.postText.text.clear()
                             discardSelectedImg()
                             Toast.makeText(this, "Sent", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this,MainActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            val intent = Intent(this, MainActivity::class.java)
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
                             finish()
                         }
                     }
             } else {
                 val photoUploadUri = photoUri as Uri
-                val photoReference = storageReference.child("images/post_photos/${System.currentTimeMillis()}-photo.jpg")
+                val photoReference =
+                    storageReference.child("images/post_photos/${System.currentTimeMillis()}-photo.jpg")
                 // Upload photo to Firebase Storage
                 photoReference.putFile(photoUploadUri)
                     .continueWithTask { photoUploadTask ->
@@ -187,9 +190,11 @@ class CreatePostActivity : BaseActivity() {
                             "comments" to null,
                             "mentions" to null,
                             "upCount" to 0,
+                            "viewsCount" to 0,
                             "ups" to null,
                             "tags" to null,
-                            "user" to signedInUser)
+                            "user" to signedInUser
+                        )
                         database.collection("posts").add(post)
                     }.addOnCompleteListener { postCreationTask ->
                         actionBarMenu?.findItem(R.id.submitPost)?.isEnabled = true
@@ -210,8 +215,9 @@ class CreatePostActivity : BaseActivity() {
                             binding.postText.text.clear()
                             discardSelectedImg()
                             Toast.makeText(this, "Sent", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this,MainActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            val intent = Intent(this, MainActivity::class.java)
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
                             finish()
                         }

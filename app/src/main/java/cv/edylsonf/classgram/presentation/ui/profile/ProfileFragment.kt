@@ -4,7 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material3.MaterialTheme
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.tabs.TabLayoutMediator
@@ -17,21 +23,37 @@ import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.FragmentProfileBinding
 import cv.edylsonf.classgram.domain.models.User
+import cv.edylsonf.classgram.domain.models.UserPostDetail
 import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
 import cv.edylsonf.classgram.presentation.ui.utils.HorizontalFlipTransformation
+import cv.edylsonf.classgram.presentation.viewModels.SharedSignedUserViewModel
 
 
 private const val TAG = "ProfileFragment"
 
 class ProfileFragment : BaseFragment() {
 
-    var tabTitles = arrayOf("Posts","About")
-    private var signedInUser: User? = null
+    private var tabTitles = arrayOf("Posts","About")
+    private var toolbar: ActionBar? = null
+    private var signedInUser: UserPostDetail? = null
+    private val model: SharedSignedUserViewModel by activityViewModels()
+
     private lateinit var binding: FragmentProfileBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseFirestore
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        /*activity?.intent?.apply {
+            signedInUser = getParcelableExtra("signedInUser")
+        }*/
+        toolbar = (activity as AppCompatActivity).supportActionBar
 
+        model.signedInUser.observe(this.requireActivity(), { user ->
+            signedInUser = user
+        })
+            toolbar?.title = signedInUser?.username
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,8 +61,6 @@ class ProfileFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentProfileBinding.inflate(layoutInflater)
-
-        signedInUser = activity?.intent?.getParcelableExtra("signedInUser")
 
         setHasOptionsMenu(true)
 
@@ -80,6 +100,9 @@ class ProfileFragment : BaseFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.profile_action_menu,menu)
+
+        //val connectItem = menu.findItem(R.id.connect)
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 

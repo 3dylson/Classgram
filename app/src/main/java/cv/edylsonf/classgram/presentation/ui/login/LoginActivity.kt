@@ -1,6 +1,7 @@
 package cv.edylsonf.classgram.presentation.ui.login
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -15,7 +16,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
-import androidx.appcompat.app.AlertDialog
 import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.common.SignInButton
 import com.google.android.material.textfield.TextInputEditText
@@ -99,11 +99,13 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            /* Not used */
         }
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             logInBtn.isEnabled = validateForm()
         }
         override fun afterTextChanged(s: Editable?) {
+            /* Not used */
         }
     }
 
@@ -166,7 +168,7 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
                 .document(uid)
                 .set(user)
                 .addOnSuccessListener {
-                    Log.d(TAG, "User added with ID: ${this.uid}")
+                    Timber.d("User added with ID: " + this.uid)
                     firebaseAuth.currentUser?.uid!!.let {
                         database
                             .collection("users").document(it)
@@ -177,12 +179,12 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
                 }
                 .addOnFailureListener { exception ->
                     hideProgressBar()
-                    Log.w(TAG, "writeNewUser:onFailure: $exception")
+                    Timber.tag(TAG).w("writeNewUser:onFailure: " + exception)
                     val builder = AlertDialog.Builder(this)
                     builder.setTitle("Error")
                     builder.setMessage(exception.message)
                     builder.apply {
-                        setPositiveButton("Try again") { _,_ ->
+                        setPositiveButton("Try again") { _, _ ->
 
                         }
                     }
@@ -197,8 +199,8 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
         val userRef = database.collection("users").document(uid)
         userRef
             .update("emailVerified", true)
-            .addOnSuccessListener { Log.d(TAG, "User successfully updated!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error updating user", e) }
+            .addOnSuccessListener { Timber.d("User successfully updated!") }
+            .addOnFailureListener { e -> Timber.tag(TAG).w(e, "Error updating user") }
     }
 
 
@@ -264,7 +266,7 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
 
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
-                    Log.d(TAG, "signIn:onComplete:" + task.isSuccessful)
+                    Timber.d("signIn:onComplete:" + task.isSuccessful)
 
                     view.isEnabled = true
                     hideProgressBar()
@@ -275,21 +277,25 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
                         val user = auth.currentUser
                         if (!user!!.isEmailVerified) {
                             //TODO Change to snackbar dialog
-                            Toast.makeText(this, "Verify your email!",
-                                Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this, "Verify your email!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             auth.signOut()
                         } else {
-                            Toast.makeText(this, "Logged In",
-                                Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this, "Logged In",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             navToMain()
                         }
                     } else {
-                        Log.e(TAG,"signInWithEmail failed",task.exception)
+                        Timber.e(task.exception, "signInWithEmail failed")
                         val builder = AlertDialog.Builder(this)
                         //builder.setTitle("Log in")
                         builder.setMessage(task.exception?.message)
                         builder.apply {
-                            setPositiveButton("Try again") { _,_ ->
+                            setPositiveButton("Try again") { _, _ ->
 
                             }
                         }
@@ -330,7 +336,7 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
     }
 
     override fun onAuthStateChanged(firebaseAuth: FirebaseAuth) {
-        Log.d(TAG, "AuthStateListener triggered. User: ${firebaseAuth.currentUser}")
+        Timber.d("AuthStateListener triggered. User: " + firebaseAuth.currentUser)
         if (firebaseAuth.currentUser != null) {
             uid = firebaseAuth.currentUser!!.uid
             if (firebaseAuth.currentUser!!.isEmailVerified || verifiedByProvider) {
@@ -340,7 +346,7 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
                         if (userDoc.result!!.exists()) {
                             if (!(userDoc.result!!.get("emailVerified") as Boolean)) {
                                 //TODO Consider doing through cloud function
-                                Log.d(TAG,"db User emailVerified returned false")
+                                Log.d(TAG, "db User emailVerified returned false")
                                 updateUser()
                             }
                             navToMain()

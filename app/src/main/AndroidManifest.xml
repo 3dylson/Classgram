@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -20,7 +20,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Classgram">
-
         <activity
             android:name=".presentation.ui.login.SplashScreenActivity"
             android:exported="true"
@@ -31,51 +30,50 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <!--##########################################################-->
+        </activity> <!-- ########################################################## -->
         <activity
             android:name=".presentation.ui.login.LoginActivity"
             android:launchMode="singleTop"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/loginTheme"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
-        <!--##########################################################-->
+            android:windowSoftInputMode="stateVisible|adjustResize" /> <!-- ########################################################## -->
         <activity
             android:name=".presentation.ui.login.SignupActivity"
             android:label="Create your account"
+            android:exported="true"
             android:parentActivityName=".presentation.ui.login.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".presentation.ui.login.LoginActivity" />
-        </activity>
-        <!--##########################################################-->
+        </activity> <!-- ########################################################## -->
         <activity
             android:name=".presentation.ui.login.ForgotPassActivity"
             android:label="Reset your password"
+            android:exported="false"
             android:parentActivityName=".presentation.ui.login.LoginActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".presentation.ui.login.LoginActivity" />
-        </activity>
-        <!--##########################################################-->
+        </activity> <!-- ########################################################## -->
         <activity
             android:name=".presentation.ui.MainActivity"
+            android:exported="false"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:exported="false">
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="cv.edylsonf.classgram.STARTUP_ACTIVITY"/>
+                <action android:name="cv.edylsonf.classgram.STARTUP_ACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-        <!--##########################################################-->
-        <activity android:name=".presentation.ui.home.CameraActivity" />
-        <!--##########################################################-->
+        </activity> <!-- ########################################################## -->
+        <activity android:name=".presentation.ui.home.CameraActivity" /> <!-- ########################################################## -->
         <activity
             android:name=".presentation.ui.home.CreatePostActivity"
+            android:exported="false"
             android:parentActivityName=".presentation.ui.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
@@ -84,17 +82,27 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".presentation.ui.MainActivity" />
-        </activity>
-        <!--##########################################################-->
+        </activity> <!-- ########################################################## -->
         <activity
             android:name=".presentation.ui.profile.SettingsActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_settings" />
-        <!--##########################################################-->
-        <!--<meta-data
+        <activity
+            android:name=".presentation.ui.chat.ChatActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:label="@string/title_activity_chat"
+            android:theme="@style/Theme.Classgram.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".presentation.ui.MainActivity" />
+        </activity> <!-- ########################################################## -->
+        <!--
+            <meta-data
             android:name="firebase_crashlytics_collection_enabled"
-            android:value="${crashlyticsEnabled}" />-->
-        <!--##########################################################-->
+            android:value="${crashlyticsEnabled}" />
+        -->
+        <!-- ########################################################## -->
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
@@ -102,12 +110,11 @@
             tools:node="merge">
             <meta-data
                 android:name="cv.edylsonf.classgram.util.initializers.StrictModeInitializer"
-                android:value="androidx.startup"/>
+                android:value="androidx.startup" />
             <meta-data
                 android:name="cv.edylsonf.classgram.util.initializers.TimberInitializer"
-                android:value="androidx.startup"/>
+                android:value="androidx.startup" />
         </provider>
-        <!--##########################################################-->
     </application>
 
 </manifest>

@@ -16,7 +16,7 @@ data class User(
     var nationality: String? = null,
     var education: String? = null,
     var profilePic: String? = null,
-    var answers: Int? = null,
+    var answers: Int? = 0,
     @field:JvmField // use this annotation if your Boolean field is prefixed with 'is'
     var isEmailVerified: Boolean? = null,
     var dateCreated: Long? = null,

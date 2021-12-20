@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--<item
+        android:id="@+id/app_bar_search"
+        android:iconifiedByDefault="false"
+        android:imeOptions="actionDone|flagNoExtractUi"
+        android:queryBackground="@color/transparent"
+        android:queryHint="Search the feed"
+        android:searchHintIcon="@null"
+        android:searchIcon="@null"
+        android:title="@string/action_search"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="always"
+        tools:targetApi="lollipop_mr1" />-->
+
+    <item
+        android:id="@+id/app_bar_search"
+        android:title="@string/action_search"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="always|collapseActionView"
+        android:orderInCategory="1"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
+
+    <item
+        android:id="@+id/action_open_filters"
+        android:icon="@drawable/ic_baseline_tune_24"
+        android:title="@string/filter_label"
+        app:showAsAction="always"
+        android:orderInCategory="2"
+        android:visible="false"/>
+
+
+</menu>

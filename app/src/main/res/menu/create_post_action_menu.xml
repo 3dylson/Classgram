@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/submitPost"
-        android:textColor="?textBackground"
+        android:textColor="?attr/colorOnSurface"
         android:title="@string/post"
         app:showAsAction="always" />
 </menu>

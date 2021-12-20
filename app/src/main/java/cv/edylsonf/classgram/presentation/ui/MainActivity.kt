@@ -3,8 +3,20 @@ package cv.edylsonf.classgram.presentation.ui
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationBarView
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,25 +27,30 @@ import cv.edylsonf.classgram.EXTRA_TAB_SELECTED
 import cv.edylsonf.classgram.EXTRA_TAB_TITLE
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivityMainBinding
-import cv.edylsonf.classgram.domain.models.User
+import cv.edylsonf.classgram.domain.models.UserPostDetail
 import cv.edylsonf.classgram.presentation.ui.home.CreatePostActivity
 import cv.edylsonf.classgram.presentation.ui.home.HomeFragment
 import cv.edylsonf.classgram.presentation.ui.login.LoginActivity
 import cv.edylsonf.classgram.presentation.ui.profile.ProfileFragment
+import cv.edylsonf.classgram.presentation.ui.schedule.ScheduleFragment
+import cv.edylsonf.classgram.presentation.ui.search.SearchFragment
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
+import cv.edylsonf.classgram.presentation.viewModels.SharedSignedUserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "MainActivity"
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity(){
+class MainActivity : BaseActivity() {
 
-    private var signedInUser: User? = null
-    private var selectedTab = 0
+    private var signedInUser: UserPostDetail? = null
     private lateinit var fab: FloatingActionButton
-    private val fragments: ArrayList<Fragment> by lazy {
-        setup()
+    private val navController by lazy {
+        (supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment).navController
     }
+    private val bottomNavView by lazy { binding.bottomNavigationView }
+    private lateinit var appBarConfiguration: AppBarConfiguration
+    private val model: SharedSignedUserViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var firebaseAnalytics: FirebaseAnalytics
@@ -61,55 +78,58 @@ class MainActivity : BaseActivity(){
         // Obtain the FirebaseAnalytics instance.
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
-        val selectedTabId = savedInstanceState?.getInt(EXTRA_TAB_SELECTED) ?: R.id.home_button
-
-        setupBottomBarActions(selectedTabId)
+        // Setup the ActionBar with navController and 4 top level destinations
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.home_nav,
+                R.id.search_nav,
+                R.id.schedule_nav,
+                R.id.profile_nav
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        // Handle Navigation item clicks
+        // This works with no further action if the menu and destination id’s match.
+        bottomNavView.setupWithNavController(navController)
 
         //Click listeners
-        with(binding){
+        with(binding) {
             fab.setOnClickListener { createPost() }
         }
-
-
 
     }
 
 
     private fun createPost() {
-        val intent = Intent(this,CreatePostActivity::class.java)
-        intent.putExtra("signedInUser",signedInUser)
+        val intent = Intent(this, CreatePostActivity::class.java)
+        //TODO Use Shared View Model
+        intent.putExtra("signedInUser", signedInUser)
         startActivity(intent)
     }
 
     override fun onStart() {
         super.onStart()
-
         FirebaseAuth.getInstance().addAuthStateListener {
             Log.d(TAG, "AuthStateListener triggered. User: ${it.currentUser}")
-            if (it.currentUser == null){
+            if (it.currentUser == null) {
                 startLogin()
-            }
-            else {
+            } else {
                 val usersDoc = database.collection("users")
                     .document(uid)
-                    //.get()
-                    usersDoc.addSnapshotListener { userSnapshot, exception ->
-                        if (exception != null || userSnapshot == null) {
-                            Log.w(TAG, "Unable to retrieve user. Error=$exception, snapshot=$userSnapshot")
-                            return@addSnapshotListener
-                        }
-                        signedInUser = userSnapshot.toObject(User::class.java)
-                        intent.putExtra("signedInUser",signedInUser)
-                        Log.i(TAG, "signed in user: $signedInUser")
+                //.get()
+                usersDoc.addSnapshotListener { userSnapshot, exception ->
+                    if (exception != null || userSnapshot == null) {
+                        Log.w(
+                            TAG,
+                            "Unable to retrieve user. Error=$exception, snapshot=$userSnapshot"
+                        )
+                        return@addSnapshotListener
                     }
-                /*.addOnSuccessListener { userSnapshot ->
-                        signedInUser = userSnapshot.toObject(User::class.java)
-                        //intent.putExtra("signedInUser",signedInUser)
-                        Log.i(TAG, "signed in user: $signedInUser")
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.i(TAG, "Failure fetching signed in user", exception)
-                    }*/
+                    signedInUser = userSnapshot.toObject(UserPostDetail::class.java)
+                    //intent.putExtra("signedInUser",signedInUser)
+                    signedInUser?.let { user -> model.selectUser(user) }
+                    Log.i(TAG, "signed in user: $signedInUser")
+                }
             }
         }
     }
@@ -123,102 +143,9 @@ class MainActivity : BaseActivity(){
     }
 
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt(EXTRA_TAB_SELECTED, binding.bottomNavigationView.selectedItemId)
-        super.onSaveInstanceState(outState)
-    }
-
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
+        val navController = findNavController(R.id.navHostFragment)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
-
-    private fun setup(): ArrayList<Fragment> {
-
-        val argHome = Bundle()
-        argHome.putString(EXTRA_TAB_TITLE, getString(R.string.home))
-
-        val home = HomeFragment()
-        home.arguments = argHome
-
-
-        /*val argSearch = Bundle()
-        argSearch.putString(EXTRA_TAB_TITLE, getString(R.string.discover))
-
-        val search = SearchFragment()
-        search.arguments = argSearch*/
-
-
-        /*val argSchedule = Bundle()
-        argSchedule.putString(EXTRA_TAB_TITLE, getString(R.string.schedule))
-
-        val schedule = ScheduleFragment()
-        schedule.arguments = argSchedule*/
-
-
-        val argProfile = Bundle()
-        argProfile.putString(EXTRA_TAB_TITLE, getString(R.string.me))
-        //argProfile.putParcelable("signedInUser",signedInUser)
-
-
-        val profile = ProfileFragment()
-        profile.arguments = argProfile
-
-
-        return arrayListOf(home,profile)
-    }
-
-    private fun setupBottomBarActions(selectedTabId: Int) {
-        binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            val index: Int = when (item.itemId) {
-                R.id.home_button    -> 0
-                R.id.profile_button -> 1
-                else                -> 0
-            }
-            //Change Action bar title
-            when (index) {
-                0     -> {
-                    supportActionBar?.title = "Classgram"
-                    //intent.ge
-                }
-                1     -> {
-                    supportActionBar?.title = signedInUser?.username
-                    intent.putExtra("profile","profile")
-                }
-                else  -> supportActionBar?.title = "Classgram"
-            }
-
-            switchFragments(index)
-            selectedTab = index
-
-            return@setOnNavigationItemSelectedListener true
-        }
-
-        binding.bottomNavigationView.selectedItemId = selectedTabId
-    }
-
-    private fun switchFragments(index: Int) {
-        val transaction = supportFragmentManager.beginTransaction()
-        val tag = "${fragments[index].arguments?.get(EXTRA_TAB_TITLE)}"
-
-        // if the fragment has not yet been added to the container, add it first
-        if(supportFragmentManager.findFragmentByTag(tag) == null) {
-            transaction.add(R.id.fragmentContainerView, fragments[index], tag)
-
-        } else {
-            if (fragments[index] === supportFragmentManager.findFragmentByTag(tag)) {
-                fragments[index].onResume()
-
-            } else {
-                transaction.replace(R.id.fragmentContainerView, fragments[index], tag)
-            }
-        }
-
-        transaction.hide(fragments[selectedTab])
-        transaction.show(fragments[index])
-        transaction.commit()
-
-    }
-
 
 }

@@ -8,11 +8,14 @@
     android:orientation="vertical"
     tools:context=".presentation.ui.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/fragmentContainerView"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/navHostFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false" />
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/main_nav" />
 
 
     <com.google.android.material.bottomappbar.BottomAppBar
@@ -20,8 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:fabCradleMargin="20dp"
-        app:fabCradleRoundedCornerRadius="20dp"
+        app:fabCradleMargin="15dp"
+        app:fabCradleRoundedCornerRadius="15dp"
         app:fabCradleVerticalOffset="10dp"
         app:hideOnScroll="true"
         app:layout_scrollFlags="scroll|enterAlways">
@@ -33,6 +36,7 @@
             android:layout_marginEnd="16dp"
             android:background="@android:color/transparent"
             app:elevation="0dp"
+            app:itemRippleColor="@null"
             app:menu="@menu/bottom_nav_menu" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
