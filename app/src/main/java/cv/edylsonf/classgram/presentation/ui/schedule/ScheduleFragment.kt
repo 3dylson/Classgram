@@ -38,8 +38,4 @@ class ScheduleFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_schedule, container, false)
     }
 
-    override fun onResume() {
-        super.onResume()
-        //toolbar?.title = fragTitle
-    }
 }

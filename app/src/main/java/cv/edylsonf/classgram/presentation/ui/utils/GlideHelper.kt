@@ -3,31 +3,16 @@ package cv.edylsonf.classgram.presentation.ui.utils
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.runtime.*
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import coil.compose.rememberImagePainter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import dagger.hilt.android.qualifiers.ApplicationContext
-import java.lang.reflect.Modifier
 import javax.inject.Inject
 
 open class GlideHelper @Inject constructor(@ApplicationContext val context: Context) {

@@ -1,8 +1,5 @@
 package cv.edylsonf.classgram.presentation.ui.schedule
 
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-
 /**
  * Loads data and exposes it to the view.
  * By annotating the constructor with [@Inject], Dagger will use that constructor when needing to

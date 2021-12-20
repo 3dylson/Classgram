@@ -3,8 +3,6 @@ package cv.edylsonf.classgram.presentation.ui.profile
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import cv.edylsonf.classgram.PROFILE_TAB_PAGES
-import cv.edylsonf.classgram.presentation.ui.profile.AboutTabFragment
-import cv.edylsonf.classgram.presentation.ui.profile.PostsTabFragment
 
 class ProfileTabAdapter(f: Fragment) :
     FragmentStateAdapter(f) {

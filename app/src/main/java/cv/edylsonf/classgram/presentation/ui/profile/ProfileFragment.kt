@@ -7,10 +7,7 @@ import android.view.*
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material3.MaterialTheme
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.tabs.TabLayoutMediator
@@ -22,7 +19,6 @@ import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.FragmentProfileBinding
-import cv.edylsonf.classgram.domain.models.User
 import cv.edylsonf.classgram.domain.models.UserPostDetail
 import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
 import cv.edylsonf.classgram.presentation.ui.utils.HorizontalFlipTransformation

@@ -19,14 +19,10 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
-import cv.edylsonf.classgram.EXTRA_TAB_TITLE
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.REQUEST_IMAGE_CAPTURE
 import cv.edylsonf.classgram.databinding.FragmentHomeBinding
-import cv.edylsonf.classgram.domain.models.Chat
-import cv.edylsonf.classgram.domain.models.Post
 import cv.edylsonf.classgram.presentation.ui.chat.ChatActivity
-import cv.edylsonf.classgram.presentation.ui.login.SignupActivity
 import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
 
 private const val TAG = "HomeFragment"

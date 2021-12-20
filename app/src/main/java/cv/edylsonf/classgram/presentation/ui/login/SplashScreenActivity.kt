@@ -2,12 +2,11 @@ package cv.edylsonf.classgram.presentation.ui.login
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.presentation.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 

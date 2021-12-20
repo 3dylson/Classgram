@@ -1,7 +1,7 @@
 package cv.edylsonf.classgram.result
 
-import cv.edylsonf.classgram.result.Result.Success
 import androidx.lifecycle.MutableLiveData
+import cv.edylsonf.classgram.result.Result.Success
 import kotlinx.coroutines.flow.MutableStateFlow
 
 /**

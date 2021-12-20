@@ -5,13 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.navigation.fragment.findNavController
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ViewWindowInsetObserver
-import com.google.accompanist.insets.navigationBarsPadding
-import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.presentation.ui.chat.conversation.ConversationUiState
 import cv.edylsonf.classgram.presentation.ui.chat.conversation.LocalBackPressedDispatcher
 import cv.edylsonf.classgram.presentation.ui.theme.ClassgramTheme

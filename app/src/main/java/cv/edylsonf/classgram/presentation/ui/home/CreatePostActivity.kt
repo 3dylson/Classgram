@@ -20,7 +20,6 @@ import cv.edylsonf.classgram.PICK_PHOTO_CODE
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.REQUEST_IMAGE_CAPTURE
 import cv.edylsonf.classgram.databinding.ActivityCreatePostBinding
-import cv.edylsonf.classgram.domain.models.User
 import cv.edylsonf.classgram.domain.models.UserPostDetail
 import cv.edylsonf.classgram.presentation.ui.MainActivity
 import cv.edylsonf.classgram.presentation.ui.messages.SnackbarMessageManager

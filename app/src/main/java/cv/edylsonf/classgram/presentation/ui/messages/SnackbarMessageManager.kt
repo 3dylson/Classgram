@@ -5,6 +5,7 @@ import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.data.prefs.PreferenceStorage
 import cv.edylsonf.classgram.data.prefs.StopSnackbarActionUseCase
 import cv.edylsonf.classgram.di.ApplicationScope
+import cv.edylsonf.classgram.presentation.ui.messages.SnackbarMessageManager.Companion.MAX_ITEMS
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

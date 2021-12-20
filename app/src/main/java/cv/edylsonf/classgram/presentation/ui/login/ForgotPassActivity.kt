@@ -1,6 +1,5 @@
 package cv.edylsonf.classgram.presentation.ui.login
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils

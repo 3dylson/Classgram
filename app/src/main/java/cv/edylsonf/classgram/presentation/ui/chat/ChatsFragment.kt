@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.compose.setContent
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
@@ -15,14 +14,18 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ChatBubble
+import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.outlined.PhotoCamera
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -63,6 +66,7 @@ class ChatsFragment: BaseFragment() {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
+        //TODO fix layout for screens with android native bottom nav
 
         // Create a ViewWindowInsetObserver using this view, and call start() to
         // start listening now. The WindowInsets instance is returned, allowing us to
