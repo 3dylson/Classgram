@@ -1,7 +1,6 @@
 package cv.edylsonf.classgram.presentation.ui.login
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -18,6 +17,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
 import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.common.SignInButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -179,16 +179,13 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
                 }
                 .addOnFailureListener { exception ->
                     hideProgressBar()
-                    Timber.tag(TAG).w("writeNewUser:onFailure: " + exception)
-                    val builder = AlertDialog.Builder(this)
-                    builder.setTitle("Error")
-                    builder.setMessage(exception.message)
-                    builder.apply {
-                        setPositiveButton("Try again") { _, _ ->
-
+                    Timber.tag(TAG).w("writeNewUser:onFailure: %s", exception)
+                    MaterialAlertDialogBuilder(this)
+                        .setTitle("Error")
+                        .setMessage(exception.message)
+                        .setPositiveButton("Try again") { _,_ ->
                         }
-                    }
-                    builder.create().show()
+                        .show()
                 }
         }
     }
@@ -210,18 +207,23 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
                 Timber.d("User signed in")
                 verifiedByProvider = true
             } else {
-                //TODO check if is network issue
-                val builder = AlertDialog.Builder(this)
-                builder.setTitle("Error")
-                builder.setMessage("An unknown network error has occurred.")
-                builder.apply {
-                    setPositiveButton("Dismiss") { _,_ ->
-
-                    }
+                if (!networkUtils.hasNetworkConnection()){
+                    MaterialAlertDialogBuilder(this)
+                        .setTitle("Error")
+                        .setMessage("Please check your network connection")
+                        .setPositiveButton("Dismiss") { _,_ ->
+                        }
+                        .show()
                 }
-                builder.create().show()
+                else {
+                    MaterialAlertDialogBuilder(this)
+                        .setTitle("Error")
+                        .setMessage("An unknown network error has occurred.")
+                        .setPositiveButton("Try again") { _,_ ->
+                        }
+                        .show()
+                }
             }
-
         }
 
 
@@ -244,16 +246,15 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
     }
     //End Google Sign in Region
 
+
     private fun signIn() {
         if (!networkUtils.hasNetworkConnection()){
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Error")
-            builder.setMessage("Please check your network connection")
-            builder.apply {
-                setPositiveButton("Dismiss") { _,_ ->
+            MaterialAlertDialogBuilder(this)
+                .setTitle("Error")
+                .setMessage("Please check your network connection")
+                .setPositiveButton("Dismiss") { _,_ ->
                 }
-            }
-            builder.create().show()
+                .show()
         } else {
             view.isEnabled = false
             hideKeyboard(view)
@@ -291,15 +292,11 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
                         }
                     } else {
                         Timber.e(task.exception, "signInWithEmail failed")
-                        val builder = AlertDialog.Builder(this)
-                        //builder.setTitle("Log in")
-                        builder.setMessage(task.exception?.message)
-                        builder.apply {
-                            setPositiveButton("Try again") { _, _ ->
-
+                        MaterialAlertDialogBuilder(this)
+                            .setMessage(task.exception?.message)
+                            .setPositiveButton("Try again") { _,_ ->
                             }
-                        }
-                        builder.create().show()
+                            .show()
                     }
                 }
 

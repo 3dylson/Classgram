@@ -11,7 +11,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
@@ -257,16 +257,14 @@ class SignupActivity : BaseActivity() {
     }
 
     private fun showDialog(email: String) {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Email Confirmation")
-        builder.setMessage("We need to verify your email address. Link sent to the email provided:\n$email")
-        builder.apply {
-            setPositiveButton("Ok") { _,_ ->
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Email Confirmation")
+            .setMessage("We need to verify your email address. Link sent to the email provided:\\n$email")
+            .setPositiveButton("Ok") { _,_ ->
                 auth.signOut()
                 navToLogin()
             }
-        }
-        builder.create().show()
+            .show()
     }
 
     private fun navToLogin() {

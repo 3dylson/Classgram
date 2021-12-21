@@ -8,7 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -103,16 +103,11 @@ class ForgotPassActivity : BaseActivity() {
 
                 }
                 else {
-
-                    val builder = AlertDialog.Builder(this)
-                    //builder.setTitle("Email Reset")
-                    builder.setMessage(task.exception?.message)
-                    builder.apply {
-                        setPositiveButton("Try again") { _,_ ->
-
+                    MaterialAlertDialogBuilder(this)
+                        .setMessage(task.exception?.message)
+                        .setPositiveButton("Try again") { _,_ ->
                         }
-                    }
-                    builder.create().show()
+                        .show()
                 }
             }
         // [END send_password_reset]

@@ -2,14 +2,13 @@ package cv.edylsonf.classgram.presentation.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -23,6 +22,7 @@ import cv.edylsonf.classgram.domain.models.UserPostDetail
 import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
 import cv.edylsonf.classgram.presentation.ui.utils.HorizontalFlipTransformation
 import cv.edylsonf.classgram.presentation.viewModels.SharedSignedUserViewModel
+import timber.log.Timber
 
 
 private const val TAG = "ProfileFragment"
@@ -166,18 +166,16 @@ class ProfileFragment : BaseFragment() {
 
     //TODO make it a top menu action?
     private fun signOut() {
-        Log.i(TAG,"User logging out pressed")
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Hope to see you soon...")
-        builder.apply {
-            setPositiveButton("Bye 👋") { _, _ ->
-                auth.signOut()
+        Timber.i("User logging out pressed")
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Hope to see you soon...")
+            .setMessage("Please check your network connection")
+            .setPositiveButton("Bye \uD83D\uDC4B") { _, _ ->
             }
-            setNegativeButton("Cancel") { _, _ ->
-                Log.d(TAG, "Dialog cancelled")
+            .setNegativeButton("Cancel") { _, _ ->
+                Timber.d("Dialog cancelled")
             }
-        }
-        builder.create().show()
+            .show()
 
         //Because Fragment is not of Context type, we need to call the parent Activity
         /*val intent = Intent(activity,LoginActivity::class.java)
