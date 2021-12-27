@@ -18,6 +18,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import cv.edylsonf.classgram.R
+import cv.edylsonf.classgram.SIGNED_IN_USER
 import cv.edylsonf.classgram.databinding.ActivityMainBinding
 import cv.edylsonf.classgram.domain.models.UserPostDetail
 import cv.edylsonf.classgram.presentation.ui.home.CreatePostActivity
@@ -29,7 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 private const val TAG = "MainActivity"
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), FirebaseAuth.AuthStateListener {
 
     private var signedInUser: UserPostDetail? = null
     private lateinit var fab: FloatingActionButton
@@ -91,35 +92,13 @@ class MainActivity : BaseActivity() {
     private fun createPost() {
         val intent = Intent(this, CreatePostActivity::class.java)
         //TODO Use Shared View Model
-        intent.putExtra("signedInUser", signedInUser)
+        intent.putExtra(SIGNED_IN_USER, signedInUser)
         startActivity(intent)
     }
 
     override fun onStart() {
         super.onStart()
-        FirebaseAuth.getInstance().addAuthStateListener {
-            Log.d(TAG, "AuthStateListener triggered. User: ${it.currentUser}")
-            if (it.currentUser == null) {
-                startLogin()
-            } else {
-                val usersDoc = database.collection("users")
-                    .document(uid)
-                //.get()
-                usersDoc.addSnapshotListener { userSnapshot, exception ->
-                    if (exception != null || userSnapshot == null) {
-                        Log.w(
-                            TAG,
-                            "Unable to retrieve user. Error=$exception, snapshot=$userSnapshot"
-                        )
-                        return@addSnapshotListener
-                    }
-                    signedInUser = userSnapshot.toObject(UserPostDetail::class.java)
-                    //intent.putExtra("signedInUser",signedInUser)
-                    signedInUser?.let { user -> model.selectUser(user) }
-                    Log.i(TAG, "signed in user: $signedInUser")
-                }
-            }
-        }
+        FirebaseAuth.getInstance().addAuthStateListener(this)
     }
 
 
@@ -127,6 +106,7 @@ class MainActivity : BaseActivity() {
         val logoutIntent = Intent(this, LoginActivity::class.java)
         logoutIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(logoutIntent)
+        FirebaseAuth.getInstance().removeAuthStateListener(this)
         finish()
     }
 
@@ -134,6 +114,30 @@ class MainActivity : BaseActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.navHostFragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onAuthStateChanged(firebaseAuth: FirebaseAuth) {
+        Log.d(TAG, "AuthStateListener triggered. User: ${firebaseAuth.currentUser}")
+        if (firebaseAuth.currentUser == null) {
+            startLogin()
+        } else {
+            val usersDoc = database.collection("users")
+                .document(uid)
+            //.get()
+            usersDoc.addSnapshotListener { userSnapshot, exception ->
+                if (exception != null || userSnapshot == null) {
+                    Log.w(
+                        TAG,
+                        "Unable to retrieve user. Error=$exception, snapshot=$userSnapshot"
+                    )
+                    return@addSnapshotListener
+                }
+                signedInUser = userSnapshot.toObject(UserPostDetail::class.java)
+                //intent.putExtra("signedInUser",signedInUser)
+                signedInUser?.let { user -> model.selectUser(user) }
+                Log.i(TAG, "signed in user: $signedInUser")
+            }
+        }
     }
 
 }
