@@ -169,8 +169,8 @@ class ProfileFragment : BaseFragment() {
         Timber.i("User logging out pressed")
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Hope to see you soon...")
-            .setMessage("Please check your network connection")
             .setPositiveButton("Bye \uD83D\uDC4B") { _, _ ->
+                auth.signOut()
             }
             .setNegativeButton("Cancel") { _, _ ->
                 Timber.d("Dialog cancelled")

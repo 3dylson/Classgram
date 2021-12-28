@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.model.CalendarMonth
 import com.kizitonwose.calendarview.model.DayOwner
@@ -19,6 +22,7 @@ import cv.edylsonf.classgram.databinding.FragmentCalendarBinding
 import cv.edylsonf.classgram.domain.models.Event
 import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
 import cv.edylsonf.classgram.presentation.ui.utils.daysOfWeekFromLocale
+import timber.log.Timber
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
@@ -26,6 +30,7 @@ import java.time.format.DateTimeFormatter
 class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer> {
 
     private lateinit var binding: FragmentCalendarBinding
+    private lateinit var fab: FloatingActionButton
     private var toolbar: ActionBar? = null
 
     private var selectedDate: LocalDate? = null
@@ -40,6 +45,8 @@ class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer> {
         super.onCreate(savedInstanceState)
 
         toolbar = (activity as AppCompatActivity).supportActionBar
+
+
     }
 
     override fun onCreateView(
@@ -48,8 +55,14 @@ class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer> {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCalendarBinding.inflate(layoutInflater)
+        fab = binding.fragCalFAB
+
+        toolbar?.setDisplayHomeAsUpEnabled(true)
+        fab.setOnClickListener { newEventDialog() }
+
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -73,9 +86,9 @@ class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer> {
         binding.calendarOfFragCal.dayBinder = this
         binding.calendarOfFragCal.monthScrollListener = {
             toolbar?.title = if (it.year == today.year) {
-                titleSameYearFormatter.format(it.yearMonth)
+                 titleSameYearFormatter.format(it.yearMonth).capitalize()
             } else {
-                titleFormatter.format(it.yearMonth)
+                titleFormatter.format(it.yearMonth).capitalize()
             }
 
             // Select the first day of the month when
@@ -98,6 +111,16 @@ class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer> {
             }
 
 
+    }
+
+    private fun newEventDialog() {
+        findNavController().navigate(R.id.action_calendarFragment_to_newEventDialogFragment)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        toolbar?.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back)
     }
 
     private fun selectDate(date: LocalDate) {

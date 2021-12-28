@@ -22,7 +22,15 @@
         android:theme="@style/Theme.Classgram">
         <activity
             android:name=".presentation.ui.schedule.EventActivity"
-            android:exported="false" />
+            android:launchMode="singleTop"
+            android:parentActivityName=".presentation.ui.MainActivity"
+            android:exported="false" >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".presentation.ui.MainActivity" />
+
+        </activity>
         <activity
             android:name=".presentation.ui.login.SplashScreenActivity"
             android:exported="true"

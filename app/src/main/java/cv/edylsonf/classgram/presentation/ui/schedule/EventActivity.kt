@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.View
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import cv.edylsonf.classgram.*
 import cv.edylsonf.classgram.databinding.ActivityEventBinding
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
@@ -31,10 +34,21 @@ class EventActivity : BaseActivity() {
         binding = ActivityEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val inflater = navController.navInflater
+        val graph = inflater.inflate(R.navigation.schedule_nav)
+
         when(cardType) {
-            CALENDER_CARD -> navController.navigate(R.id.calendarFragment)
+            CALENDER_CARD -> graph.setStartDestination(R.id.calendarFragment)
         }
 
+        navController.graph = graph
+
+        setupActionBarWithNavController(navController)
+
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
 

@@ -202,6 +202,9 @@ dependencies {
     // CalendarView
     implementation 'com.github.kizitonwose:CalendarView:1.0.4'
 
+    // DateTimePicker
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
+
     //Used for testing
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

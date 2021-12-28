@@ -76,7 +76,7 @@
     <string name="connections">Connections</string>
     <string name="posts">Posts</string>
     <string name="about">About</string>
-    <string name="ask_a_specific_question">Ask a specific question...</string>
+    <string name="ask_a_specific_question">Ask a specific question…</string>
     <string name="post">Post</string>
     <string name="title_activity_settings">SettingsActivity</string>
 
@@ -134,6 +134,14 @@
     <string name="timetable_label">Timetable</string>
     <string name="calendar_label">Calendar</string>
     <string name="agenda_label">Agenda</string>
+    <string name="title_label">Title</string>
+    <string name="location_label">Location</string>
+    <string name="from_label">From</string>
+    <string name="date_label">Date</string>
+    <string name="time_label">Time</string>
+    <string name="to_label">To</string>
+    <string name="all_day_label">All day</string>
+    <string name="notes_label">Notes</string>
 
 
 </resources>
