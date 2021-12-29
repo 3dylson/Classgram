@@ -142,6 +142,8 @@
     <string name="to_label">To</string>
     <string name="all_day_label">All day</string>
     <string name="notes_label">Notes</string>
+    <string name="save_label">Save</string>
+    <string name="jump_to_today_label">Jump To Today</string>
 
 
 </resources>

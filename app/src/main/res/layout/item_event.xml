@@ -58,7 +58,7 @@
 
 
         <ImageView
-            android:id="@+id/livestream_icon"
+            android:id="@+id/location_icon"
             android:layout_width="18dp"
             android:layout_height="24dp"
             android:layout_marginTop="@dimen/spacing_micro"
@@ -69,7 +69,7 @@
             app:layout_constraintEnd_toStartOf="@id/length_location"
             app:layout_constraintStart_toEndOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/title"
-            app:srcCompat="@drawable/ic_baseline_videocam" />
+            app:srcCompat="@drawable/ic_baseline_location_pin" />
 
         <TextView
             android:id="@+id/length_location"
@@ -79,18 +79,18 @@
             android:layout_marginTop="@dimen/spacing_micro"
             app:layout_constraintBottom_toTopOf="@id/tags_barrier"
             app:layout_constraintEnd_toStartOf="@id/guideline_end"
-            app:layout_constraintStart_toEndOf="@id/livestream_icon"
+            app:layout_constraintStart_toEndOf="@id/location_icon"
             app:layout_constraintTop_toBottomOf="@id/title"
-            tools:text="Nov 7 / Sala 110" />
+            tools:text="Sala 110" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/tags_barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="livestream_icon,length_location" />
+            app:constraint_referenced_ids="location_icon,length_location" />
 
-        <androidx.recyclerview.widget.RecyclerView
+       <!-- <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tags"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
             app:layout_constraintTop_toBottomOf="@id/tags_barrier"
             tools:itemCount="3"
             tools:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/item_inline_tag"/>
+            tools:listitem="@layout/item_inline_tag"/>-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

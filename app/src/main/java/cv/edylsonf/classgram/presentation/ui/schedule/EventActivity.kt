@@ -1,13 +1,8 @@
 package cv.edylsonf.classgram.presentation.ui.schedule
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import cv.edylsonf.classgram.*
 import cv.edylsonf.classgram.databinding.ActivityEventBinding
@@ -42,8 +37,8 @@ class EventActivity : BaseActivity() {
         }
 
         navController.graph = graph
-
-        setupActionBarWithNavController(navController)
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController,appBarConfiguration)
 
     }
 

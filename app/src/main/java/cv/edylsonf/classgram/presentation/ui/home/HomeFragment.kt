@@ -30,7 +30,6 @@ private const val TAG = "HomeFragment"
 open class HomeFragment : BaseFragment(),
     PostAdapter.OnPostSelectedListener {
 
-    private var toolbar: ActionBar? = null
     private lateinit var binding: FragmentHomeBinding
     private lateinit var auth: FirebaseAuth
     lateinit var database: FirebaseFirestore
@@ -41,12 +40,6 @@ open class HomeFragment : BaseFragment(),
     lateinit var recyclerView: RecyclerView
     lateinit var bottomAppBar: BottomAppBar
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        toolbar = (activity as AppCompatActivity).supportActionBar
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

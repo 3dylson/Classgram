@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import cv.edylsonf.classgram.domain.models.Event
 import cv.edylsonf.classgram.presentation.ui.theme.ClassgramTheme
 import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 val EventTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
@@ -33,7 +34,7 @@ fun BasicEvent(
         modifier = modifier
             .fillMaxSize()
             .padding(end = 2.dp, bottom = 2.dp)
-            .background(event.color, shape = RoundedCornerShape(4.dp))
+            .background(event.color ?: Color(0xFFAFBBF2), shape = RoundedCornerShape(4.dp))
             .padding(4.dp)
     ) {
         Text(
@@ -63,48 +64,48 @@ val sampleEvents = listOf(
         id = "0",
         name = "Google I/O Keynote",
         color = Color(0xFFAFBBF2),
-        start = LocalDateTime.parse("2021-05-18T13:00:00"),
-        end = LocalDateTime.parse("2021-05-18T15:00:00"),
+        start = ZonedDateTime.parse("2021-05-18T13:00:00"),
+        end = ZonedDateTime.parse("2021-05-18T15:00:00"),
         description = "Tune in to find out about how we're furthering our mission to organize the world’s information and make it universally accessible and useful.",
     ),
     Event(
         id = "1",
         name = "Developer Keynote",
-        color = Color(0xFFAFBBF2),
-        start = LocalDateTime.parse("2021-05-18T15:15:00"),
-        end = LocalDateTime.parse("2021-05-18T16:00:00"),
+        color = null,
+        start = ZonedDateTime.parse("2021-05-18T15:15:00"),
+        end = ZonedDateTime.parse("2021-05-18T16:00:00"),
         description = "Learn about the latest updates to our developer products and platforms from Google Developers.",
     ),
     Event(
         id = "2",
         name = "What's new in Android",
         color = Color(0xFF1B998B),
-        start = LocalDateTime.parse("2021-05-18T16:50:00"),
-        end = LocalDateTime.parse("2021-05-18T17:00:00"),
+        start = ZonedDateTime.parse("2021-05-18T16:50:00"),
+        end = ZonedDateTime.parse("2021-05-18T17:00:00"),
         description = "In this Keynote, Chet Haase, Dan Sandler, and Romain Guy discuss the latest Android features and enhancements for developers.",
     ),
     Event(
         id = "3",
         name = "What's new in Machine Learning",
         color = Color(0xFFF4BFDB),
-        start = LocalDateTime.parse("2021-05-19T09:30:00"),
-        end = LocalDateTime.parse("2021-05-19T11:00:00"),
+        start = ZonedDateTime.parse("2021-05-19T09:30:00"),
+        end = ZonedDateTime.parse("2021-05-19T11:00:00"),
         description = "Learn about the latest and greatest in ML from Google. We’ll cover what’s available to developers when it comes to creating, understanding, and deploying models for a variety of different applications.",
     ),
     Event(
         id = "4",
         name = "What's new in Material Design",
         color = Color(0xFF6DD3CE),
-        start = LocalDateTime.parse("2021-05-19T11:00:00"),
-        end = LocalDateTime.parse("2021-05-19T12:15:00"),
+        start = ZonedDateTime.parse("2021-05-19T11:00:00"),
+        end = ZonedDateTime.parse("2021-05-19T12:15:00"),
         description = "Learn about the latest design improvements to help you build personal dynamic experiences with Material Design.",
     ),
     Event(
         id = "5",
         name = "Jetpack Compose Basics",
         color = Color(0xFF1B998B),
-        start = LocalDateTime.parse("2021-05-20T12:00:00"),
-        end = LocalDateTime.parse("2021-05-20T13:00:00"),
+        start = ZonedDateTime.parse("2021-05-20T12:00:00"),
+        end = ZonedDateTime.parse("2021-05-20T13:00:00"),
         description = "This Workshop will take you through the basics of building your first app with Jetpack Compose, Android's new modern UI toolkit that simplifies and accelerates UI development on Android.",
     ),
 )

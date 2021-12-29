@@ -1,9 +1,7 @@
 package cv.edylsonf.classgram.presentation.ui.schedule.calendar
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBar
@@ -21,6 +19,7 @@ import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.FragmentCalendarBinding
 import cv.edylsonf.classgram.domain.models.Event
 import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
+import cv.edylsonf.classgram.presentation.ui.utils.TimeUtils
 import cv.edylsonf.classgram.presentation.ui.utils.daysOfWeekFromLocale
 import timber.log.Timber
 import java.time.LocalDate
@@ -31,23 +30,13 @@ class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer> {
 
     private lateinit var binding: FragmentCalendarBinding
     private lateinit var fab: FloatingActionButton
-    private var toolbar: ActionBar? = null
 
     private var selectedDate: LocalDate? = null
     private val today = LocalDate.now()
+    private val currentMonth = YearMonth.now()
 
-    private val titleSameYearFormatter = DateTimeFormatter.ofPattern("MMMM")
-    private val titleFormatter = DateTimeFormatter.ofPattern("MMM yyyy")
     private val selectionFormatter = DateTimeFormatter.ofPattern("d MMM yyyy")
     private val events = mutableMapOf<LocalDate, List<Event>>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        toolbar = (activity as AppCompatActivity).supportActionBar
-
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,9 +44,10 @@ class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer> {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCalendarBinding.inflate(layoutInflater)
+        setHasOptionsMenu(true)
+        toolbar?.setDisplayHomeAsUpEnabled(true)
         fab = binding.fragCalFAB
 
-        toolbar?.setDisplayHomeAsUpEnabled(true)
         fab.setOnClickListener { newEventDialog() }
 
         return binding.root
@@ -69,7 +59,6 @@ class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer> {
         // TODO setup adapter and RV
 
         val daysOfWeek = daysOfWeekFromLocale()
-        val currentMonth = YearMonth.now()
 
         binding.calendarOfFragCal.apply {
             setup(currentMonth.minusMonths(10), currentMonth.plusMonths(10), daysOfWeek.first())
@@ -84,16 +73,17 @@ class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer> {
         }
 
         binding.calendarOfFragCal.dayBinder = this
-        binding.calendarOfFragCal.monthScrollListener = {
-            toolbar?.title = if (it.year == today.year) {
-                 titleSameYearFormatter.format(it.yearMonth).capitalize()
+        binding.calendarOfFragCal.monthScrollListener = { calendar ->
+            toolbar?.title = if (calendar.year == today.year) {
+                TimeUtils.fullMonthString(calendar.yearMonth).replaceFirstChar { it.uppercase() }
             } else {
-                titleFormatter.format(it.yearMonth).capitalize()
+                TimeUtils.monthYearString(calendar.yearMonth).replaceFirstChar { it.uppercase() }
             }
 
+            if (calendar.month == today.month.value) selectDate(today)
             // Select the first day of the month when
             // we scroll to a new month.
-            selectDate(it.yearMonth.atDay(1))
+            else selectDate(calendar.yearMonth.atDay(1))
         }
         binding.calendarOfFragCal.monthHeaderBinder =
             object : MonthHeaderFooterBinder<MonthViewContainer> {
@@ -111,6 +101,20 @@ class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer> {
             }
 
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.calendar_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.jumpToToday -> {
+                binding.calendarOfFragCal.scrollToMonth(currentMonth)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun newEventDialog() {
