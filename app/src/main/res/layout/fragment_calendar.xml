@@ -44,8 +44,12 @@
                 android:id="@+id/frag_cal_Rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
                 android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/item_event_view"/>
+                android:orientation="vertical"
+                android:scrollbars="vertical"
+                app:layoutManager="LinearLayoutManager"
+                tools:listitem="@layout/item_event" />
 
 
         </LinearLayout>
@@ -58,8 +62,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="20dp"
-        app:srcCompat="@drawable/ic_add"
-        android:contentDescription="TODO" />
+        android:contentDescription="TODO"
+        app:srcCompat="@drawable/ic_add" />
 
 
 </FrameLayout>

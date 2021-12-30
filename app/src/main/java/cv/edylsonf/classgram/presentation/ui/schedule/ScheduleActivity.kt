@@ -5,12 +5,12 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import cv.edylsonf.classgram.*
-import cv.edylsonf.classgram.databinding.ActivityEventBinding
+import cv.edylsonf.classgram.databinding.ActivityScheduleBinding
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
 
-class EventActivity : BaseActivity() {
+class ScheduleActivity : BaseActivity() {
 
-    private lateinit var binding: ActivityEventBinding
+    private lateinit var binding: ActivityScheduleBinding
     private lateinit var cardType: String
     private val navController by lazy {
         (supportFragmentManager.findFragmentById(R.id.schedule_nav_host_fragment) as NavHostFragment).navController
@@ -26,7 +26,7 @@ class EventActivity : BaseActivity() {
             if (it.getStringExtra(CARD_TYPE).equals(TIMETABLE_CARD)) cardType = TIMETABLE_CARD
         }
 
-        binding = ActivityEventBinding.inflate(layoutInflater)
+        binding = ActivityScheduleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val inflater = navController.navInflater

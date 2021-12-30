@@ -5,17 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
 import cv.edylsonf.classgram.AGENDA_CARD
 import cv.edylsonf.classgram.CALENDER_CARD
 import cv.edylsonf.classgram.CARD_TYPE
 import cv.edylsonf.classgram.TIMETABLE_CARD
 import cv.edylsonf.classgram.databinding.FragmentScheduleBinding
-import cv.edylsonf.classgram.domain.models.Event
 import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 
 class ScheduleFragment : BaseFragment() {
@@ -52,7 +47,7 @@ class ScheduleFragment : BaseFragment() {
     }
 
     private fun navToSpecificCard(cardType: String) {
-        val intent = Intent(activity, EventActivity::class.java)
+        val intent = Intent(activity, ScheduleActivity::class.java)
         intent.putExtra(CARD_TYPE, cardType)
         startActivity(intent)
     }

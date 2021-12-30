@@ -144,6 +144,7 @@
     <string name="notes_label">Notes</string>
     <string name="save_label">Save</string>
     <string name="jump_to_today_label">Jump To Today</string>
+    <string name="event_duration_location" translatable="false">%1s / %2s</string>
 
 
 </resources>

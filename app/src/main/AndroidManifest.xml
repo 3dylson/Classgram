@@ -21,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Classgram">
         <activity
-            android:name=".presentation.ui.schedule.EventActivity"
+            android:name=".presentation.ui.schedule.ScheduleActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".presentation.ui.MainActivity"
             android:exported="false" >

@@ -8,7 +8,10 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.model.CalendarMonth
@@ -18,18 +21,31 @@ import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.FragmentCalendarBinding
 import cv.edylsonf.classgram.domain.models.Event
+import cv.edylsonf.classgram.domain.models.EventId
+import cv.edylsonf.classgram.presentation.ui.schedule.event.EventTimeHeadersDecoration
+import cv.edylsonf.classgram.presentation.ui.schedule.event.EventsAdapter
+import cv.edylsonf.classgram.presentation.ui.schedule.event.OnEventClickListener
+import cv.edylsonf.classgram.presentation.ui.schedule.timetable.sampleEvents
 import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
 import cv.edylsonf.classgram.presentation.ui.utils.TimeUtils
+import cv.edylsonf.classgram.presentation.ui.utils.clearDecorations
 import cv.edylsonf.classgram.presentation.ui.utils.daysOfWeekFromLocale
+import kotlinx.coroutines.flow.SharingStarted.Companion.Lazily
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.YearMonth
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer> {
+class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer>, OnEventClickListener {
 
     private lateinit var binding: FragmentCalendarBinding
     private lateinit var fab: FloatingActionButton
+
+    private lateinit var eventRecyclerView: RecyclerView
+    private lateinit var eventsAdapter: EventsAdapter
 
     private var selectedDate: LocalDate? = null
     private val today = LocalDate.now()
@@ -50,15 +66,51 @@ class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer> {
 
         fab.setOnClickListener { newEventDialog() }
 
+        eventRecyclerView = binding.fragCalRv
+
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // TODO setup adapter and RV
+
+        // TODO move to view model
+        val timeZoneId = flow<ZoneId> {
+            emit(ZoneId.systemDefault())
+        }.stateIn(lifecycleScope, Lazily, ZoneId.systemDefault())
 
         val daysOfWeek = daysOfWeekFromLocale()
+
+        eventsAdapter = EventsAdapter(
+            timeZoneId,
+            viewLifecycleOwner,
+            this
+        )
+        eventRecyclerView.apply {
+            adapter = eventsAdapter
+            (itemAnimator as DefaultItemAnimator).run {
+                supportsChangeAnimations = false
+                addDuration = 160L
+                moveDuration = 160L
+                changeDuration = 160L
+                removeDuration = 120L
+            }
+        }
+
+        val listOfSampleEvent = sampleEvents
+        eventsAdapter.submitList(listOfSampleEvent)
+        eventRecyclerView.run {
+            // Recreate the decoration used for the sticky time headers
+            clearDecorations()
+            if (listOfSampleEvent.isNotEmpty()) {
+                addItemDecoration(
+                    EventTimeHeadersDecoration(
+                        context, listOfSampleEvent.map { it }, ZoneId.systemDefault()
+                    )
+                )
+            }
+        }
 
         binding.calendarOfFragCal.apply {
             setup(currentMonth.minusMonths(10), currentMonth.plusMonths(10), daysOfWeek.first())
@@ -172,5 +224,9 @@ class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer> {
             textView.visibility = View.INVISIBLE
             dotView.visibility = View.INVISIBLE
         }
+    }
+
+    override fun openEventDetail(id: EventId) {
+        return
     }
 }
