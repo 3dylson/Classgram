@@ -29,6 +29,7 @@ import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivityLoginBinding
 import cv.edylsonf.classgram.presentation.ui.MainActivity
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
+import cv.edylsonf.classgram.presentation.ui.utils.isDarkTheme
 import cv.edylsonf.classgram.util.NetworkUtils
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -91,10 +92,6 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
         networkUtils = NetworkUtils(applicationContext)
     }
 
-
-    private fun Context.isDarkTheme(): Boolean {
-        return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
-    }
 
 
     private val textWatcher = object : TextWatcher {

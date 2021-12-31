@@ -77,7 +77,9 @@
                     android:id="@+id/date_picker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:cursorVisible="false"
                     android:ems="10"
+                    android:focusableInTouchMode="false"
                     android:imeOptions="actionNext"
                     android:inputType="date" />
 

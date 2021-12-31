@@ -1,5 +1,7 @@
 package cv.edylsonf.classgram.presentation.ui.utils
 
+import android.content.Context
+import android.content.res.Configuration
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -36,4 +38,9 @@ fun daysOfWeekFromLocale(): Array<DayOfWeek> {
         daysOfWeek = rhs + lhs
     }
     return daysOfWeek
+}
+
+
+fun Context.isDarkTheme(): Boolean {
+    return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
 }

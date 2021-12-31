@@ -8,13 +8,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
+import cv.edylsonf.classgram.DATE_PICKER_DIALOG
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.FragmentNewEventDialogBinding
+import cv.edylsonf.classgram.presentation.ui.utils.getColorFromTheme
+import cv.edylsonf.classgram.presentation.ui.utils.isDarkTheme
+import java.util.*
 
-class NewEventDialogFragment : DialogFragment() {
+open class NewEventDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetListener,
+    TimePickerDialog.OnTimeSetListener {
 
     private lateinit var binding: FragmentNewEventDialogBinding
     private var toolbar: ActionBar? = null
+    private lateinit var dpd: DatePickerDialog
+    private lateinit var tpd: TimePickerDialog
 
     /*override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         MaterialAlertDialogBuilder(requireContext())
@@ -44,14 +53,44 @@ class NewEventDialogFragment : DialogFragment() {
         toolbar?.setHomeAsUpIndicator(R.drawable.ic_baseline_close)
         setHasOptionsMenu(true)
 
-        binding.tilLocation.setEndIconDrawable(R.drawable.ic_baseline_location_pin)
-        binding.tilDate.setEndIconDrawable(R.drawable.ic_baseline_calendar_today_24)
-        binding.tilTime.setEndIconDrawable(R.drawable.ic_baseline_clock)
-        binding.tilDateTo.setEndIconDrawable(R.drawable.ic_baseline_calendar_today_24)
-        binding.tilTimeTo.setEndIconDrawable(R.drawable.ic_baseline_clock)
-        binding.tilNotes.setEndIconDrawable(R.drawable.ic_baseline_notes)
+
+        with(binding) {
+            tilLocation.setEndIconDrawable(R.drawable.ic_baseline_location_pin)
+            tilDate.setEndIconDrawable(R.drawable.ic_baseline_calendar_today_24)
+            tilTime.setEndIconDrawable(R.drawable.ic_baseline_clock)
+            tilDateTo.setEndIconDrawable(R.drawable.ic_baseline_calendar_today_24)
+            tilTimeTo.setEndIconDrawable(R.drawable.ic_baseline_clock)
+            tilNotes.setEndIconDrawable(R.drawable.ic_baseline_notes)
+
+            datePicker.setOnClickListener { openDatePicker() }
+            timePicker.setOnClickListener { openTimePicker() }
+        }
+
         return binding.root
     }
+
+    private fun openTimePicker() {
+        return
+    }
+
+    private fun openDatePicker() {
+        val calendar = Calendar.getInstance()
+        dpd = DatePickerDialog.newInstance(
+            this,
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH),
+        )
+        dpd.minDate = calendar
+        /*// Setting Max Date to next 2 years
+        calendar.set(Calendar.YEAR, calendar. + 2)
+        dpd.maxDate = calendar*/
+        dpd.isThemeDark = requireActivity().isDarkTheme()
+        dpd.showYearPickerFirst(false)
+        dpd.setTitle("Event Date")
+        dpd.show(parentFragmentManager, DATE_PICKER_DIALOG)
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.new_event_menu, menu)
@@ -67,7 +106,7 @@ class NewEventDialogFragment : DialogFragment() {
         return true
     }
 
-    private fun onBackPressed() {
+    open fun onBackPressed() {
         MaterialAlertDialogBuilder(requireContext())
             .setMessage("Discard draft?")
             .setPositiveButton("Discard") { _, _ ->
@@ -80,6 +119,16 @@ class NewEventDialogFragment : DialogFragment() {
 
     private fun saveEvent() {
         return
+    }
+
+
+    override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        val date: String = "$dayOfMonth" + "/" + (monthOfYear+1) + "/" + year
+        binding.datePicker.setText(date)
+    }
+
+    override fun onTimeSet(view: TimePickerDialog?, hourOfDay: Int, minute: Int, second: Int) {
+        TODO("Not yet implemented")
     }
 
 }

@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.SharingStarted.Companion.Lazily
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import timber.log.Timber
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.ZoneId
@@ -112,6 +113,15 @@ class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer>, OnEventCli
             }
         }
 
+        setupCalendar(daysOfWeek, savedInstanceState)
+
+
+    }
+
+    private fun setupCalendar(
+        daysOfWeek: Array<DayOfWeek>,
+        savedInstanceState: Bundle?
+    ) {
         binding.calendarOfFragCal.apply {
             setup(currentMonth.minusMonths(10), currentMonth.plusMonths(10), daysOfWeek.first())
             scrollToMonth(currentMonth)
@@ -151,8 +161,6 @@ class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer>, OnEventCli
                     }
                 }
             }
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -227,6 +235,7 @@ class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer>, OnEventCli
     }
 
     override fun openEventDetail(id: EventId) {
-        return
+        val directions = CalendarFragmentDirections.actionCalendarFragmentToEditEventDialogFragment(id)
+        findNavController().navigate(directions)
     }
 }
