@@ -20,6 +20,7 @@ const val CALENDER_CARD = "calendar_card"
 const val AGENDA_CARD = "agenda_card"
 const val TIMETABLE_CARD = "timetable_card"
 const val DATE_PICKER_DIALOG = "Datepickerdialog"
+const val TIME_PICKER_DIALOG = "Timepickerdialog"
 
 const val INVALID_ID = -1
 

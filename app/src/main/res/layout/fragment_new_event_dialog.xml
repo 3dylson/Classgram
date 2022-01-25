@@ -97,7 +97,9 @@
                     android:id="@+id/time_picker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:cursorVisible="false"
                     android:ems="10"
+                    android:focusableInTouchMode="false"
                     android:imeOptions="actionNext"
                     android:inputType="time" />
 
@@ -132,7 +134,9 @@
                     android:id="@+id/date_picker_to"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:cursorVisible="false"
                     android:ems="10"
+                    android:focusableInTouchMode="false"
                     android:imeOptions="actionNext"
                     android:inputType="date" />
 
@@ -150,7 +154,9 @@
                     android:id="@+id/time_picker_to"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:cursorVisible="false"
                     android:ems="10"
+                    android:focusableInTouchMode="false"
                     android:imeOptions="actionNext"
                     android:inputType="time" />
 
