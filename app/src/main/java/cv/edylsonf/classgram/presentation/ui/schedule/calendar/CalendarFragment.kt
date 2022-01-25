@@ -52,7 +52,6 @@ class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer>, OnEventCli
     private val today = LocalDate.now()
     private val currentMonth = YearMonth.now()
 
-    private val selectionFormatter = DateTimeFormatter.ofPattern("d MMM yyyy")
     private val events = mutableMapOf<LocalDate, List<Event>>()
 
     override fun onCreateView(
@@ -193,9 +192,15 @@ class CalendarFragment : BaseFragment(), DayBinder<DayViewContainer>, OnEventCli
             selectedDate = date
             oldDate?.let { binding.calendarOfFragCal.notifyDateChanged(it) }
             binding.calendarOfFragCal.notifyDateChanged(date)
-            // TODO
-            //updateAdapterForDate(date)
+            updateAdapterForDate(date)
+
         }
+    }
+
+    private fun updateAdapterForDate(date: LocalDate) {
+        //TODO update adapter value
+
+        binding.fragCalSelectedDateText.text = TimeUtils.dateYearString(date)
     }
 
 

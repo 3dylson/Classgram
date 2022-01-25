@@ -34,6 +34,7 @@ class ScheduleActivity : BaseActivity() {
 
         when(cardType) {
             CALENDER_CARD -> graph.setStartDestination(R.id.calendarFragment)
+            AGENDA_CARD -> graph.setStartDestination(R.id.agendaFragment)
         }
 
         navController.graph = graph

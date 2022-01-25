@@ -25,26 +25,14 @@ class ScheduleFragment : BaseFragment() {
         binding = FragmentScheduleBinding.inflate(layoutInflater)
 
         with(binding) {
-            calendarCard.setOnClickListener { navToCalendar() }
-            agendaCard.setOnClickListener { navToAgenda() }
-            timetableCard.setOnClickListener { navToTimetable() }
+            calendarCard.setOnClickListener { navToSpecificCard(CALENDER_CARD) }
+            agendaCard.setOnClickListener { navToSpecificCard(AGENDA_CARD) }
+            timetableCard.setOnClickListener { navToSpecificCard(TIMETABLE_CARD) }
         }
 
         return binding.root
     }
 
-
-    private fun navToTimetable() {
-        navToSpecificCard(TIMETABLE_CARD)
-    }
-
-    private fun navToAgenda() {
-        navToSpecificCard(AGENDA_CARD)
-    }
-
-    private fun navToCalendar() {
-        navToSpecificCard(CALENDER_CARD)
-    }
 
     private fun navToSpecificCard(cardType: String) {
         val intent = Intent(activity, ScheduleActivity::class.java)
