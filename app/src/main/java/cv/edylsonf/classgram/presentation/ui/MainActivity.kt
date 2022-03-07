@@ -26,6 +26,7 @@ import cv.edylsonf.classgram.presentation.ui.login.LoginActivity
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
 import cv.edylsonf.classgram.presentation.viewModels.SharedSignedUserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 private const val TAG = "MainActivity"
 
@@ -117,7 +118,7 @@ class MainActivity : BaseActivity(), FirebaseAuth.AuthStateListener {
     }
 
     override fun onAuthStateChanged(firebaseAuth: FirebaseAuth) {
-        Log.d(TAG, "AuthStateListener triggered. User: ${firebaseAuth.currentUser}")
+        Timber.d("AuthStateListener triggered. User: " + firebaseAuth.currentUser)
         if (firebaseAuth.currentUser == null) {
             startLogin()
         } else {
@@ -126,16 +127,13 @@ class MainActivity : BaseActivity(), FirebaseAuth.AuthStateListener {
             //.get()
             usersDoc.addSnapshotListener { userSnapshot, exception ->
                 if (exception != null || userSnapshot == null) {
-                    Log.w(
-                        TAG,
-                        "Unable to retrieve user. Error=$exception, snapshot=$userSnapshot"
-                    )
+                    Timber.w("Unable to retrieve user. Error=$exception, snapshot=$userSnapshot")
                     return@addSnapshotListener
                 }
                 signedInUser = userSnapshot.toObject(UserPostDetail::class.java)
                 //intent.putExtra("signedInUser",signedInUser)
                 signedInUser?.let { user -> model.selectUser(user) }
-                Log.i(TAG, "signed in user: $signedInUser")
+                Timber.i("signed in user: $signedInUser")
             }
         }
     }

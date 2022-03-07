@@ -176,7 +176,7 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
                 }
                 .addOnFailureListener { exception ->
                     hideProgressBar()
-                    Timber.tag(TAG).w("writeNewUser:onFailure: %s", exception)
+                    Timber.w("writeNewUser:onFailure: %s", exception)
                     MaterialAlertDialogBuilder(this)
                         .setTitle("Error")
                         .setMessage(exception.message)
@@ -194,7 +194,7 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
         userRef
             .update("emailVerified", true)
             .addOnSuccessListener { Timber.d("User successfully updated!") }
-            .addOnFailureListener { e -> Timber.tag(TAG).w(e, "Error updating user") }
+            .addOnFailureListener { e -> Timber.w(e, "Error updating user") }
     }
 
 
@@ -340,7 +340,7 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
                         if (userDoc.result!!.exists()) {
                             if (!(userDoc.result!!.get("emailVerified") as Boolean)) {
                                 //TODO Consider doing through cloud function
-                                Log.d(TAG, "db User emailVerified returned false")
+                                Timber.d("db User emailVerified returned false")
                                 updateUser()
                             }
                             navToMain()

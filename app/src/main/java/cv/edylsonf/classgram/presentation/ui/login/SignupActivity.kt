@@ -24,6 +24,7 @@ import cv.edylsonf.classgram.DEFAULT_PROFILE_PIC
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivitySignupBinding
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
+import timber.log.Timber
 
 private const val TAG = "SignupActivity"
 
@@ -140,7 +141,7 @@ class SignupActivity : BaseActivity() {
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
-                Log.d(TAG, "createUser:onComplete:" + task.isSuccessful)
+                Timber.d("createUser:onComplete:" + task.isSuccessful)
 
                 if (task.isSuccessful) {
                     //auth.signOut()
@@ -150,9 +151,11 @@ class SignupActivity : BaseActivity() {
                 } else {
                     enableSignInBtn()
                     //TODO Change to snackbar dialog
-                    Log.e("Sign Up Failed: ", task.exception.toString())
-                    Toast.makeText(this, task.exception?.message,
-                        Toast.LENGTH_SHORT).show()
+                    Timber.e(task.exception.toString())
+                    Toast.makeText(
+                        this, task.exception?.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
     }
@@ -224,7 +227,7 @@ class SignupActivity : BaseActivity() {
             .document(uid)
             .set(user)
             .addOnSuccessListener {
-                Log.d(TAG,"User added with ID: $uid")
+                Timber.d("User added with ID: $uid")
                 addressRef.set(address)
                 /*connectionsRef.add(connection)
                 postsRef.add(posts)*/
@@ -235,7 +238,7 @@ class SignupActivity : BaseActivity() {
 
             }
             .addOnFailureListener { exception ->
-                Log.w(TAG, "writeNewUser:onFailure: $exception")
+                Timber.w("writeNewUser:onFailure: $exception")
                 enableSignInBtn()
             }
 
