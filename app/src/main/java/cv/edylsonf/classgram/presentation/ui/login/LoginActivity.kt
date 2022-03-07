@@ -62,7 +62,6 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
         bindingUi()
         setup()
         setLogoTheme()
-        animations()
         googleSignUp()
 
         // Click listeners
@@ -311,6 +310,11 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
         }
 
         return result
+    }
+
+    override fun onStart() {
+        super.onStart()
+        animations()
     }
 
     override fun onDestroy() {
