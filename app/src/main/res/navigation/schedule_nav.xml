@@ -41,4 +41,8 @@
         android:id="@+id/agendaFragment"
         android:name="cv.edylsonf.classgram.presentation.ui.schedule.agenda.AgendaFragment"
         android:label="@string/agenda_label" />
+    <fragment
+        android:id="@+id/timetableFragment"
+        android:name="cv.edylsonf.classgram.presentation.ui.schedule.timetable.TimetableFragment"
+        android:label="Timetable" />
 </navigation>

@@ -1,6 +1,9 @@
 package cv.edylsonf.classgram.presentation.ui.schedule.timetable
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
@@ -17,43 +20,37 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.ParentDataModifier
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import cv.edylsonf.classgram.domain.models.Event
-import cv.edylsonf.classgram.presentation.ui.schedule.BasicDayHeader
-import cv.edylsonf.classgram.presentation.ui.schedule.ScheduleSidebar
 import cv.edylsonf.classgram.presentation.ui.theme.ClassgramTheme
+import cv.edylsonf.classgram.presentation.ui.utils.BaseFragment
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 import kotlin.math.roundToInt
 
 
-class TimetableActivity : AppCompatActivity() {
-
-    private var toolbar: ActionBar? = null
+class TimetableFragment : BaseFragment() {
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        /*arguments?.let {
-
-        }*/
-
-        //toolbar = (activity as AppCompatActivity).supportActionBar
-
-        setContent {
-            ClassgramTheme {
-                Schedule(events = sampleEvents)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        toolbar?.setDisplayHomeAsUpEnabled(true)
+        return ComposeView(requireContext()).apply {
+            setContent {
+                ClassgramTheme {
+                    Schedule(events = sampleEvents)
+                }
             }
         }
-
     }
-
-
 
 
     @Composable

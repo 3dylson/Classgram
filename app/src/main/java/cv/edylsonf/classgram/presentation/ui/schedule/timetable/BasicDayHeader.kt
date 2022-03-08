@@ -1,7 +1,8 @@
-package cv.edylsonf.classgram.presentation.ui.schedule
+package cv.edylsonf.classgram.presentation.ui.schedule.timetable
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,7 +23,8 @@ fun BasicDayHeader(
         textAlign = TextAlign.Center,
         modifier = modifier
             .fillMaxWidth()
-            .padding(4.dp)
+            .padding(4.dp),
+        color = MaterialTheme.colorScheme.onBackground
     )
 }
 

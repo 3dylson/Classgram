@@ -1,4 +1,4 @@
-package cv.edylsonf.classgram.presentation.ui.schedule
+package cv.edylsonf.classgram.presentation.ui.schedule.timetable
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
