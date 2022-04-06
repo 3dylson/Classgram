@@ -29,6 +29,7 @@ import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.databinding.ActivityLoginBinding
 import cv.edylsonf.classgram.presentation.ui.MainActivity
 import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
+import cv.edylsonf.classgram.presentation.ui.utils.isDarkTheme
 import cv.edylsonf.classgram.util.NetworkUtils
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -61,7 +62,6 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
         bindingUi()
         setup()
         setLogoTheme()
-        animations()
         googleSignUp()
 
         // Click listeners
@@ -91,10 +91,6 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
         networkUtils = NetworkUtils(applicationContext)
     }
 
-
-    private fun Context.isDarkTheme(): Boolean {
-        return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
-    }
 
 
     private val textWatcher = object : TextWatcher {
@@ -179,7 +175,7 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
                 }
                 .addOnFailureListener { exception ->
                     hideProgressBar()
-                    Timber.tag(TAG).w("writeNewUser:onFailure: %s", exception)
+                    Timber.w("writeNewUser:onFailure: %s", exception)
                     MaterialAlertDialogBuilder(this)
                         .setTitle("Error")
                         .setMessage(exception.message)
@@ -197,7 +193,7 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
         userRef
             .update("emailVerified", true)
             .addOnSuccessListener { Timber.d("User successfully updated!") }
-            .addOnFailureListener { e -> Timber.tag(TAG).w(e, "Error updating user") }
+            .addOnFailureListener { e -> Timber.w(e, "Error updating user") }
     }
 
 
@@ -316,6 +312,11 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
         return result
     }
 
+    override fun onStart() {
+        super.onStart()
+        animations()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         auth.removeAuthStateListener(this)
@@ -343,7 +344,7 @@ class LoginActivity : BaseActivity(), FirebaseAuth.AuthStateListener  {
                         if (userDoc.result!!.exists()) {
                             if (!(userDoc.result!!.get("emailVerified") as Boolean)) {
                                 //TODO Consider doing through cloud function
-                                Log.d(TAG, "db User emailVerified returned false")
+                                Timber.d("db User emailVerified returned false")
                                 updateUser()
                             }
                             navToMain()

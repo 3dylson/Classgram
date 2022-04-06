@@ -4,13 +4,8 @@
 
     <declare-styleable name="Theme">
 
-        <attr name="colorControlLight" format="color" />
+        <attr name="eventListKeyline" format="dimension" />
 
-        <attr name="sessionListKeyline" format="dimension" />
-
-        <attr name="eventCardHeaderBackground" format="reference|color" />
-
-        <attr name="colorSurfaceSecondary" format="color" />
     </declare-styleable>
 
     <declare-styleable name="TimeHeader">
@@ -20,42 +15,6 @@
         <attr name="android:fontFamily" />
         <attr name="timeTextSize" format="dimension" />
         <attr name="meridiemTextSize" format="dimension" />
-    </declare-styleable>
-
-    <declare-styleable name="DateHeader">
-        <attr name="android:width" />
-        <attr name="android:height" />
-        <attr name="android:textColor" />
-        <attr name="android:textSize" />
-        <attr name="android:fontFamily" />
-        <attr name="verticalBias"/>
-    </declare-styleable>
-
-    <declare-styleable name="EventCardView">
-        <attr name="eventTitle" format="string" />
-        <attr name="eventDescription" format="string" />
-        <attr name="eventTypeLogo" format="reference" />
-        <attr name="eventTypeLogoBackground" format="reference|color" />
-    </declare-styleable>
-
-    <declare-styleable name="CollapsibleCard">
-        <attr name="cardTitle" format="string" />
-        <attr name="cardDescription" format="string" />
-    </declare-styleable>
-
-    <declare-styleable name="DayIndicatorDecoration">
-        <attr name="android:color" />
-        <attr name="insetHorizontal" format="dimension" />
-        <attr name="insetVertical" format="dimension" />
-    </declare-styleable>
-
-    <declare-styleable name="DaySeparatorDecoration">
-        <attr name="android:width" />
-        <attr name="android:height" />
-        <attr name="android:textColor" />
-        <attr name="android:textSize" />
-        <attr name="android:fontFamily" />
-        <attr name="verticalBias" />
     </declare-styleable>
 
 

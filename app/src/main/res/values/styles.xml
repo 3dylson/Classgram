@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Widget styles -->
+
+    <style name="Widget.ClassgramSched" parent="@android:style/Widget.Material" />
+
+    <style name="Widget.ClassgramSched.TimeHeaders">
+        <item name="android:width">@dimen/event_keyline</item>
+        <item name="android:fontFamily">@font/google_sans</item>
+        <item name="android:padding">@dimen/schedule_item_padding_vertical</item>
+        <item name="android:textColor">?colorPrimary</item>
+        <item name="timeTextSize">@dimen/time_header_time_text_size</item>
+        <item name="meridiemTextSize">@dimen/time_header_meridiem_text_size</item>
+    </style>
+
+</resources>

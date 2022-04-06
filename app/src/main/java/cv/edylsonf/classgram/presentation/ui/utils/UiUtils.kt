@@ -1,11 +1,16 @@
 package cv.edylsonf.classgram.presentation.ui.utils
 
+import android.content.Context
+import android.content.res.Configuration
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.time.DayOfWeek
+import java.time.temporal.WeekFields
+import java.util.*
 
 /**
  * Launches a new coroutine and repeats `block` every time the Fragment's viewLifecycleOwner
@@ -20,4 +25,22 @@ inline fun Fragment.launchAndRepeatWithViewLifecycle(
             block()
         }
     }
+}
+
+fun daysOfWeekFromLocale(): Array<DayOfWeek> {
+    val firstDayOfWeek = WeekFields.of(Locale.getDefault()).firstDayOfWeek
+    var daysOfWeek = DayOfWeek.values()
+    // Order `daysOfWeek` array so that firstDayOfWeek is at index 0.
+    // Only necessary if firstDayOfWeek != DayOfWeek.MONDAY which has ordinal 0.
+    if (firstDayOfWeek != DayOfWeek.MONDAY) {
+        val rhs = daysOfWeek.sliceArray(firstDayOfWeek.ordinal..daysOfWeek.indices.last)
+        val lhs = daysOfWeek.sliceArray(0 until firstDayOfWeek.ordinal)
+        daysOfWeek = rhs + lhs
+    }
+    return daysOfWeek
+}
+
+
+fun Context.isDarkTheme(): Boolean {
+    return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
 }

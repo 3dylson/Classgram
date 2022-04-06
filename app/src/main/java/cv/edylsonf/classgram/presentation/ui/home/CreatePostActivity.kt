@@ -19,6 +19,7 @@ import com.google.firebase.storage.StorageReference
 import cv.edylsonf.classgram.PICK_PHOTO_CODE
 import cv.edylsonf.classgram.R
 import cv.edylsonf.classgram.REQUEST_IMAGE_CAPTURE
+import cv.edylsonf.classgram.SIGNED_IN_USER
 import cv.edylsonf.classgram.databinding.ActivityCreatePostBinding
 import cv.edylsonf.classgram.domain.models.UserPostDetail
 import cv.edylsonf.classgram.presentation.ui.MainActivity
@@ -55,6 +56,8 @@ class CreatePostActivity : BaseActivity() {
         setContentView(view)
         setProgressBar(binding.postLoading)
 
+        signedInUser = intent?.getParcelableExtra(SIGNED_IN_USER)
+
         storageReference = FirebaseStorage.getInstance().reference
         database = Firebase.firestore
 
@@ -76,7 +79,6 @@ class CreatePostActivity : BaseActivity() {
     }
 
     private fun setup() {
-        signedInUser = intent?.getParcelableExtra("signedInUser")
         Glide.with(this)
             .load(signedInUser?.profilePic)
             .diskCacheStrategy(DiskCacheStrategy.ALL)

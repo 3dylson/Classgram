@@ -3,12 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="kotlinx.coroutines.flow.StateFlow" />
+
+        <variable
+            name="event"
+            type="cv.edylsonf.classgram.domain.models.Event" />
+
+        <variable
+            name="eventClickListener"
+            type="cv.edylsonf.classgram.presentation.ui.schedule.event.OnEventClickListener" />
+
+        <variable
+            name="timeZoneId"
+            type="StateFlow&lt;java.time.ZoneId&gt;" />
+
+        <variable
+            name="showTime"
+            type="Boolean" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
-        android:paddingBottom="@dimen/schedule_item_padding_vertical"
-        android:paddingTop="@dimen/schedule_item_padding_vertical">
+        android:onClick="@{() -> eventClickListener.openEventDetail(event.id)}"
+        android:paddingTop="@dimen/schedule_item_padding_vertical"
+        android:paddingBottom="@dimen/schedule_item_padding_vertical">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"
@@ -28,6 +51,7 @@
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:text="@{event.name}"
             android:textAlignment="viewStart"
             android:textAppearance="?textAppearanceListItem"
             app:layout_constraintStart_toEndOf="@id/guideline_start"
@@ -58,50 +82,56 @@
 
 
         <ImageView
-            android:id="@+id/livestream_icon"
+            android:id="@+id/location_icon"
             android:layout_width="18dp"
             android:layout_height="24dp"
             android:layout_marginTop="@dimen/spacing_micro"
             android:layout_marginEnd="14dp"
             android:importantForAccessibility="no"
             android:scaleType="centerCrop"
+            app:goneUnless="@{event.hasLocation()}"
             app:layout_constraintBottom_toTopOf="@id/tags_barrier"
             app:layout_constraintEnd_toStartOf="@id/length_location"
             app:layout_constraintStart_toEndOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/title"
-            app:srcCompat="@drawable/ic_baseline_videocam" />
+            app:srcCompat="@drawable/ic_baseline_location_pin" />
 
         <TextView
             android:id="@+id/length_location"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAlignment="viewStart"
             android:layout_marginTop="@dimen/spacing_micro"
+            android:textAlignment="viewStart"
+            app:eventLocation="@{event.location}"
+            app:eventStart="@{event.start}"
+            app:invisibleUnless="@{event.hasLocation()}"
             app:layout_constraintBottom_toTopOf="@id/tags_barrier"
             app:layout_constraintEnd_toStartOf="@id/guideline_end"
-            app:layout_constraintStart_toEndOf="@id/livestream_icon"
+            app:layout_constraintStart_toEndOf="@id/location_icon"
             app:layout_constraintTop_toBottomOf="@id/title"
-            tools:text="Nov 7 / Sala 110" />
+            app:showTime="@{showTime}"
+            app:timeZoneId="@{timeZoneId}"
+            tools:text="Sala 110" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/tags_barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="livestream_icon,length_location" />
+            app:constraint_referenced_ids="location_icon,length_location" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tags"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_micro"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toStartOf="@id/guideline_end"
-            app:layout_constraintStart_toEndOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/tags_barrier"
-            tools:itemCount="3"
-            tools:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/item_inline_tag"/>
+        <!-- <androidx.recyclerview.widget.RecyclerView
+             android:id="@+id/tags"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="@dimen/spacing_micro"
+             android:orientation="horizontal"
+             app:layout_constraintEnd_toStartOf="@id/guideline_end"
+             app:layout_constraintStart_toEndOf="@id/guideline_start"
+             app:layout_constraintTop_toBottomOf="@id/tags_barrier"
+             tools:itemCount="3"
+             tools:layoutManager="LinearLayoutManager"
+             tools:listitem="@layout/item_inline_tag"/>-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

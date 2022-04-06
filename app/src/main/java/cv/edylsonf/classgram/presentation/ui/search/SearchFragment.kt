@@ -15,18 +15,6 @@ class SearchFragment : BaseFragment() {
 
     private lateinit var binding: FragmentSearchBinding
     private lateinit var filterItem: MenuItem
-    private var fragTitle: String? = null
-    private var toolbar: ActionBar? = null
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            fragTitle = it.getString(EXTRA_TAB_TITLE)
-        }
-
-        toolbar = (activity as AppCompatActivity).supportActionBar
-    }
 
 
     override fun onCreateView(

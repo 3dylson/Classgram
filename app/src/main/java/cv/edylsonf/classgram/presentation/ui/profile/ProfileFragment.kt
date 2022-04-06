@@ -30,7 +30,6 @@ private const val TAG = "ProfileFragment"
 class ProfileFragment : BaseFragment() {
 
     private var tabTitles = arrayOf("Posts","About")
-    private var toolbar: ActionBar? = null
     private var signedInUser: UserPostDetail? = null
     private val model: SharedSignedUserViewModel by activityViewModels()
 
@@ -43,7 +42,6 @@ class ProfileFragment : BaseFragment() {
         /*activity?.intent?.apply {
             signedInUser = getParcelableExtra("signedInUser")
         }*/
-        toolbar = (activity as AppCompatActivity).supportActionBar
 
         model.signedInUser.observe(this.requireActivity(), { user ->
             signedInUser = user
@@ -169,19 +167,13 @@ class ProfileFragment : BaseFragment() {
         Timber.i("User logging out pressed")
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Hope to see you soon...")
-            .setMessage("Please check your network connection")
             .setPositiveButton("Bye \uD83D\uDC4B") { _, _ ->
+                auth.signOut()
             }
             .setNegativeButton("Cancel") { _, _ ->
                 Timber.d("Dialog cancelled")
             }
             .show()
-
-        //Because Fragment is not of Context type, we need to call the parent Activity
-        /*val intent = Intent(activity,LoginActivity::class.java)
-        activity?.startActivity(intent)*/
     }
-
-
 
 }
