@@ -11,7 +11,7 @@ import cv.edylsonf.classgram.presentation.ui.utils.BaseActivity
 class ScheduleActivity : BaseActivity() {
 
     private lateinit var binding: ActivityScheduleBinding
-    private lateinit var cardType: String
+    private var cardType: String = CALENDER_CARD
     private val navController by lazy {
         (supportFragmentManager.findFragmentById(R.id.schedule_nav_host_fragment) as NavHostFragment).navController
     }
@@ -21,9 +21,7 @@ class ScheduleActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         intent?.let {
-            if (it.getStringExtra(CARD_TYPE).equals(CALENDER_CARD)) cardType = CALENDER_CARD
-            if (it.getStringExtra(CARD_TYPE).equals(AGENDA_CARD)) cardType = AGENDA_CARD
-            if (it.getStringExtra(CARD_TYPE).equals(TIMETABLE_CARD)) cardType = TIMETABLE_CARD
+            cardType = it.getStringExtra(CARD_TYPE).toString()
         }
 
         binding = ActivityScheduleBinding.inflate(layoutInflater)
@@ -32,7 +30,7 @@ class ScheduleActivity : BaseActivity() {
         val inflater = navController.navInflater
         val graph = inflater.inflate(R.navigation.schedule_nav)
 
-        when(cardType) {
+        when (cardType) {
             CALENDER_CARD -> graph.setStartDestination(R.id.calendarFragment)
             AGENDA_CARD -> graph.setStartDestination(R.id.agendaFragment)
             TIMETABLE_CARD -> graph.setStartDestination(R.id.timetableFragment)
@@ -40,14 +38,13 @@ class ScheduleActivity : BaseActivity() {
 
         navController.graph = graph
         val appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController,appBarConfiguration)
+        setupActionBarWithNavController(navController, appBarConfiguration)
 
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
-
 
 
 }

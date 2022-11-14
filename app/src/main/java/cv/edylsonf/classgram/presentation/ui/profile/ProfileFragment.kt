@@ -43,10 +43,10 @@ class ProfileFragment : BaseFragment() {
             signedInUser = getParcelableExtra("signedInUser")
         }*/
 
-        model.signedInUser.observe(this.requireActivity(), { user ->
+        model.signedInUser.observe(this.requireActivity()) { user ->
             signedInUser = user
-        })
-            toolbar?.title = signedInUser?.username
+            toolbar?.title = user?.username
+        }
     }
 
     override fun onCreateView(
